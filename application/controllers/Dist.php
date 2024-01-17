@@ -101,6 +101,13 @@ class Dist extends CI_Controller {
 		$this->load->view('dist/modules-sparkline', $data);
 	}
 
+	public function assign_role() {
+		$data = array(
+			'title' => "Role Setting"
+		);
+		$this->load->view('assign-role', $data);
+	}
+
 	public function auth_forgot_password() {
 		$data = array(
 			'title' => "Forgot Password"

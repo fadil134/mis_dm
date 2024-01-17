@@ -81,9 +81,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </ul>
       </li>
       <li class="menu-header">Pages</li>
-      <li class="dropdown">
-        <a href="#" class="nav-link has-dropdown"><i class="far fa-user"></i> <span>Auth</span></a>
+      <li class="dropdown <?= $this->uri->segment(2) == 'features_profile' || $this->uri->segment(2) == 'features_setting_detail'? 'active' : ''; ?>">
+        <a href="#" class="nav-link has-dropdown"><i class="far fa-user"></i> <span>Settings</span></a>
         <ul class="dropdown-menu">
+          <li class="<?php echo $this->uri->segment(2) == 'features_profile' ? 'active' : ''; ?>"><a class="nav-link"
+              href="<?php echo base_url(); ?>dist/features_profile">Profile Setting</a>
+          </li>
+          <li class="<?php echo $this->uri->segment(2) == 'features_setting_detail' ? 'active' : ''; ?>"><a class="nav-link"
+              href="<?php echo base_url(); ?>dist/features_setting_detail">General Setting</a>
+          </li>
           <li><a href="<?php echo base_url(); ?>dist/auth_forgot_password">Forgot Password</a>
           </li>
           <li><a href="<?php echo base_url(); ?>dist/auth_login">Login</a>
@@ -95,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </ul>
       </li>
       <li
-        class="dropdown <?php echo $this->uri->segment(2) == 'features_activities' || $this->uri->segment(2) == 'features_post_create' || $this->uri->segment(2) == 'features_posts' || $this->uri->segment(2) == 'features_profile' || $this->uri->segment(2) == 'features_settings' || $this->uri->segment(2) == 'features_setting_detail' || $this->uri->segment(2) == 'features_tickets' ? 'active' : ''; ?>">
+        class="dropdown <?php echo $this->uri->segment(2) == 'features_activities' || $this->uri->segment(2) == 'features_post_create' || $this->uri->segment(2) == 'features_posts' || $this->uri->segment(2) == 'features_setting_detail' || $this->uri->segment(2) == 'features_tickets' ? 'active' : ''; ?>">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-bicycle"></i> <span>Features</span></a>
         <ul class="dropdown-menu">
           <li class="<?php echo $this->uri->segment(2) == 'features_activities' ? 'active' : ''; ?>"><a class="nav-link"
@@ -106,9 +112,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </li>
           <li class="<?php echo $this->uri->segment(2) == 'features_posts' ? 'active' : ''; ?>"><a class="nav-link"
               href="<?php echo base_url(); ?>dist/features_posts">Posts</a>
-          </li>
-          <li class="<?php echo $this->uri->segment(2) == 'features_profile' ? 'active' : ''; ?>"><a class="nav-link"
-              href="<?php echo base_url(); ?>dist/features_profile">Profile</a>
           </li>
           <li class="<?php echo $this->uri->segment(2) == 'features_settings' ? 'active' : ''; ?>"><a class="nav-link"
               href="<?php echo base_url(); ?>dist/features_settings">Settings</a>
