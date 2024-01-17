@@ -1,0 +1,1 @@
+Lembaga Pendidikan Islam (LPI) Daarul Ma’arif terletak di Desa Banjar Negeri, Kecamatan Natar, Kabupaten Lampung Selatan.Namun, lembaga ini lebih dikenal oleh masyarakat berada di Tegineneng. Sebelum adanya pemekaran kabupaten, Desa Banjar Negeri masuk dalam wilayah Kecamatan Tegineneng.
