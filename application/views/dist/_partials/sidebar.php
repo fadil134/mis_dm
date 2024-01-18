@@ -90,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <li class="<?php echo $this->uri->segment(2) == 'features_setting_detail' ? 'active' : ''; ?>"><a class="nav-link"
               href="<?php echo base_url(); ?>dist/features_setting_detail">General Setting</a>
           </li>
-          <li><a href="<?php echo base_url(); ?>dist/auth_forgot_password">Forgot Password</a>
+          <li><a href="<?php echo base_url(); ?>dist/assign_role">Role Setting</a>
           </li>
           <li><a href="<?php echo base_url(); ?>dist/auth_login">Login</a>
           </li>
@@ -101,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </ul>
       </li>
       <li
-        class="dropdown <?php echo $this->uri->segment(2) == 'features_activities' || $this->uri->segment(2) == 'features_post_create' || $this->uri->segment(2) == 'features_posts' || $this->uri->segment(2) == 'features_setting_detail' || $this->uri->segment(2) == 'features_tickets' ? 'active' : ''; ?>">
+        class="dropdown <?php echo $this->uri->segment(2) == 'features_activities' || $this->uri->segment(2) == 'features_post_create' || $this->uri->segment(2) == 'features_posts' || $this->uri->segment(2) == 'features_tickets' ? 'active' : ''; ?>">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-bicycle"></i> <span>Features</span></a>
         <ul class="dropdown-menu">
           <li class="<?php echo $this->uri->segment(2) == 'features_activities' ? 'active' : ''; ?>"><a class="nav-link"
@@ -115,9 +115,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </li>
           <li class="<?php echo $this->uri->segment(2) == 'features_settings' ? 'active' : ''; ?>"><a class="nav-link"
               href="<?php echo base_url(); ?>dist/features_settings">Settings</a>
-          </li>
-          <li class="<?php echo $this->uri->segment(2) == 'features_setting_detail' ? 'active' : ''; ?>"><a
-              class="nav-link" href="<?php echo base_url(); ?>dist/features_setting_detail">Setting Detail</a>
           </li>
         </ul>
       </li>

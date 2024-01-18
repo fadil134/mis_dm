@@ -105,7 +105,7 @@ class Dist extends CI_Controller {
 		$data = array(
 			'title' => "Role Setting"
 		);
-		$this->load->view('assign-role', $data);
+		$this->load->view('dist/assign-role', $data);
 	}
 
 	public function auth_forgot_password() {
