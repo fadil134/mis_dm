@@ -66,7 +66,7 @@ $this->load->view('dist/_partials/header');
               <div class="form-group row mb-4">
                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Status</label>
                 <div class="col-sm-12 col-md-7">
-                  <select class="form-control selectric">
+                  <select class="form-control selectric" name="status">
                     <?php foreach ($status as $stat): ?>
                     <option value="<?php echo $stat->ID_Status ?>">
                       <?php echo $stat->Nama_Status ?>
@@ -208,7 +208,7 @@ $this->load->view('dist/_partials/header');
           </div>
           <div class="form-group">
             <label for="statusSelect">Select New Status:</label>
-            <select class="form-control" name="newStatus">
+            <select class="form-control" name="newStatus" id="newStatus">
               <?php foreach ($status as $stat): ?>
               <option value="<?php echo $stat->ID_Status ?>">
                 <?php echo $stat->Nama_Status ?>
@@ -220,7 +220,7 @@ $this->load->view('dist/_partials/header');
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="saveStatusChanges()">Save Changes</button>
+        <button type="button" class="btn btn-primary" id="save_stat">Save Changes</button>
       </div>
     </div>
   </div>
@@ -257,8 +257,9 @@ $this->load->view('dist/_partials/header');
 
           /*
           // Iterate over the statusOptions array and append options to the dropdown
-
+          
           */
+
           // Show the Bootstrap modal
           $('#editStatusModal').modal('show');
         } else {
@@ -271,22 +272,22 @@ $this->load->view('dist/_partials/header');
     });
   }
 
-
   $(document).ready(function () {
+
     Dropzone.autoDiscover = false;
+
     var myDropzone = new Dropzone("#myDropzone", {
-      url: "/upload-handler", // Specify your upload handler URL
-      maxFilesize: 5, // Set the maximum file size in megabytes
-      addRemoveLinks: true, // Add remove links for uploaded files
-      acceptedFiles: 'image/*', // Set accepted file types (e.g., only images)
-      clickable: true, // Allow clicking to open file dialog
-      previewsContainer: '#myDropzone', // Container for previews
-      autoProcessQueue: false, // Disable automatic file uploads
-      thumbnailWidth: 120, // Width of the thumbnail
-      thumbnailHeight: 120, // Height of the thumbnail
+      url: "<?= base_url('articles/upload'); ?>",
+      maxFilesize: 5,
+      addRemoveLinks: true,
+      acceptedFiles: 'image/*',
+      clickable: true,
+      previewsContainer: '#myDropzone',
+      autoProcessQueue: true, // Set to true if you want to automatically process the queue
+      thumbnailWidth: 120,
+      thumbnailHeight: 120,
     });
 
-    // Handle file added event
     myDropzone.on('addedfile', function (file) {
       // Display the file name in the preview
       var previewTemplate = document.querySelector('#myDropzone .dz-preview:last-child');
@@ -297,6 +298,36 @@ $this->load->view('dist/_partials/header');
     $('#submitBtn').on('click', function () {
       // Process the files and trigger upload manually
       myDropzone.processQueue();
+    });
+
+    $('#save_stat').click(function (e) {
+      e.preventDefault();
+      var beritaId = $('#editStatusModal').data('berita_id');
+      var newStatus = $('#newStatus').val();
+      console.log(newStatus);
+      // Make an AJAX request to save the changes
+      $.ajax({
+        url: "<?= base_url('articles/save_stat'); ?>",
+        type: 'POST',
+        data: { berita_id: beritaId, new_status: newStatus },
+        dataType: 'json',
+        success: function (response) {
+          if (response.success) {
+            alert('Status updated successfully');
+            // You may want to update the DataTable or take other actions
+            tableA.ajax.reload(); // Assuming "tableP" is your DataTable variable
+          } else {
+            alert('Failed to update status');
+          }
+          // Close the Bootstrap modal
+          $('#editStatusModal').modal('hide');
+        },
+        error: function () {
+          alert('Error in the AJAX request');
+          // Close the Bootstrap modal in case of an error
+          $('#editStatusModal').modal('hide');
+        }
+      });
     });
 
     // Handle file upload success event
@@ -312,7 +343,7 @@ $this->load->view('dist/_partials/header');
       $(this).find('.badge').addClass('badge-primary');
     });
 
-    var tableP = $('#all').DataTable({
+    var tableA = $('#all').DataTable({
       ajax: {
         url: "<?=base_url('articles');?>",
         type: 'GET',
@@ -334,15 +365,15 @@ $this->load->view('dist/_partials/header');
       ],
     });
 
-    $('#all tbody').on('click', 'tr.edit-button-row .edit-button', function () {
+    $('#all tbody').on('click', 'button', function () {
       // Extract the beritaId from the row data attribute
-      var berita_id = tableP.row(this).data().ID_Berita;
+      var berita_id = tableA.row($(this).parents('tr')).data().ID_Berita;
       // Call the editStatus function with the extracted berita_id
       editStatus(berita_id);
       //console.log(berita_id);
     });
 
-    var table = $('#draft').DataTable({
+    var tableD = $('#draft').DataTable({
       ajax: {
         url: "<?=base_url('articles/draft');?>",
         type: 'GET',
@@ -357,7 +388,7 @@ $this->load->view('dist/_partials/header');
       ],
     });
 
-    var table = $('#pending').DataTable({
+    var tableP = $('#pending').DataTable({
       ajax: {
         url: "<?=base_url('articles/pending');?>",
         type: 'GET',
@@ -372,7 +403,7 @@ $this->load->view('dist/_partials/header');
       ],
     });
 
-    var table = $('#publish').DataTable({
+    var tablePu = $('#publish').DataTable({
       ajax: {
         url: "<?=base_url('articles/publish');?>",
         type: 'GET',
@@ -386,6 +417,5 @@ $this->load->view('dist/_partials/header');
         { data: 'Nama_Tag' },
       ],
     });
-
   });
 </script>

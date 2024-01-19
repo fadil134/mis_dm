@@ -16,6 +16,7 @@ if(window.Chart) {
 }
 
 // DropzoneJS
+
 if(window.Dropzone) {
   Dropzone.autoDiscover = false;
 }

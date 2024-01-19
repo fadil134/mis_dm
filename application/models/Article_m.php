@@ -1,10 +1,12 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Article_m extends CI_Model {
+class Article_m extends CI_Model
+{
 
-    public function get_articles() {
+    public function get_articles()
+    {
         $this->db->select('berita.ID_Berita,berita.Judul_Berita, berita.Isi_Berita, berita.Tanggal_Publikasi, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
         $this->db->from('berita');
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
@@ -15,7 +17,8 @@ class Article_m extends CI_Model {
         return $query->result();
     }
 
-    public function publish(){
+    public function publish()
+    {
         $this->db->select('berita.Judul_Berita, berita.Isi_Berita, berita.Tanggal_Publikasi, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
         $this->db->from('berita');
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
@@ -27,7 +30,8 @@ class Article_m extends CI_Model {
         return $query->result();
     }
 
-    public function pending(){
+    public function pending()
+    {
         $this->db->select('berita.Judul_Berita, berita.Isi_Berita, berita.Tanggal_Publikasi, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
         $this->db->from('berita');
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
@@ -39,7 +43,8 @@ class Article_m extends CI_Model {
         return $query->result();
     }
 
-    public function draft(){
+    public function draft()
+    {
         $this->db->select('berita.Judul_Berita, berita.Isi_Berita, berita.Tanggal_Publikasi, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
         $this->db->from('berita');
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
@@ -51,7 +56,8 @@ class Article_m extends CI_Model {
         return $query->result();
     }
 
-    public function trash(){
+    public function trash()
+    {
         $this->db->select('berita.Judul_Berita, berita.Isi_Berita, berita.Tanggal_Publikasi, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
         $this->db->from('berita');
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
@@ -63,7 +69,8 @@ class Article_m extends CI_Model {
         return $query->result();
     }
 
-    public function getStatusOptions($berita_id) {
+    public function getStatusOptions($berita_id)
+    {
         $this->db->select('berita.Status_ID,statusberita.Nama_Status');
         $this->db->from('berita');
         $this->db->join('statusberita', 'berita.Status_ID = statusberita.ID_Status', 'left');
@@ -71,16 +78,32 @@ class Article_m extends CI_Model {
         return $this->db->get()->result();
     }
 
-    public function status() {
+    public function status()
+    {
         return $this->db->get('statusberita')->result();
     }
 
-    public function kategori() {
+    public function kategori()
+    {
         return $this->db->get('berita_kategori')->result();
     }
 
-    public function tag() {
+    public function tag()
+    {
         return $this->db->get('tag')->result();
+    }
+
+    public function save_article($data)
+    {
+        $this->db->insert('berita', $data);
+    }
+
+    public function update_stat($data, $id)
+    {
+        $this->db->where('ID_Berita', $id);
+        $result = $this->db->update('berita', $data);
+
+        return $result;
     }
 
 }
