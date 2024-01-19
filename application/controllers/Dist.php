@@ -3,14 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dist extends CI_Controller {
 
-	public function index() {
+	public function assign_role(){
 		$data = array(
-			'title' => "Ecommerce Dashboard"
+			'title' => "Assign Role"
 		);
-		$this->load->view('dist/index', $data);
+		$this->load->view('dist/assign_role', $data);
 	}
 
-	public function index_0() {
+	public function index() {
 		$data = array(
 			'title' => "General Dashboard"
 		);
