@@ -54,14 +54,15 @@ if ($this->uri->segment(2) == "" || $this->uri->segment(2) == "index") { ?>
 
 <?php
 }elseif ($this->uri->segment(2) == "features_post_create") { ?>
-  <script src="<?php echo base_url(); ?>assets/modules/summernote/summernote-bs4.js"></script>
-  <script src="<?php echo base_url(); ?>assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/datatables/datatables.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/modules/jquery-ui/jquery-ui.min.js"></script>
+  <script src="<?= base_url(); ?>assets/modules/select2/dist/js/select2.min.js"></script>
+  <script src="<?= base_url(); ?>assets/modules/dropzonejs/min/dropzone.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/modules/summernote/summernote-bs4.js"></script>
 
 <?php
 }elseif ($this->uri->segment(2) == "features_posts") { ?>

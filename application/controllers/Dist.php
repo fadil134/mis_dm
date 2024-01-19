@@ -103,8 +103,16 @@ class Dist extends CI_Controller {
 
 	public function features_post_create() {
 		$data = array(
-			'title' => "Post Create"
+			'title' => "Post Create",
+			'article' => $this->Article_m->get_articles(),
+			'publish' => $this->Article_m->publish(),
+			'pending' => $this->Article_m->pending(),
+			'draft' => $this->Article_m->draft(),
+			'status' => $this->Article_m->status(),
+			'kategori' => $this->Article_m->kategori(),
+			'tag' => $this->Article_m->tag(),
 		);
+		//print_r($data['publish']);
 		$this->load->view('dist/features-post-create', $data);
 	}
 

@@ -1,15 +1,22 @@
 "use strict";
 
-$("select").selectric();
-$.uploadPreview({
-  input_field: "#image-upload", // Default: .image-upload
-  preview_box: "#image-preview", // Default: .image-preview
-  label_field: "#image-label", // Default: .image-label
-  label_default: "Choose File", // Default: Choose File
-  label_selected: "Change File", // Default: Change File
-  no_label: false, // Default: false
-  success_callback: null, // Default: null
+$("#tag").select2();
+$("#summernote").summernote({
+  height: 500, // Set the initial height of the editor
+  minHeight: null, // Set minimum height to null for full-page mode
+  maxHeight: 800, // Set maximum height to null for full-page mode
+  focus: true, // Set focus to the editor on initialization
+  toolbar: [
+    ["style", ["style"]],
+    ["font", ["bold", "italic", "underline", "clear"]],
+    ["fontname", ["fontname"]],
+    ["fontsize", ["fontsize"]],
+    ["color", ["color"]],
+    ["para", ["ul", "ol", "paragraph"]],
+    ["table", ["table"]],
+    ["insert", ["link", "picture", "video"]],
+    ["view", ["fullscreen", "codeview"]],
+  ],
+  fullscreen: false,
+  //tabsize: 1, // Enable full-screen mode
 });
-$(".inputtags").tagsinput("items");
-
-$(".summernote").summernote();

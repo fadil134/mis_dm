@@ -297,11 +297,14 @@ $(function() {
     container: 'body'
   });
 
-  // Select2
+
+
+  /*
+
+    // Select2
   if(jQuery().select2) {
     $(".select2").select2();
   }
-
   // Selectric
   if(jQuery().selectric) {
     $(".selectric").selectric({
@@ -309,7 +312,7 @@ $(function() {
       nativeOnMobile: false
     });
   }
-
+  */
   $(".notification-toggle").dropdown();
   $(".notification-toggle").parent().on('shown.bs.dropdown', function() {
     $(".dropdown-list-icons").niceScroll({
@@ -336,6 +339,7 @@ $(function() {
     $('.chat-content').getNiceScroll(0).doScrollTop($('.chat-content').height());
   }
 
+  /*
   if(jQuery().summernote) {   
     $(".summernote").summernote({
        dialogsInBody: true,
@@ -351,7 +355,7 @@ $(function() {
       ]
     });
   }
-
+*/
   if(window.CodeMirror) {
     $(".codeeditor").each(function() {
       let editor = CodeMirror.fromTextArea(this, {
