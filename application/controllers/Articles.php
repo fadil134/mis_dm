@@ -46,63 +46,54 @@ class Articles extends CI_Controller
         echo json_encode($response);
     }
 
+    public function get_draft()
+    {
+        $berita_id = $this->input->post('berita_id');
+        $draft = $this->Article_m->get_draft($berita_id);
+        $response = array(
+            'success' => true,
+            'draft' => $draft,
+        );
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
     public function upload()
     {
-        // Form validation
-        $this->form_validation->set_rules('title', 'Title', 'required');
-        $this->form_validation->set_rules('kategori', 'Category', 'required');
-        $this->form_validation->set_rules('tag', 'Tag', 'required');
-
-        // Check if a file is selected
-        if (empty($_FILES['file']['name'])) {
-            echo json_encode(['success' => false, 'error' => 'You did not select a file to upload']);
-            return;
-        }
-
-        if ($this->form_validation->run() == false) {
-            // Form validation failed
-            echo json_encode(['success' => false, 'error' => validation_errors()]);
-            return;
-        }
-
-        // Start a database transaction
-        $this->db->trans_start();
-
-        // File upload configuration
-        $config['upload_path'] = './uploads/';
-        $config['allowed_types'] = 'gif|jpg|jpeg|png';
-        $config['max_size'] = 5120;
+        $config['upload_path'] = 'uploads/'; // Folder untuk menyimpan file
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = 2048; // Maksimal ukuran file dalam kilobita
 
         $this->load->library('upload', $config);
 
-        if ($this->upload->do_upload('file')) {
-            // File uploaded successfully
-            $upload_data = $this->upload->data();
-            $file_path = $upload_data['file_name'];
+        if ($this->upload->do_upload('thumbnail')) {
+            // File berhasil diunggah
+            $fileData = $this->upload->data();
 
-            // Insert data into the database
-            $file_url = base_url('uploads/' . $upload_data['file_name']);
+            // Dapatkan data dari form lainnya
+            $title = $this->input->post('title');
+            $kategori = $this->input->post('kategori');
+            $content = $this->input->post('summernote'); // Pastikan ini sesuai dengan nama field summernote
+            $tags = $this->input->post('tag');
+            $status = $this->input->post('status');
+
+            // Lakukan penyimpanan data ke dalam database sesuai kebutuhan proyek Anda
+
             $data = array(
-                'Judul_Berita' => $this->input->post('title'),
-                'Kategori_ID' => $this->input->post('kategori'),
-                'Tag_ID' => $this->input->post('tag'),
-                'url' => $file_url,
+                'Judul_Berita' => $title,
+                'Kategori_ID' => $kategori,
+                'Isi_Berita' => $content,
+                'url' => base_url() . 'uploads/' . $fileData['file_name'],
+                'Tag_ID' => json_encode($tags), // Simpan array tags dalam bentuk JSON
+                'Status_ID' => $status,
+                // Sesuaikan dengan struktur tabel Anda
             );
-            $article_id = $this->Article_m->save_article($data);
 
-            // Commit the transaction
-            $this->db->trans_complete();
+            $this->Articles_m->save_article($data);
 
-            if ($this->db->trans_status() === false) {
-                // Transaction failed
-                echo json_encode(['success' => false, 'error' => 'Database error']);
-            } else {
-                // Transaction succeeded
-                echo json_encode(['success' => true, 'file_path' => $file_path, 'article_id' => $article_id]);
-            }
+            echo "File dan data berhasil diunggah.";
         } else {
-            // File upload failed
-            echo json_encode(['success' => false, 'error' => $this->upload->display_errors()]);
+            echo "Terjadi kesalahan saat mengunggah file: " . $this->upload->display_errors();
         }
     }
 
@@ -120,6 +111,66 @@ class Articles extends CI_Controller
             echo json_encode(['success' => false, 'message' => 'Failed to update status']);
         }
     }
+
+    public function update()
+    {
+        $this->form_validation->set_rules('judul', 'Judul', 'required');
+        $this->form_validation->set_rules('konten', 'Konten', 'required');
+        $this->form_validation->set_rules('kat', 'Kategori', 'required');
+        $this->form_validation->set_rules('stat', 'Status', 'required');
+        $this->form_validation->set_rules('tAg', 'Tag', 'required');
+        $this->form_validation->set_rules('judul', 'Judul', 'required');
+
+        if ($this->form_validation->run() == true) {
+            $id = $this->input->post('id');
+            $data = array(
+                'Judul_Berita' => $this->input->post('judul'),
+                'Isi_Berita' => $this->input->post('konten'),
+                'Tag_ID' => $this->input->post('tAg'),
+                'Kategori_ID' => $this->input->post('kat'),
+                'Status_ID' => $this->input->post('stat'),
+            );
+            $this->Article_m->update_berita($data, $id);
+
+            redirect('dist/features_post_create', 'refresh');
+            //print($id);
+            //print_r($data);
+        }
+        echo validation_errors();
+        //redirect('dist/features_post_create','refresh');
+
+    }
 }
 
 /* End of file Articles.php */
+
+/*
+public function save_article()
+{
+// Form validation
+$this->form_validation->set_rules('title', 'Title', 'required');
+$this->form_validation->set_rules('kategori', 'Category', 'required');
+$this->form_validation->set_rules('tag', 'Tag', 'required');
+
+if ($this->form_validation->run() == false) {
+// Form validation failed
+$data = array(
+'Judul_Berita' => $this->input->post('title'),
+'Kategori_ID' => $this->input->post('kategori'),
+'Tag_ID' => $this->input->post('tag'),
+'url' => $file_url,
+);
+$article_id = $this->Article_m->save_article($data);
+}
+
+$this->db->trans_complete();
+
+if ($this->db->trans_status() === false) {
+// Transaction failed
+echo json_encode(['success' => false, 'error' => 'Database error']);
+}
+// Transaction succeeded
+echo json_encode(['success' => true, 'file_path' => $file_path, 'article_id' => $article_id]);
+
+}
+ */

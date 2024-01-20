@@ -7,7 +7,7 @@ class Article_m extends CI_Model
 
     public function get_articles()
     {
-        $this->db->select('berita.ID_Berita,berita.Judul_Berita, berita.Isi_Berita, berita.Tanggal_Publikasi, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
+        $this->db->select('berita.ID_Berita,berita.Judul_Berita, berita.Isi_Berita, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
         $this->db->from('berita');
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
         $this->db->join('tag', 'berita.Tag_ID = tag.ID_Tag', 'left');
@@ -19,7 +19,7 @@ class Article_m extends CI_Model
 
     public function publish()
     {
-        $this->db->select('berita.Judul_Berita, berita.Isi_Berita, berita.Tanggal_Publikasi, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
+        $this->db->select('berita.Judul_Berita, berita.Isi_Berita, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
         $this->db->from('berita');
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
         $this->db->join('tag', 'berita.Tag_ID = tag.ID_Tag', 'left');
@@ -32,7 +32,7 @@ class Article_m extends CI_Model
 
     public function pending()
     {
-        $this->db->select('berita.Judul_Berita, berita.Isi_Berita, berita.Tanggal_Publikasi, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
+        $this->db->select('berita.Judul_Berita, berita.Isi_Berita, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
         $this->db->from('berita');
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
         $this->db->join('tag', 'berita.Tag_ID = tag.ID_Tag', 'left');
@@ -45,11 +45,12 @@ class Article_m extends CI_Model
 
     public function draft()
     {
-        $this->db->select('berita.Judul_Berita, berita.Isi_Berita, berita.Tanggal_Publikasi, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
+        $this->db->select('berita.ID_Berita,berita.Judul_Berita, berita.Isi_Berita, berita_penulis.ID_Penulis, berita_penulis.Nama_Penulis, tag.ID_Tag, tag.Nama_Tag, statusberita.Nama_Status, statusberita.ID_Status, berita_kategori.ID_Kategori,berita_kategori.Nama_Kategori,');
         $this->db->from('berita');
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
         $this->db->join('tag', 'berita.Tag_ID = tag.ID_Tag', 'left');
         $this->db->join('statusberita', 'berita.Status_ID = statusberita.ID_Status', 'left');
+        $this->db->join('berita_kategori', 'berita.Kategori_ID = berita_kategori.ID_Kategori', 'left');
         $this->db->where('statusberita.Nama_Status', 'Draf');
 
         $query = $this->db->get();
@@ -58,7 +59,7 @@ class Article_m extends CI_Model
 
     public function trash()
     {
-        $this->db->select('berita.Judul_Berita, berita.Isi_Berita, berita.Tanggal_Publikasi, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
+        $this->db->select('berita.Judul_Berita, berita.Isi_Berita, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
         $this->db->from('berita');
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
         $this->db->join('tag', 'berita.Tag_ID = tag.ID_Tag', 'left');
@@ -76,6 +77,19 @@ class Article_m extends CI_Model
         $this->db->join('statusberita', 'berita.Status_ID = statusberita.ID_Status', 'left');
         $this->db->where('berita.ID_Berita', $berita_id);
         return $this->db->get()->result();
+    }
+
+    public function get_draft($berita_id)
+    {
+        $this->db->select('berita.ID_Berita,berita.Judul_Berita, berita.Isi_Berita, berita_penulis.Nama_Penulis, tag.Nama_Tag, statusberita.Nama_Status');
+        $this->db->from('berita');
+        $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
+        $this->db->join('tag', 'berita.Tag_ID = tag.ID_Tag', 'left');
+        $this->db->join('statusberita', 'berita.Status_ID = statusberita.ID_Status', 'left');
+        $this->db->where('berita.ID_Berita', $berita_id);
+
+        $query = $this->db->get();
+        return $query->result();
     }
 
     public function status()
@@ -96,6 +110,12 @@ class Article_m extends CI_Model
     public function save_article($data)
     {
         $this->db->insert('berita', $data);
+    }
+
+    public function update_berita($data,$id)
+    {
+        $this->db->where('ID_Berita', $id);
+        $this->db->update('berita', $data);
     }
 
     public function update_stat($data, $id)

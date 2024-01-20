@@ -28,13 +28,13 @@ $this->load->view('dist/_partials/header');
               <div class="form-group row mb-4">
                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Title</label>
                 <div class="col-sm-12 col-md-7">
-                  <input type="text" class="form-control" name="title">
+                  <input type="text" class="form-control" name="title" id="title">
                 </div>
               </div>
               <div class="form-group row mb-4">
                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Category</label>
                 <div class="col-sm-12 col-md-7">
-                  <select class="form-control selectric" name="kategori">
+                  <select class="form-control selectric" name="kategori" id="kategori">
                     <?php foreach ($kategori as $kat): ?>
                     <option value="<?=$kat->ID_Kategori?>"><?=$kat->Nama_Kategori?></option>
                     <?php endforeach;?>
@@ -44,7 +44,7 @@ $this->load->view('dist/_partials/header');
               <div class="form-group row mb-4">
                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Content</label>
                 <div class="col-sm-12 col-md-7">
-                  <div id="summernote"></div>
+                  <textarea name="konten" id="summernote" cols="30" rows="10" class="summernote"></textarea>
                 </div>
               </div>
               <div class="form-group row mb-4">
@@ -68,7 +68,7 @@ $this->load->view('dist/_partials/header');
               <div class="form-group row mb-4">
                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Status</label>
                 <div class="col-sm-12 col-md-7">
-                  <select class="form-control selectric" name="status">
+                  <select class="form-control selectric" name="status" id="status">
                     <?php foreach ($status as $stat): ?>
                     <option value="<?php echo $stat->ID_Status ?>">
                       <?php echo $stat->Nama_Status ?>
@@ -79,7 +79,7 @@ $this->load->view('dist/_partials/header');
               </div>
               <div class="form-group row mb-4">
                 <div class="col-sm-12 col-md-7">
-                  <button id="submitBtn" class="btn btn-primary">Create Post</button>
+                  <button type="submit" id="submitBtn" class="btn btn-primary">Create Post</button>
                 </div>
               </div>
             </div>
@@ -129,7 +129,6 @@ $this->load->view('dist/_partials/header');
                     <th>ID</th>
                     <th>Judul</th>
                     <th>Konten</th>
-                    <th>Tanggal Publikasi</th>
                     <th>Penulis</th>
                     <th>Tag</th>
                     <th>Actions</th>
@@ -147,7 +146,6 @@ $this->load->view('dist/_partials/header');
                   <tr>
                     <th>Judul</th>
                     <th>Konten</th>
-                    <th>Tanggal Publikasi</th>
                     <th>Penulis</th>
                     <th>Tag</th>
                   </tr>
@@ -164,7 +162,6 @@ $this->load->view('dist/_partials/header');
                   <tr>
                     <th>Judul</th>
                     <th>Konten</th>
-                    <th>Tanggal Publikasi</th>
                     <th>Penulis</th>
                     <th>Tag</th>
                   </tr>
@@ -179,11 +176,18 @@ $this->load->view('dist/_partials/header');
               <table id="draft" class="table table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                   <tr>
+                    <th>ID</th>
                     <th>Judul</th>
                     <th>Konten</th>
-                    <th>Tanggal Publikasi</th>
+                    <th>ID_Kat</th>
+                    <th>Kategori</th>
+                    <th>ID_Pen</th>
                     <th>Penulis</th>
+                    <th>ID_Tag</th>
                     <th>Tag</th>
+                    <th>ID_Stat</th>
+                    <th>Status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
               </table>
@@ -194,7 +198,7 @@ $this->load->view('dist/_partials/header');
     </div>
   </section>
 </div>
-<!-- Bootstrap Modal -->
+<!-- Bootstrap Modal Edit Status -->
 <div class="modal" id="editStatusModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -208,7 +212,6 @@ $this->load->view('dist/_partials/header');
         <!-- Form for editing status -->
         <form id="editStatusForm">
           <div class="form-group" id="statusSelect">
-
           </div>
           <div class="form-group">
             <label for="statusSelect">Select New Status:</label>
@@ -230,7 +233,58 @@ $this->load->view('dist/_partials/header');
   </div>
 </div>
 
-
+<!-- Modal Edit Draft -->
+<div class="modal" id="editDraftModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Berita</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form for editing draft -->
+        <form id="editDraftForm" action="<?php echo base_url('articles/update'); ?>" method="POST">
+          <div class="form-group">
+            <label for="judul">Judul</label>
+            <input type="text" name="judul" id="judul" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="konten">Konten</label>
+            <textarea class="form-control" name="konten" id="konten" rows="10"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="kat">Kategori</label>
+            <select class="custom-select" name="kat" id="kat">
+              <option id="optK" value=""></option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="stat">Status</label>
+            <select class="custom-select" name="stat" id="stat">
+              <?php foreach ($status as $st): ?>
+              <option id="optS" value="<?php echo $st->ID_Status ?>">
+                <?php echo $st->Nama_Status ?>
+              </option>
+              <?php endforeach;?>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tAg">Tag</label>
+            <select class="custom-select" name="tAg" id="tAg">
+              <option value="" id="optT"></option>
+            </select>
+          </div>
+          <div class="mt-4">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="save_stat">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <?php $this->load->view('dist/_partials/footer');?>
 <script>
@@ -277,40 +331,32 @@ $this->load->view('dist/_partials/header');
 
   $(document).ready(function () {
 
-    Dropzone.options.myDropzone = {
-      url: "<?php echo base_url('articles/upload'); ?>",
-      maxFilesize: 5, // Set your maximum file size in MB
-      acceptedFiles: "image/*", // Set accepted file types
+    Dropzone.autoDiscover = false;
+
+    var myDropzone = new Dropzone("#myDropzone", {
+      url: "<?php echo site_url('articles/upload'); ?>",
+      autoProcessQueue: false,
+      paramName: "thumbnail", // Nama parameter untuk file thumbnail
+      maxFilesize: 2, // Maksimal ukuran file dalam MB
+      acceptedFiles: "image/*", // Hanya menerima file gambar
+      addRemoveLinks: true, // Menambahkan link untuk menghapus file
       init: function () {
-        this.on("success", function (file, response) {
-          // Handle the success response from the server
-          console.log(response);
+        var submitButton = document.querySelector("#submitBtn");
+        var myDropzone = this;
 
-          // Append a preview image to the dropzone element
-          var previewTemplate = Dropzone.createElement('<div class="dz-preview dz-file-preview"><img data-dz-thumbnail /></div>');
-          file.previewElement = previewTemplate;
-          this.emit("thumbnail", file, response.file_path);
-
-          // Display additional information (e.g., article ID) in the preview
-          file.previewElement.querySelector('[data-dz-thumbnail]').alt = response.article_id;
-
-          // Make the preview image clickable
-          file.previewElement.addEventListener("click", function () {
-            // Define the action when the image is clicked
-            window.open(response.file_path, '_blank');
-          });
-
-          // You can customize the preview template based on your needs
-          // Update the file.url if needed
-          this.emit("complete", file);
+        // Menangani event klik submit
+        submitButton.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          myDropzone.processQueue(); // Memulai proses upload
         });
 
-        this.on("error", function (file, errorMessage) {
-          // Handle the error response from the server
-          console.log(errorMessage);
+        // Event ketika file diunggah berhasil
+        this.on("complete", function (file) {
+          myDropzone.removeFile(file); // Menghapus file dari tampilan Dropzone
         });
-      }
-    };
+      },
+    });
 
     $('#save_stat').click(function (e) {
       e.preventDefault();
@@ -349,6 +395,7 @@ $this->load->view('dist/_partials/header');
     });
 
     var tableA = $('#all').DataTable({
+      responsive: true,
       ajax: {
         url: "<?=base_url('articles');?>",
         type: 'GET',
@@ -358,42 +405,108 @@ $this->load->view('dist/_partials/header');
         { data: 'ID_Berita' },
         { data: 'Judul_Berita' },
         { data: 'Isi_Berita' },
-        { data: 'Tanggal_Publikasi' },
         { data: 'Nama_Penulis' },
         { data: 'Nama_Tag' },
         {
           data: null,
           render: function (data, type, row) {
-            return '<button class="btn btn-primary btn-sm edit-button" onclick="editStatus(' + row.ID_Berita + ')">Edit</button>';
+            return '<button class="btn btn-primary btn-sm edit-button">Edit</button>';
           }
         }
       ],
     });
 
     $('#all tbody').on('click', 'button', function () {
-      // Extract the beritaId from the row data attribute
       var berita_id = tableA.row($(this).parents('tr')).data().ID_Berita;
-      // Call the editStatus function with the extracted berita_id
       editStatus(berita_id);
-      //console.log(berita_id);
     });
 
     var tableD = $('#draft').DataTable({
+      responsive: true,
       ajax: {
         url: "<?=base_url('articles/draft');?>",
         type: 'GET',
         dataSrc: ''
       },
       columns: [
+        { data: 'ID_Berita' },
         { data: 'Judul_Berita' },
         { data: 'Isi_Berita' },
-        { data: 'Tanggal_Publikasi' },
+        { data: 'ID_Kategori' },
+        { data: 'Nama_Kategori' },
+        { data: 'ID_Penulis' },
         { data: 'Nama_Penulis' },
+        { data: 'ID_Tag' },
         { data: 'Nama_Tag' },
+        { data: 'ID_Status' },
+        { data: 'Nama_Status' },
+        {
+          data: null,
+          render: function (data, type, row) {
+            return '<button class="btn btn-primary btn-sm edit-button">Edit</button>';
+          }
+        }
       ],
     });
 
+    tableD.columns([3, 4, 5, 7, 8, 9]).visible(false)
+
+
+    $('#draft tbody').on('click', 'button', function () {
+
+      var berita_id = tableD.row($(this).parents('tr')).data();
+      var hiddenInput = '<input id="inp" type="hidden" name="id" value="' + berita_id.ID_Berita + '">';
+      var kat = $('<option>', {
+        id: 'OK',
+        text: berita_id.Nama_Kategori,
+        value: berita_id.ID_Kategori,
+        selected: true,
+        class: 'bg-warning text white',
+      });
+
+      var stat = $('<option>', {
+        id: 'OS',
+        text: berita_id.Nama_Status,
+        value: berita_id.ID_Status,
+        selected: true,
+        class: 'bg-warning text white',
+      });
+
+      var tag = $('<option>', {
+        id: 'OT',
+        text: berita_id.Nama_Tag,
+        value: berita_id.ID_Tag,
+        selected: true,
+        class: 'bg-warning text white',
+      });
+
+      $('#editDraftModal').data('berita_id', berita_id.ID_Berita);
+      $('#editDraftModal').modal('show');
+      $('#judul').val(berita_id.Judul_Berita);
+      $('#konten').val(berita_id.Isi_Berita);
+      $('#optK').before(kat);
+      $('#optS').before(stat);
+      $('#optT').before(tag);
+      $('#judul').before(hiddenInput);
+      /*
+      $.ajax({
+        type: "POST",
+        url: "<?=base_url('articles/get_draft')?>",
+        data: { berita_id: berita_id.ID_Berita },
+        dataType: 'json',
+        success: function (response) {
+
+        }
+      });
+      */
+    });
+
+    $('#editDraftModal').on('hidden.bs.modal', function () {
+      $('#OS,#OT,#OK,#inp').remove();
+    });
+
     var tableP = $('#pending').DataTable({
+      responsive: true,
       ajax: {
         url: "<?=base_url('articles/pending');?>",
         type: 'GET',
@@ -402,13 +515,13 @@ $this->load->view('dist/_partials/header');
       columns: [
         { data: 'Judul_Berita' },
         { data: 'Isi_Berita' },
-        { data: 'Tanggal_Publikasi' },
         { data: 'Nama_Penulis' },
         { data: 'Nama_Tag' },
       ],
     });
 
     var tablePu = $('#publish').DataTable({
+      responsive: true,
       ajax: {
         url: "<?=base_url('articles/publish');?>",
         type: 'GET',
@@ -417,7 +530,6 @@ $this->load->view('dist/_partials/header');
       columns: [
         { data: 'Judul_Berita' },
         { data: 'Isi_Berita' },
-        { data: 'Tanggal_Publikasi' },
         { data: 'Nama_Penulis' },
         { data: 'Nama_Tag' },
       ],

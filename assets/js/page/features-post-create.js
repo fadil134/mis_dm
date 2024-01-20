@@ -1,7 +1,7 @@
 "use strict";
 
 $("#tag").select2();
-$("#summernote").summernote({
+$(".summernote").summernote({
   height: 500, // Set the initial height of the editor
   minHeight: null, // Set minimum height to null for full-page mode
   maxHeight: 800, // Set maximum height to null for full-page mode
@@ -15,8 +15,7 @@ $("#summernote").summernote({
     ["para", ["ul", "ol", "paragraph"]],
     ["table", ["table"]],
     ["insert", ["link", "picture", "video"]],
-    ["view", ["fullscreen", "codeview"]],
   ],
-  fullscreen: false,
+  dialogsInBody: true
   //tabsize: 1, // Enable full-screen mode
 });
