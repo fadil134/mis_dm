@@ -53,6 +53,12 @@ class Articles extends CI_Controller
         $this->form_validation->set_rules('kategori', 'Category', 'required');
         $this->form_validation->set_rules('tag', 'Tag', 'required');
 
+        // Check if a file is selected
+        if (empty($_FILES['file']['name'])) {
+            echo json_encode(['success' => false, 'error' => 'You did not select a file to upload']);
+            return;
+        }
+
         if ($this->form_validation->run() == false) {
             // Form validation failed
             echo json_encode(['success' => false, 'error' => validation_errors()]);
@@ -72,7 +78,7 @@ class Articles extends CI_Controller
         if ($this->upload->do_upload('file')) {
             // File uploaded successfully
             $upload_data = $this->upload->data();
-            $file_path = $upload_data['full_path'];
+            $file_path = $upload_data['file_name'];
 
             // Insert data into the database
             $file_url = base_url('uploads/' . $upload_data['file_name']);
@@ -103,7 +109,7 @@ class Articles extends CI_Controller
     public function save_stat()
     {
         $id = $this->input->post('berita_id');
-        
+
         $data = array(
             'Status_ID' => $this->input->post('new_status'),
         );

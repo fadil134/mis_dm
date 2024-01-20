@@ -22,6 +22,8 @@ $this->load->view('dist/_partials/header');
             <div class="card-header">
               <h4>Publikasi Artikel</h4>
             </div>
+            <?php echo validation_errors(); ?>
+            <?php echo form_open('articles/upload'); ?>
             <div class="card-body">
               <div class="form-group row mb-4">
                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Title</label>
@@ -76,15 +78,17 @@ $this->load->view('dist/_partials/header');
                 </div>
               </div>
               <div class="form-group row mb-4">
-                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                 <div class="col-sm-12 col-md-7">
                   <button id="submitBtn" class="btn btn-primary">Create Post</button>
                 </div>
               </div>
             </div>
+            <?php echo form_close(); ?>
           </div>
         </div>
       </div>
+
+      <!-- Tabel Artikel -->
       <div class="card">
         <div class="card-body">
           <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -249,7 +253,6 @@ $this->load->view('dist/_partials/header');
           $('#editStatusModal').data('berita_id', berita_id);
           var statusSelect = $('#statusSelect');
           $.each(response.statusOptions, function (index, option) {
-            console.log(option);
             // Replace 'Status_ID' and 'Nama_Status' with your actual keys
             statusSelect.append('<label for="exist">Existing Status</label>' +
               '<input class="form-control" type="text" id="exist" readonly placeholder="' + option.Nama_Status + '">');
@@ -257,7 +260,7 @@ $this->load->view('dist/_partials/header');
 
           /*
           // Iterate over the statusOptions array and append options to the dropdown
-          
+
           */
 
           // Show the Bootstrap modal
@@ -274,40 +277,48 @@ $this->load->view('dist/_partials/header');
 
   $(document).ready(function () {
 
-    Dropzone.autoDiscover = false;
+    Dropzone.options.myDropzone = {
+      url: "<?php echo base_url('articles/upload'); ?>",
+      maxFilesize: 5, // Set your maximum file size in MB
+      acceptedFiles: "image/*", // Set accepted file types
+      init: function () {
+        this.on("success", function (file, response) {
+          // Handle the success response from the server
+          console.log(response);
 
-    var myDropzone = new Dropzone("#myDropzone", {
-      url: "<?= base_url('articles/upload'); ?>",
-      maxFilesize: 5,
-      addRemoveLinks: true,
-      acceptedFiles: 'image/*',
-      clickable: true,
-      previewsContainer: '#myDropzone',
-      autoProcessQueue: true, // Set to true if you want to automatically process the queue
-      thumbnailWidth: 120,
-      thumbnailHeight: 120,
-    });
+          // Append a preview image to the dropzone element
+          var previewTemplate = Dropzone.createElement('<div class="dz-preview dz-file-preview"><img data-dz-thumbnail /></div>');
+          file.previewElement = previewTemplate;
+          this.emit("thumbnail", file, response.file_path);
 
-    myDropzone.on('addedfile', function (file) {
-      // Display the file name in the preview
-      var previewTemplate = document.querySelector('#myDropzone .dz-preview:last-child');
-      previewTemplate.querySelector('.dz-filename span').innerHTML = file.name;
-    });
+          // Display additional information (e.g., article ID) in the preview
+          file.previewElement.querySelector('[data-dz-thumbnail]').alt = response.article_id;
 
-    // Handle submit button click event
-    $('#submitBtn').on('click', function () {
-      // Process the files and trigger upload manually
-      myDropzone.processQueue();
-    });
+          // Make the preview image clickable
+          file.previewElement.addEventListener("click", function () {
+            // Define the action when the image is clicked
+            window.open(response.file_path, '_blank');
+          });
+
+          // You can customize the preview template based on your needs
+          // Update the file.url if needed
+          this.emit("complete", file);
+        });
+
+        this.on("error", function (file, errorMessage) {
+          // Handle the error response from the server
+          console.log(errorMessage);
+        });
+      }
+    };
 
     $('#save_stat').click(function (e) {
       e.preventDefault();
       var beritaId = $('#editStatusModal').data('berita_id');
       var newStatus = $('#newStatus').val();
-      console.log(newStatus);
       // Make an AJAX request to save the changes
       $.ajax({
-        url: "<?= base_url('articles/save_stat'); ?>",
+        url: "<?=base_url('articles/save_stat');?>",
         type: 'POST',
         data: { berita_id: beritaId, new_status: newStatus },
         dataType: 'json',
@@ -329,12 +340,6 @@ $this->load->view('dist/_partials/header');
         }
       });
     });
-
-    // Handle file upload success event
-    myDropzone.on('success', function (file, response) {
-      console.log('File uploaded successfully:', response);
-    });
-
 
     $('.nav-link').click(function () {
       // Remove 'badge-primary' class from all badges
