@@ -50,9 +50,6 @@ $this->load->view('dist/_partials/header');
                     <a href="#" class="btn btn-social-icon btn-twitter mr-1">
                       <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="#" class="btn btn-social-icon btn-github mr-1">
-                      <i class="fab fa-github"></i>
-                    </a>
                     <a href="#" class="btn btn-social-icon btn-instagram">
                       <i class="fab fa-instagram"></i>
                     </a>

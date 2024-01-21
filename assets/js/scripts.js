@@ -16,11 +16,14 @@ if (window.Chart) {
   Chart.defaults.global.tooltips.cornerRadius = 3;
 }
 
+/*
 // DropzoneJS
-
 if (window.Dropzone) {
   Dropzone.autoDiscover = false;
 }
+*/
+
+
 // Basic confirm box
 $("[data-confirm]").each(function () {
   var me = $(this),

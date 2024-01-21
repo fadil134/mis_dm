@@ -4,8 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Articles extends CI_Controller
 {
-
-    public function index()
+    public function article()
     {
         $data = $this->Article_m->get_articles();
         echo json_encode($data);
@@ -58,42 +57,23 @@ class Articles extends CI_Controller
         header('Content-Type: application/json');
         echo json_encode($response);
     }
-    public function upload()
+    public function upload_image()
     {
-        $config['upload_path'] = 'uploads/'; // Folder untuk menyimpan file
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = 2048; // Maksimal ukuran file dalam kilobita
+        $config['upload_path'] = 'uploads/';
+        $config['allowed_types'] = 'gif|jpg|jpeg|png';
 
         $this->load->library('upload', $config);
 
-        if ($this->upload->do_upload('thumbnail')) {
-            // File berhasil diunggah
-            $fileData = $this->upload->data();
+        if ($this->upload->do_upload('file')) {
+            $data = $this->upload->data();
+            $this->file_name = $data['file_name'];
 
-            // Dapatkan data dari form lainnya
-            $title = $this->input->post('title');
-            $kategori = $this->input->post('kategori');
-            $content = $this->input->post('summernote'); // Pastikan ini sesuai dengan nama field summernote
-            $tags = $this->input->post('tag');
-            $status = $this->input->post('status');
-
-            // Lakukan penyimpanan data ke dalam database sesuai kebutuhan proyek Anda
-
-            $data = array(
-                'Judul_Berita' => $title,
-                'Kategori_ID' => $kategori,
-                'Isi_Berita' => $content,
-                'url' => base_url() . 'uploads/' . $fileData['file_name'],
-                'Tag_ID' => json_encode($tags), // Simpan array tags dalam bentuk JSON
-                'Status_ID' => $status,
-                // Sesuaikan dengan struktur tabel Anda
-            );
-
-            $this->Articles_m->save_article($data);
-
-            echo "File dan data berhasil diunggah.";
+            $response = array('status' => 'success', 'file_name' => $this->file_name . ' berhasil di upload');
+            echo json_encode($response);
         } else {
-            echo "Terjadi kesalahan saat mengunggah file: " . $this->upload->display_errors();
+            // Error uploading file
+            $error = array('status' => 'error', 'error' => $this->upload->display_errors());
+            echo json_encode($error);
         }
     }
 
@@ -110,6 +90,39 @@ class Articles extends CI_Controller
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to update status']);
         }
+    }
+
+    public function save_article()
+    {        
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('kategori', 'Category', 'required');
+        $this->form_validation->set_rules('konten', 'Content', 'required');
+        $this->form_validation->set_rules('tag', 'Tags', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+
+        $file_name = $this->input->post('namaFile');
+        $inserted_id = [];
+        if ($this->form_validation->run() == true) {
+            $data = array(
+                'Judul_Berita' => $this->input->post('title'),
+                'Kategori_ID' => $this->input->post('kategori'),
+                'Isi_Berita' => $this->input->post('konten'),
+                'Tag_ID' => $this->input->post('tag'),
+                'Status_ID' => $this->input->post('status'),
+                'url' => base_url('uploads/') . $file_name,
+            );
+
+            $inserted_id = $this->Article_m->save_article($data);
+            echo json_encode(array('status' => 'success', 'message' => 'Article created successfully', 'article_id' => $inserted_id));
+        } else {
+            $errors = array(
+                'status' => 'error',
+                'message' => 'Failed to create article',
+                'validation_errors' => validation_errors(),
+            );
+            echo json_encode($errors);
+        }
+        
     }
 
     public function update()
