@@ -74,6 +74,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <link rel="stylesheet" href="<?=base_url();?>assets/modules/izitoast/css/iziToast.min.css">
   <link rel="stylesheet" href="<?=base_url();?>assets/modules/izitoast/css/iziToast.min.css">
 
+  <?php
+} elseif ($this->uri->segment(2) == "master_kategori") {?>
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/datatables/datatables.min.css">
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/datatables/Responsive-2.2.1/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?=base_url();?>assets/modules/select2/dist/css/select2.min.css">
+  <link rel="stylesheet" href="<?=base_url();?>assets/modules/izitoast/css/iziToast.min.css">
+  <link rel="stylesheet" href="<?=base_url();?>assets/modules/izitoast/css/iziToast.min.css">
+
   
   <?php
 }?>

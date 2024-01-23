@@ -36,6 +36,11 @@ class Master_m extends CI_Model
         return $response;
     }
 
+    public function tag_tambah($data)
+    {
+        $this->db->insert('tag', $data);
+    }
+
     public function tag_update($id, $new_tag)
     {
         $this->db->where('ID_Tag', $id);
@@ -49,11 +54,23 @@ class Master_m extends CI_Model
         return $this->db->affected_rows();
     }
 
-    public function tag_tambah($data)
+    public function kategori_tambah($data)
     {
-        $this->db->insert('tag', $data);
+        $this->db->insert('berita_kategori', $data);
     }
 
+    public function kategori_update($id, $new_tag)
+    {
+        $this->db->where('ID_Kategori', $id);
+        $this->db->update('berita_kategori', $new_tag);
+    }
+
+    public function kategori_hapus($id)
+    {
+        $this->db->where('ID_Kategori', $id);
+        $this->db->delete('berita_kategori');
+        return $this->db->affected_rows();
+    }
 }
 
 /* End of file Master_m.php */

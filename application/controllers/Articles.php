@@ -30,12 +30,9 @@ class Articles extends CI_Controller
 
     public function get_status()
     {
-        $berita_id = $this->input->post('berita_id'); // Using POST method to match AJAX request
-
-        // Assuming you have a model named Article_model, adjust it accordingly
+        $berita_id = $this->input->post('berita_id');
         $statusOptions = $this->Article_m->getStatusOptions($berita_id);
 
-        // Send a JSON response back to the client
         $response = array(
             'success' => true,
             'statusOptions' => $statusOptions,
@@ -93,36 +90,45 @@ class Articles extends CI_Controller
     }
 
     public function save_article()
-    {        
+    {
         $this->form_validation->set_rules('title', 'Title', 'required');
         $this->form_validation->set_rules('kategori', 'Category', 'required');
         $this->form_validation->set_rules('konten', 'Content', 'required');
-        $this->form_validation->set_rules('tag', 'Tags', 'required');
+        $this->form_validation->set_rules('tag[]', 'Tags', 'required');
         $this->form_validation->set_rules('status', 'Status', 'required');
 
         $file_name = $this->input->post('namaFile');
-        $inserted_id = [];
+
         if ($this->form_validation->run() == true) {
             $data = array(
                 'Judul_Berita' => $this->input->post('title'),
                 'Kategori_ID' => $this->input->post('kategori'),
                 'Isi_Berita' => $this->input->post('konten'),
-                'Tag_ID' => $this->input->post('tag'),
                 'Status_ID' => $this->input->post('status'),
                 'url' => base_url('uploads/') . $file_name,
             );
 
-            $inserted_id = $this->Article_m->save_article($data);
-            echo json_encode(array('status' => 'success', 'message' => 'Article created successfully', 'article_id' => $inserted_id));
+            $insert_id = $this->Article_m->save_article($data);
+
+            $tags = $this->input->post('tag');
+            $this->Article_m->save_tag($tags, $insert_id);
+
+            $response = array(
+                'status' => 'success',
+                'message' => 'Article created successfully',
+                'article_id' => $insert_id,
+            );
+
+            echo json_encode($response);
         } else {
             $errors = array(
                 'status' => 'error',
                 'message' => 'Failed to create article',
                 'validation_errors' => validation_errors(),
             );
+
             echo json_encode($errors);
         }
-        
     }
 
     public function update()

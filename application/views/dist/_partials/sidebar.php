@@ -24,10 +24,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <a class="nav-link" href="<?php echo base_url(); ?>dist/blank"><i class="far fa-square"></i> <span>Blank
             Page</span></a>
       </li>
-      <li class="dropdown <?=$this->uri->segment(2) == 'master_tag' ? 'active' : '';?>">
+      <li class="dropdown <?=$this->uri->segment(2) == 'master_tag' || $this->uri->segment(2) == 'master_kategori' ? 'active' : '';?>">
         <a href="#" class="nav-link has-dropdown"><i class="far fa-newspaper"></i><span>Data Berita</span></a>
         <ul class="dropdown-menu">
           <li class="<?=$this->uri->segment(2) == 'master_tag' ? 'active' : '';?>"><a href="<?=base_url();?>dist/master_tag" class="nav-link">Master Tag</a></li>
+        </ul>
+        <ul class="dropdown-menu">
+          <li class="<?=$this->uri->segment(2) == 'master_kategori' ? 'active' : '';?>"><a href="<?=base_url();?>dist/master_kategori" class="nav-link">Master Kategori</a></li>
         </ul>
       </li>
       <li class="menu-header">Pages</li>

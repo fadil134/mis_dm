@@ -63,6 +63,53 @@ class Master extends CI_Controller
 
         echo json_encode($response);
     }
+
+    public function add_kategori()
+    {
+        $data = array(
+            'Nama_Kategori' => $this->input->post('berita_kategori'),
+        );
+        $this->Master_m->kategori_tambah($data);
+
+        redirect('dist/master_kategori', 'refresh');
+    }
+
+    public function master_kategori()
+    {
+        $data = $this->Article_m->kategori();
+        echo json_encode($data);
+    }
+
+    public function edit_kategori()
+    {
+        $id = $this->input->post('id');
+        $new_kategori = array(
+            'Nama_Kategori' => $this->input->post('new_kategori'),
+        );
+        $this->Master_m->kategori_update($id, $new_kategori);
+
+        redirect('dist/master_kategori', 'refresh');
+    }
+
+    public function hapus_kategori()
+    {
+        $id = $this->input->post('id');
+        $affected_rows = $this->Master_m->kategori_hapus($id);
+        $response = array();
+        if ($affected_rows > 0) {
+            $response = array(
+                'status' => 'success',
+                'message' => 'Data Berhasil di Hapus',
+            );
+        } else {
+            $response = array(
+                'status' => 'error',
+                'message' => 'Data tidak berhasil di Hapus!!',
+            );
+        }
+
+        echo json_encode($response);
+    }
 }
 
 /* End of file Master.php */

@@ -20,6 +20,38 @@ class Dist extends CI_Controller
 		$this->load->view('dist/master-tag', $data);
     }
 
+    public function master_kategori()
+    {
+		$data = array(
+			'title' => "Master Kategori"
+		);
+		$this->load->view('dist/master-kategori', $data);
+    }
+
+    public function data_guru()
+    {
+		$data = array(
+			'title' => "Data Guru"
+		);
+		$this->load->view('dist/data-guru', $data);
+    }
+
+    public function data_siswa()
+    {
+		$data = array(
+			'title' => "Data Siswa"
+		);
+		$this->load->view('dist/data-siswa', $data);
+    }
+
+    public function data_pelajaran()
+    {
+		$data = array(
+			'title' => "Data Pelajaran"
+		);
+		$this->load->view('dist/data-pelajaran', $data);
+    }
+
     public function assign_role()
     {
         $data = array(
