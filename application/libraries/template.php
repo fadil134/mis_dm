@@ -12,9 +12,9 @@ class Template
         $footer_data = $CI->Article_m->identitas();
         $merged_data = array_merge($data, ['footer_data' => $footer_data]);
 
-        $CI->load->view('_component/header', $merged_data);
-        $CI->load->view('_component/navbar', $merged_data);
+        $CI->load->view('page/_component/header', $merged_data);
+        $CI->load->view('page/_component/navbar', $merged_data);
         $CI->load->view($view, $merged_data);
-        $CI->load->view('_component/footer', $merged_data);
+        $CI->load->view('page/_component/footer', $merged_data);
     }
 }
