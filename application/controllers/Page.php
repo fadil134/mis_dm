@@ -13,7 +13,7 @@ class Page extends CI_Controller
             'attention' => $this->Pengumuman_m->pengumuman($date_now),
             'artikel' => $this->Article_m->publish_beranda($limit),
         );
-        $this->template->load('home', $data);
+        $this->template->load('page/page/home', $data);
     }
 
     public function about()
@@ -22,7 +22,7 @@ class Page extends CI_Controller
             'title' => 'About',
             //'guru' => $this->guru_model->guru(),
         );
-        $this->template->load('about',$data);
+        $this->template->load('page/about',$data);
     }
 
     public function blog()
@@ -31,7 +31,7 @@ class Page extends CI_Controller
             'title' => 'Blog',
             //'artikel' => $this->Article_m->publish(),
         );
-        $this->template->load('blog', $data);
+        $this->template->load('page/blog', $data);
     }
 
     public function porto()
@@ -39,14 +39,14 @@ class Page extends CI_Controller
         $data = array(
             'title' => 'Portofolio',
         );
-        $this->template->load('portofolio', $data);
+        $this->template->load('page/portofolio', $data);
     }
 
     public function contact(){
         $data = array(
             'title' => 'Kontak'
         );
-        $this->template->load('contact',$data);
+        $this->template->load('page/contact',$data);
     }
 
     public function blog_detail($berita_id)
@@ -61,7 +61,7 @@ class Page extends CI_Controller
             show_404();
         }
         */
-        $this->template->load('blog_detail', $data);
+        $this->template->load('page/blog_detail', $data);
     }
 }
 
