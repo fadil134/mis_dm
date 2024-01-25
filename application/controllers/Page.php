@@ -6,10 +6,12 @@ class Page extends CI_Controller
 
     public function home()
     {
+        $limit = 4;
+        $date_now = date('Y-m-d');
         $data = array(
             'title' => 'Home',
-            'mahfudzat' => $this->model_home->mahfudzat(),
-            'artikel' => $this->model_home->artikel(),
+            'attention' => $this->Pengumuman_m->pengumuman($date_now),
+            'artikel' => $this->Article_m->publish_beranda($limit),
         );
         $this->template->load('home', $data);
     }
@@ -18,38 +20,17 @@ class Page extends CI_Controller
     {
         $data = array(
             'title' => 'About',
-            'guru' => $this->guru_model->guru(),
+            //'guru' => $this->guru_model->guru(),
         );
-        $this->template->load('about', $data);
+        $this->template->load('about',$data);
     }
 
     public function blog()
     {
-        $config = array();
-        $config["base_url"] = base_url() . "page/blog";
-        $config["total_rows"] = $this->artikel_model->hitung_pub();
-        $config["per_page"] = 5;
-        $config["uri_segment"] = 3;
-        $config['use_page_numbers'] = true;
-
-        $this->pagination->initialize($config);
-        $data['links'] = $this->pagination->create_links();
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        //$data['artikel'] = $this->artikel_model->artikel($config["per_page"], $page);
         $data = array(
             'title' => 'Blog',
-            'artikel' => $this->artikel_model->artikel($config["per_page"], $page),
-            //'links' => $this->pagination->create_links(),
+            //'artikel' => $this->Article_m->publish(),
         );
-        /*
-        if ($config["total_rows"] > $config["per_page"]) {
-        $data['links'] = $this->pagination->create_links();
-        } else {
-        $data['links'] = "1";
-        }
-         */
-        //echo json_encode
-        //print_r($data);
         $this->template->load('blog', $data);
     }
 
@@ -61,17 +42,25 @@ class Page extends CI_Controller
         $this->template->load('portofolio', $data);
     }
 
-    public function blog_detail($slug)
+    public function contact(){
+        $data = array(
+            'title' => 'Kontak'
+        );
+        $this->template->load('contact',$data);
+    }
+
+    public function blog_detail($berita_id)
     {
         $data = array(
             'title' => 'Blog',
-            'artikel' => $this->artikel_model->get_post_by_slug($slug),
+            'artikel' => $this->Article_m->get_publish($berita_id),
         );
         //print_r($data);
-
+        /*
         if (empty($data['artikel'])) {
             show_404();
         }
+        */
         $this->template->load('blog_detail', $data);
     }
 }

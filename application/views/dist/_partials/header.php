@@ -14,6 +14,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <!-- General CSS Files -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/modules/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/modules/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
   <!-- CSS Libraries -->
  <?php
@@ -80,6 +81,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/datatables/Responsive-2.2.1/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="<?=base_url();?>assets/modules/select2/dist/css/select2.min.css">
   <link rel="stylesheet" href="<?=base_url();?>assets/modules/izitoast/css/iziToast.min.css">
+  <link rel="stylesheet" href="<?=base_url();?>assets/modules/izitoast/css/iziToast.min.css">
+
+  <?php
+} elseif ($this->uri->segment(2) == "pengumuman") {?>
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/datatables/datatables.min.css">
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/datatables/Responsive-2.2.1/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?=base_url();?>assets/modules/select2/dist/css/select2.min.css">
+  <link rel="stylesheet" href="<?=base_url();?>assets/modules/dropzonejs/min/dropzone.min.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/modules/summernote/summernote-bs4.css">
   <link rel="stylesheet" href="<?=base_url();?>assets/modules/izitoast/css/iziToast.min.css">
 
   

@@ -4,12 +4,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Dist extends CI_Controller
 {
 
-    public function blank()
+    public function pengumuman()
     {
         $data = array(
-            'title' => "Blank Page",
+            'title' => "Pengumuman",
         );
-        $this->load->view('dist/blank', $data);
+        $this->load->view('dist/pengumuman', $data);
     }
 
     public function master_tag()
@@ -174,7 +174,6 @@ class Dist extends CI_Controller
             'draft' => $this->Article_m->draft(),
             'status' => $this->Article_m->status(),
             'kategori' => $this->Article_m->kategori(),
-            'tag' => $this->Article_m->tag(),
         );
         //print_r($data['publish']);
         $this->load->view('dist/features-post-create', $data);

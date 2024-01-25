@@ -38,19 +38,19 @@ class Master_m extends CI_Model
 
     public function tag_tambah($data)
     {
-        $this->db->insert('tag', $data);
+        $this->db->insert('berita_tag', $data);
     }
 
     public function tag_update($id, $new_tag)
     {
-        $this->db->where('ID_Tag', $id);
-        $this->db->update('tag', $new_tag);
+        $this->db->where('id', $id);
+        $this->db->update('berita_tag', $new_tag);
     }
 
     public function tag_hapus($id)
     {
-        $this->db->where('ID_Tag', $id);
-        $this->db->delete('tag');
+        $this->db->where('id', $id);
+        $this->db->delete('berita_tag');
         return $this->db->affected_rows();
     }
 

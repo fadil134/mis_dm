@@ -18,6 +18,7 @@ $this->load->view('dist/_partials/header');
       <h2 class="section-title">Post Artikel</h2>
       <div class="row">
         <div class="col-12">
+          <?php echo $this->session->flashdata('errors'); ?>
           <div class="card">
             <div class="card-header">
               <h4>Publikasi Artikel</h4>
@@ -25,7 +26,7 @@ $this->load->view('dist/_partials/header');
 
             <!-- Save Berita -->
             <?php echo validation_errors(); ?>
-            <form action="" id="berita">
+            <form id="berita">
               <div class="card-body">
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Title</label>
@@ -46,18 +47,14 @@ $this->load->view('dist/_partials/header');
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Content</label>
                   <div class="col-sm-12 col-md-7">
-                    <textarea name="konten" id="summernote" cols="30" rows="10" class="summernote"></textarea>
+                    <textarea name="konten" id="konten" cols="30" rows="10" class="summernote"></textarea>
                   </div>
                 </div>
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Tags</label>
                   <div class="col-sm-12 col-md-7">
                     <select name="tag[]" id="tag" multiple="multiple" class="custom-select">
-                      <?php foreach ($tag as $tags): ?>
-                      <option value="<?php echo $tags->ID_Tag ?>">
-                        <?php echo $tags->Nama_Tag ?>
-                      </option>
-                      <?php endforeach;?>
+
                     </select>
                   </div>
                 </div>
@@ -125,7 +122,7 @@ $this->load->view('dist/_partials/header');
         <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
           <div class="card">
             <div class="card-body">
-              <table id="all" class="table table-striped table-bordered" cellspacing="0" width="100%">
+              <table id="all" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -143,7 +140,7 @@ $this->load->view('dist/_partials/header');
         <div class="tab-pane fade" id="pills-publish" role="tabpanel" aria-labelledby="pills-publish-tab">
           <div class="card">
             <div class="card-body">
-              <table id="publish" class="table table-striped table-bordered" cellspacing="0" width="100%">
+              <table id="publish" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
                 <thead>
                   <tr>
                     <th>Judul</th>
@@ -159,7 +156,7 @@ $this->load->view('dist/_partials/header');
         <div class="tab-pane fade" id="pills-pending" role="tabpanel" aria-labelledby="pills-pending-tab">
           <div class="card">
             <div class="card-body">
-              <table id="pending" class="table table-striped table-bordered" cellspacing="0" width="100%">
+              <table id="pending" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
                 <thead>
                   <tr>
                     <th>Judul</th>
@@ -175,7 +172,7 @@ $this->load->view('dist/_partials/header');
         <div class="tab-pane fade" id="pills-draft" role="tabpanel" aria-labelledby="pills-draft-tab">
           <div class="card">
             <div class="card-body">
-              <table id="draft" class="table table-striped table-bordered" cellspacing="0" width="100%">
+              <table id="draft" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -203,7 +200,7 @@ $this->load->view('dist/_partials/header');
 
 <!-- Bootstrap Modal Edit Status -->
 <div class="modal" id="editStatusModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Edit Status</h5>
@@ -255,12 +252,14 @@ $this->load->view('dist/_partials/header');
           </div>
           <div class="form-group">
             <label for="konten">Konten</label>
-            <textarea class="summernote" name="kontenSm" id="kontenSm" rows="3"><textarea>
+            <textarea name="kontenSm" class="summernote" id="kontenSm" rows="3"></textarea>
           </div>
           <div class="form-group">
             <label for="kat">Kategori</label>
             <select class="custom-select" name="kat" id="kat">
-              <option id="optK" value=""></option>
+              <?php foreach ($kategori as $kAt): ?>
+              <option id="optK" value="<?=$kat->ID_Kategori?>"><?=$kat->Nama_Kategori?></option>
+              <?php endforeach;?>
             </select>
           </div>
           <div class="form-group">
@@ -275,8 +274,10 @@ $this->load->view('dist/_partials/header');
           </div>
           <div class="form-group">
             <label for="tAg">Tag</label>
-            <select class="custom-select" name="tAg" id="tAg">
-              <option value="" id="optT"></option>
+            <select class="custom-select" name="tAg[]" id="tAg" multiple="multiple">
+
+              <option id="optT" value=""></option>
+
             </select>
           </div>
           <div class="mt-4">

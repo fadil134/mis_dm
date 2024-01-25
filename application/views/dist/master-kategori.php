@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 $this->load->view('dist/_partials/header');
 ?>
 
@@ -19,8 +19,11 @@ $this->load->view('dist/_partials/header');
                     <div class="card">
                         <div class="card-header">
                             <h4>Kategori Berita</h4>
+                            <div class="card-header-action">
+                                <button type="button" class="btn btn-primary" id="trunc">Truncate</button>
+                            </div>
                         </div>
-                        <form action="<?= base_url('master/add_kategori'); ?>" method="post">
+                        <form action="<?=base_url('master/add_kategori');?>" method="post">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="kategori">Kategori</label>
@@ -75,8 +78,8 @@ $this->load->view('dist/_partials/header');
                     <input id="idKategori" type="hidden" name="id">
                     <div class="form-group">
                         <label for="new_kategori">Kategori Baru</label>
-                        <input type="text" class="form-control" name="new_kategori" id="new_kategori" aria-describedby="helpIdkategori"
-                            placeholder="Ubah Kategori">
+                        <input type="text" class="form-control" name="new_kategori" id="new_kategori"
+                            aria-describedby="helpIdkategori" placeholder="Ubah Kategori">
                         <small id="helpIdkategori" class="form-text text-muted">Eksisting Kategori</small>
                     </div>
 
@@ -90,4 +93,4 @@ $this->load->view('dist/_partials/header');
     </div>
 </div>
 
-<?php $this->load->view('dist/_partials/footer'); ?>
+<?php $this->load->view('dist/_partials/footer');?>

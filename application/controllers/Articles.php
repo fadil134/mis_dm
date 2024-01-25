@@ -134,30 +134,53 @@ class Articles extends CI_Controller
     public function update()
     {
         $this->form_validation->set_rules('judul', 'Judul', 'required');
-        $this->form_validation->set_rules('konten', 'Konten', 'required');
+        $this->form_validation->set_rules('kontenSm', 'Konten', 'required');
         $this->form_validation->set_rules('kat', 'Kategori', 'required');
         $this->form_validation->set_rules('stat', 'Status', 'required');
-        $this->form_validation->set_rules('tAg', 'Tag', 'required');
+        $this->form_validation->set_rules('tAg[]', 'Tag', 'required');
         $this->form_validation->set_rules('judul', 'Judul', 'required');
 
         if ($this->form_validation->run() == true) {
             $id = $this->input->post('id');
             $data = array(
                 'Judul_Berita' => $this->input->post('judul'),
-                'Isi_Berita' => $this->input->post('konten'),
-                'Tag_ID' => $this->input->post('tAg'),
+                'Isi_Berita' => $this->input->post('kontenSm'),
                 'Kategori_ID' => $this->input->post('kat'),
                 'Status_ID' => $this->input->post('stat'),
             );
             $this->Article_m->update_berita($data, $id);
 
+            $tag = $this->input->post('tAg');
+            $dataTag = array();
+            foreach ($tag as $tags) {
+                $dataTag[] = array(
+                    'ID_Berita' => $id,
+                    'Nama_Tag' => $tags,
+                );
+            }
+            $this->Article_m->update_tag($dataTag, $id);
             redirect('dist/features_post_create', 'refresh');
-            //print($id);
-            //print_r($data);
         }
-        echo validation_errors();
-        //redirect('dist/features_post_create','refresh');
+        $validation_errors = validation_errors();
 
+        if (!empty($validation_errors)) {
+            $error_messages = explode("\n", trim($validation_errors));
+
+            $error_html = '';
+            foreach ($error_messages as $error_message) {
+                if (!empty($error_message)) {
+                    $error_html .= '<div class="alert alert-danger" role="alert"><strong>Error:</strong> ' . $error_message . '</div>';
+                }
+            }
+
+            $this->session->set_flashdata('errors', $error_html);
+        }
+        redirect('dist/features_post_create', 'refresh');
+    }
+
+    public function pengumuman()
+    {
+        $this->Article_m->get_pengumuman();   
     }
 }
 

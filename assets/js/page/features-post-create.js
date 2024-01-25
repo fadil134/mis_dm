@@ -2,10 +2,97 @@
 
 Dropzone.autoDiscover = false;
 $(document).ready(function () {
-  /** Data Table */
+  /** Summer Note */
 
+  /*
+  $("#kontenSm,#konten").summernote('fullscreen.isFullscreen');
+  */
+  $("#kontenSm,#konten").summernote({
+    width: "100%",
+    right: 0,
+    height: "100",
+    minHeight: null,
+    maxHeight: 200,
+    focus: true,
+    toolbar: [
+      ["style", ["style"]],
+      ["font", ["bold", "italic", "underline", "clear"]],
+      ["fontname", ["fontname"]],
+      ["fontsize", ["fontsize"]],
+      ["color", ["color"]],
+      ["para", ["ul", "ol", "paragraph"]],
+      ["table", ["table"]],
+      ["insert", ["link", "picture", "video"]],
+      ["fullscreen"],
+    ],
+    dialogsInBody: true,
+    callbacks: {
+      onImageUpload: function (files) {
+        var formData = new FormData();
+        formData.append("file", files[0]);
+
+        $.ajax({
+          url: "http://localhost/mis_dm/server_processing/summ_upload",
+          method: "POST",
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function (data) {
+            $(".summernote").summernote("insertImage", JSON.parse(data).url);
+          },
+          error: function (error) {
+            console.error("Error uploading image:", error);
+          },
+        });
+      },
+    },
+  });
+
+  function check(isFullscreen) {
+    if (isFullscreen) {
+      $("nav.navbar.navbar-expand-lg.main-navbar").css({
+        "z-index": "auto", // Perbaikan sintaks
+      });
+
+      $("body.sidebar-mini .main-sidebar::after").css({
+        "z-index": "auto",
+      });
+
+      $("body.sidebar-mini .main-sidebar::after").css({
+        "z-index": "auto",
+      });
+
+      $("div.main-sidebar").css({
+        "z-index" : "auto"
+      });
+      console.log("Editor is in fullscreen mode");
+    } else {
+      console.log("Editor is not in fullscreen mode");
+
+      $("nav.navbar.navbar-expand-lg.main-navbar").css({
+        "z-index": 890,
+      });
+
+      $("body.sidebar-mini .main-sidebar::after").css({
+        "z-index": -1,
+      });
+
+      $("div.main-sidebar").css({
+        "z-index" : 880
+      });
+    }
+  }
+
+  $("button[data-original-title='Full Screen']").on("click", function () {
+    var summernote = $("#kontenSm, #konten").summernote(
+      "fullscreen.isFullscreen"
+    );
+    check(summernote);
+  });
+
+  /** Data Table */
+  
   var tableA = $("#all").DataTable({
-    responsive: true,
     ajax: {
       url: "http://localhost/mis_dm/articles/article",
       type: "GET",
@@ -27,7 +114,6 @@ $(document).ready(function () {
   });
 
   var tableD = $("#draft").DataTable({
-    responsive: true,
     ajax: {
       url: "http://localhost/mis_dm/articles/draft",
       type: "GET",
@@ -55,7 +141,6 @@ $(document).ready(function () {
   });
 
   var tableP = $("#pending").DataTable({
-    responsive: true,
     ajax: {
       url: "http://localhost/mis_dm/articles/pending",
       type: "GET",
@@ -70,7 +155,6 @@ $(document).ready(function () {
   });
 
   var tablePu = $("#publish").DataTable({
-    responsive: true,
     ajax: {
       url: "http://localhost/mis_dm/articles/publish",
       type: "GET",
@@ -86,7 +170,7 @@ $(document).ready(function () {
 
   $("#all tbody").on("click", "button", function () {
     var berita_id = tableA.row($(this).parents("tr")).data().ID_Berita;
-    
+
     $.ajax({
       url: "http://localhost/mis_dm/articles/get_status",
       type: "POST",
@@ -119,94 +203,88 @@ $(document).ready(function () {
   });
 
   $("#draft tbody").on("click", "button", function () {
-    var berita_id = tableD.row($(this).parents("tr")).data();
-    /** console.log(berita_id); */
-        
-    //$('textarea#kontenSm').val(berita_id.Isi_Berita);
-    $("#kontenSm").summernote({
-      height: 300,
-      minHeight: null,
-      maxHeight: 400,
-      focus: true,
-      toolbar: [
-        ["style", ["style"]],
-        ["font", ["bold", "italic", "underline", "clear"]],
-        ["fontname", ["fontname"]],
-        ["fontsize", ["fontsize"]],
-        ["color", ["color"]],
-        ["para", ["ul", "ol", "paragraph"]],
-        ["table", ["table"]],
-        ["insert", ["link", "picture", "video"]],
-      ],
-      dialogsInBody: true,
-      callbacks: {
-        onImageUpload: function (files) {
-          var formData = new FormData();
-          formData.append("file", files[0]);
-  
-          $.ajax({
-            url: "http://localhost/mis_dm/server_processing/summ_upload",
-            method: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-              $(".summernote").summernote("insertImage", JSON.parse(data).url);
-            },
-            error: function (error) {
-              console.error("Error uploading image:", error);
-            },
-          });
-        },
-      },
-    });
-    var hiddenInput = '<input id="inp" type="hidden" name="id" value="' + berita_id.ID_Berita + '">';
+    var berita = tableD.row($(this).parents("tr")).data();
+    var namaTag = berita.Nama_Tag;
+    var arrayTAG = [];
+    if (namaTag !== null) {
+      arrayTAG = namaTag.split(", ");
+    }
+
+    /*
+    var data = {
+      id : [1],[2],
+      text : ['test 1'],['test 2']
+    };
+    console.log(data);
+    var option = new Option(data.text, data.id, true, true);
+    console.log(option);
+    $('#tAg').append(option).trigger('change');
+    */
+
+    var hiddenInput =
+      '<input id="inp" type="hidden" name="id" value="' +
+      berita.ID_Berita +
+      '">';
 
     var kat = $("<option>", {
       id: "OK",
-      text: berita_id.Nama_Kategori,
-      value: berita_id.ID_Kategori,
+      text: berita.Nama_Kategori,
+      value: berita.ID_Kategori,
       selected: true,
       class: "bg-warning text white",
     });
 
     var stat = $("<option>", {
       id: "OS",
-      text: berita_id.Nama_Status,
-      value: berita_id.ID_Status,
+      text: berita.Nama_Status,
+      value: berita.ID_Status,
       selected: true,
       class: "bg-warning text white",
     });
 
+    var tag = [];
+    for (let i = 0; i < arrayTAG.length; i++) {
+      tag.push(
+        $("<option>", {
+          id: "OT",
+          value: arrayTAG[i],
+          text: arrayTAG[i],
+          selected: true,
+        })
+      );
+    }
+    /*
     var tag = $("<option>", {
       id: "OT",
-      text: berita_id.Nama_Tag,
-      value: berita_id.ID_Tag,
+      text: berita.Nama_Tag,
+      value: berita.ID_Tag,
       selected: true,
       class: "bg-warning text white",
     });
-    
-    $("#editDraftModal").data("berita_id", berita_id.ID_Berita);
-    $("#editDraftModal").modal("show");
-    $("#judul").val(berita_id.Judul_Berita);
+    */
+
+    console.log(berita);
+    $("#judul").val(berita.Judul_Berita);
     $("#optK").before(kat);
     $("#optS").before(stat);
     $("#optT").before(tag);
     $("#judul").before(hiddenInput);
+    $("#kontenSm").summernote("code", berita.Isi_Berita);
+    $("#editDraftModal").data("berita_id", berita.ID_Berita);
+    $("#editDraftModal").modal("show");
   });
 
-  tableD.columns([3, 4, 5, 7, 8, 9]).visible(false);
+  tableD.columns([3, 4, 5, 7, 8, 9]).visible(false).responsive(true);
 
   /** Bootstrap Modal */
+
   $("#editDraftModal").on("hidden.bs.modal", function () {
-    $("#OS,#OT,#OK,#inp").remove();
-    $('div.note-handle').empty();
+    $("#kontenSm").empty();
+    $("#OK,#OS,#OT,#inp").remove();
   });
 
-  /** Summer Note */
-  
-  //$('textarea#summernote.summernote').summernote();
   /** DropZone */
+
   var namaFile;
   const myDropzone = new Dropzone("#myDropzone", {
     paramName: "file",
@@ -224,8 +302,25 @@ $(document).ready(function () {
         console.log(response);
       });
 
-      this.on("addedfile", function (file) {
+      this.on("addedfile", async function (file) {
         namaFile = file.name;
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          var image = $("<img>").attr("src", e.target.result);
+
+          // Resize the image to a specific width and height
+          var newWidth = 728; // Set your desired width
+          var newHeight = 456; // Set your desired height
+
+          image.width(newWidth);
+          image.height(newHeight);
+
+          // Append the resized image to the Dropzone preview
+          $(file.previewElement).find(".dz-image").empty().append(image);
+        };
+
+        reader.readAsDataURL(file);
       });
 
       this.on("complete", function () {
@@ -236,7 +331,14 @@ $(document).ready(function () {
 
   /** Another Function */
 
-  $("#tag").select2();
+  $("#tAg").css("width", "100%").select2();
+  $("#tag")
+    .css("width", "100%")
+    .select2({
+      tags: true,
+      tokenSeparators: [",", " "],
+    });
+  /*
   $("#submitBtn").submit(function (e) {
     e.preventDefault();
 
@@ -292,8 +394,8 @@ $(document).ready(function () {
       },
     });
   });
+  */
 
-  /*
   $("#submitBtn").on("click", function (e) {
     e.preventDefault();
     myDropzone.processQueue();
@@ -311,6 +413,8 @@ $(document).ready(function () {
             message: response.message,
             position: "topRight",
           });
+
+          location.reload(true);
         } else {
           if (response.validation_errors) {
             var errorsArray = response.validation_errors.split("\n");
@@ -334,9 +438,8 @@ $(document).ready(function () {
         }
       },
     });
-    location.reload(true);
   });
-  */
+
   $("#save_stat").click(function (e) {
     e.preventDefault();
     var beritaId = $("#editStatusModal").data("berita_id");

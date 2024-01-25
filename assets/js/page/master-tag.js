@@ -5,8 +5,9 @@ const tableTag = $("#tagT").DataTable({
     type: "GET",
     dataSrc: "",
   },
+
   columns: [
-    { data: "ID_Tag" },
+    { data: "id" },
     { data: "Nama_Tag" },
     {
       data: null,
@@ -24,7 +25,7 @@ $("#tagT tbody").on("click", "button.edit-btn", function () {
   $("#editTag").data("tagID", tag.ID_Tag);
   $("#editTag").modal("show");
   $("#helpIdtag").text(tag.Nama_Tag);
-  $("#idTag").val(tag.ID_Tag);
+  $("#idTag").val(tag.id);
   //console.log(tag);
 });
 
@@ -34,7 +35,7 @@ $("#trunc").on("click", function () {
 
 function truncateTabel() {
   $.ajax({
-    url: "http://localhost/mis_dm/master",
+    url: "http://localhost/mis_dm/master/trunc_tag/",
     type: "GET", // Ubah sesuai dengan metode yang Anda gunakan di controller
     dataType: "json",
     success: function (response) {
@@ -66,6 +67,7 @@ function truncateTabel() {
 
 $("#tagT tbody").on("click", "button.hapus-btn", function () {
   let tag = tableTag.row($(this).parents("tr")).data();
+  console.log(tag);
   iziToast.question({
     timeout: false,
     overlay: true,
@@ -79,7 +81,7 @@ $("#tagT tbody").on("click", "button.hapus-btn", function () {
       [
         "<button><b>Ya</b></button>",
         function (instance, toast) {
-          hapusTag(tag.ID_Tag);
+          hapusTag(tag.id);
 
           instance.hide({ transitionOut: "fadeOut" }, toast, "button");
         },

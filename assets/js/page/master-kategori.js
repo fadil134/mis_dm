@@ -34,7 +34,7 @@ $("#trunc").on("click", function () {
 
 function truncateTabel() {
   $.ajax({
-    url: "http://localhost/mis_dm/master",
+    url: "http://localhost/mis_dm/master/trunc_kategori/",
     type: "GET", // Ubah sesuai dengan metode yang Anda gunakan di controller
     dataType: "json",
     success: function (response) {

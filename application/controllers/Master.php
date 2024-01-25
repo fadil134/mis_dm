@@ -5,9 +5,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Master extends CI_Controller
 {
 
-    public function index()
+    public function trunc_tag()
     {
-        $namaTabel = 'tag';
+        $namaTabel = 'berita_tag';
+        $response = $this->Master_m->truncate_tabel($namaTabel);
+
+        // Mengirim respons JSON
+        echo json_encode($response);
+
+        // Menghentikan eksekusi agar tidak ada output tambahan
+        exit;
+    }
+
+    public function trunc_kategori()
+    {
+        $namaTabel = 'berita_kategori';
         $response = $this->Master_m->truncate_tabel($namaTabel);
 
         // Mengirim respons JSON

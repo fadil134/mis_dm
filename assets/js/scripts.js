@@ -157,6 +157,7 @@ $(function () {
           me.find("> .dropdown-menu").prepend(
             '<li class="dropdown-title pt-3">' + me.find("> a").text() + "</li>"
           );
+          console.log($("> .dropdown-menu").length);
         } else {
           me.find("> a").attr("data-toggle", "tooltip");
           me.find("> a").attr("data-original-title", me.find("> a").text());
@@ -379,6 +380,7 @@ $(function () {
       .doScrollTop($(".chat-content").height());
   }
 
+  /*
   if (jQuery().summernote) {
     $(".summernote").summernote({
       dialogsInBody: true,
@@ -395,7 +397,7 @@ $(function () {
       ],
     });
   }
-
+*/
   if (window.CodeMirror) {
     $(".codeeditor").each(function () {
       let editor = CodeMirror.fromTextArea(this, {
