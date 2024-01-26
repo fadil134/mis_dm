@@ -7,9 +7,6 @@ $this->load->view('dist/_partials/header');
         <section class="section">
           <div class="section-header">
             <h1>Posts</h1>
-            <div class="section-header-button">
-              <a href="<?php echo base_url(); ?>dist/features_post_create" class="btn btn-primary">Add New</a>
-            </div>
             <div class="section-header-breadcrumb">
               <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
               <div class="breadcrumb-item"><a href="#">Posts</a></div>
@@ -19,7 +16,7 @@ $this->load->view('dist/_partials/header');
           <div class="section-body">
             <h2 class="section-title">Posts</h2>
             <p class="section-lead">
-              You can manage all posts, such as editing, deleting and more.
+              Manajemen Artikel, Edit, Hapus atau Membuat Post Baru
             </p>
 
             <div class="row">

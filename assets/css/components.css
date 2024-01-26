@@ -457,8 +457,8 @@ div.dataTables_wrapper div.dataTables_processing {
 }
 
 /* 1.10 Dropzone */
-.dropzone {
-  border: 2px dashed #6777ef;
+div.dropzone {
+  border: 2px dashed #6777ef; 
   min-height: 240px;
   text-align: center;
 }
