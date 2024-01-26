@@ -45,6 +45,9 @@ $(document).ready(function () {
     },
   });
 
+  /**
+   * 
+   *  
   function cek(isFullscreen) {
     if (isFullscreen) {
       $("nav.navbar.navbar-expand-lg.main-navbar").css({
@@ -77,8 +80,47 @@ $(document).ready(function () {
       });
     }
   }
+   */
 
-  $("button[data-original-title='Full Screen']").on("click", function () {
+  function cek(isFullscreen) {
+    var screenWidth = $(window).width();
+
+    if (screenWidth <= 600) {
+      // Apply styles for small screens (adjust the threshold as needed)
+      $("nav.navbar.navbar-expand-lg.main-navbar").css({
+        "z-index": isFullscreen ? "auto" : 500,
+      });
+
+      $("body.sidebar-mini .main-sidebar::after").css({
+        "z-index": isFullscreen ? "auto" : -1,
+      });
+
+      $("div.main-sidebar").css({
+        "z-index": isFullscreen ? "auto" : 480,
+      });
+    } else {
+      // Apply default styles for larger screens
+      $("nav.navbar.navbar-expand-lg.main-navbar").css({
+        "z-index": isFullscreen ? "auto" : 890,
+      });
+
+      $("body.sidebar-mini .main-sidebar::after").css({
+        "z-index": isFullscreen ? "auto" : -1,
+      });
+
+      $("div.main-sidebar").css({
+        "z-index": isFullscreen ? "auto" : 880,
+      });
+    }
+
+    console.log(
+      isFullscreen
+        ? "Editor is in fullscreen mode"
+        : "Editor is not in fullscreen mode"
+    );
+  }
+
+  $("div.note-fullscreen").on("click", function () {
     var summernote = $("#summernote").summernote("fullscreen.isFullscreen");
     cek(summernote);
   });
