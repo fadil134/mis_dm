@@ -49,6 +49,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/modules/jquery-selectric/selectric.css">
   
   <?php
+} elseif ($this->uri->segment(2) == "beranda") {?>
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/datatables/datatables.min.css">
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/datatables/Responsive-2.2.1/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?=base_url();?>assets/modules/select2/dist/css/select2.min.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/modules/summernote/summernote-bs4.css">
+  <link rel="stylesheet" href="<?=base_url();?>assets/modules/izitoast/css/iziToast.min.css">
+
+  <?php
 } elseif ($this->uri->segment(2) == "features_post_create") {?>
   <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/datatables/datatables.min.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/datatables/Responsive-2.2.1/css/responsive.bootstrap4.min.css">

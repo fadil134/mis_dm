@@ -54,11 +54,21 @@ if ($this->uri->segment(2) == "" || $this->uri->segment(2) == "index") {?>
 <script src="<?php echo base_url(); ?>assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
 
 <?php
+} elseif ($this->uri->segment(2) == "beranda") {?>
+<script src="<?php echo base_url(); ?>assets/modules/datatables/datatables.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?=base_url();?>assets/modules/datatables/Responsive-2.2.1/js/responsive.bootstrap4.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/modules/jquery-ui/jquery-ui.min.js"></script>
+<script src="<?=base_url();?>assets/modules/select2/dist/js/select2.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/modules/summernote/summernote-bs4.js"></script>
+<script src="<?=base_url();?>assets/modules/izitoast/js/iziToast.min.js"></script>
+
+<?php
 } elseif ($this->uri->segment(2) == "features_post_create") {?>
 <script src="<?php echo base_url(); ?>assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/modules/datatables/datatables.min.js"></script>
-<script
-  src="<?php echo base_url(); ?>assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <script src="<?=base_url();?>assets/modules/datatables/Responsive-2.2.1/js/dataTables.responsive.min.js"></script>
 <script src="<?=base_url();?>assets/modules/datatables/Responsive-2.2.1/js/responsive.bootstrap4.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
@@ -116,7 +126,11 @@ if ($this->uri->segment(2) == "" || $this->uri->segment(2) == "index") {?>
 
 <!-- Page Specific JS File -->
 <?php
-if ($this->uri->segment(2) == "index_0") {?>
+if ($this->uri->segment(2) == "beranda") {?>
+<script src="<?php echo base_url(); ?>assets/js/page/beranda.js"></script>
+
+<?php
+} elseif ($this->uri->segment(2) == "index_0") {?>
 <script src="<?php echo base_url(); ?>assets/js/page/index-0.js"></script>
 
 <?php

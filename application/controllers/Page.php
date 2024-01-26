@@ -13,7 +13,7 @@ class Page extends CI_Controller
             'attention' => $this->Pengumuman_m->pengumuman($date_now),
             'artikel' => $this->Article_m->publish_beranda($limit),
         );
-        $this->template->load('page/page/home', $data);
+        $this->template->load('page/home', $data);
     }
 
     public function about()

@@ -20,13 +20,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </li>
         </ul>
       </li>
+
+      <!-- Master -->
       <li class="menu-header">Master Data</li>
       <li class="<?php echo $this->uri->segment(2) == 'pengumuman' ? 'active' : ''; ?>">
         <a class="nav-link" href="<?php echo base_url(); ?>dist/pengumuman"><i class="fas fa-bullhorn fa-lg fa-fw"></i>
           <span>Pengumuman</span></a>
       </li>
-      <li
-        class="dropdown <?=$this->uri->segment(2) == 'master_tag' || $this->uri->segment(2) == 'master_kategori' || $this->uri->segment(2) == 'features_post_create' ? 'active' : '';?>">
+      <li class="dropdown <?=$this->uri->segment(2) == 'master_tag' || $this->uri->segment(2) == 'master_kategori' || $this->uri->segment(2) == 'features_post_create' ? 'active' : '';?>">
         <a href="#" class="nav-link has-dropdown"><i class="far fa-newspaper fa-sm"></i><span>Data Berita</span></a>
         <ul class="dropdown-menu">
           <li class="<?=$this->uri->segment(2) == 'master_tag' ? 'active' : '';?>">
@@ -42,8 +43,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </li>
         </ul>
       </li>
-      <li
-        class="dropdown <?=$this->uri->segment(2) == 'master_guru' || $this->uri->segment(2) == 'master_siswa' ? 'active' : '';?>">
+      <li class="dropdown <?=$this->uri->segment(2) == 'master_guru' || $this->uri->segment(2) == 'master_siswa' ? 'active' : '';?>">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-school fa-sm"></i><span>Data Sekolah</span></a>
         <ul class="dropdown-menu">
           <li class="<?=$this->uri->segment(2) == 'master_guru' ? 'active' : '';?>">
@@ -54,6 +54,36 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </li>
         </ul>
       </li>
+
+      <!-- Content Manajemen Web -->
+      <li class="menu-header">Konten Manajemen Web</li>
+      <li class="dropdown <?=$this->uri->segment(2) == 'beranda' || $this->uri->segment(2) == 'tentang_kami' || $this->uri->segment(2) == 'ekskul' || $this->uri->segment(2) == 'kontak' ? 'active' : '';?>">
+        <a href="#" class="nav-link has-dropdown"><i class="far fa-newspaper fa-sm"></i><span>Data Berita</span></a>
+        <ul class="dropdown-menu">
+          <li class="<?=$this->uri->segment(2) == 'beranda' ? 'active' : '';?>">
+            <a class="nav-link" href="<?=base_url();?>dist/beranda">Beranda</a>
+          </li>
+          <li class="<?=$this->uri->segment(2) == 'tentang_kami' ? 'active' : '';?>">
+            <a class="nav-link" href="<?=base_url();?>dist/tentang_kami">Tentang Kami</a>
+          </li>
+          <li class="<?=$this->uri->segment(2) == 'ekskul' ? 'active' : '';?>">
+            <a class="nav-link" href="<?=base_url();?>dist/ekskul">Ekskul</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown <?=$this->uri->segment(2) == 'master_guru' || $this->uri->segment(2) == 'master_siswa' ? 'active' : '';?>">
+        <a href="#" class="nav-link has-dropdown"><i class="fas fa-school fa-sm"></i><span>Data Sekolah</span></a>
+        <ul class="dropdown-menu">
+          <li class="<?=$this->uri->segment(2) == 'master_guru' ? 'active' : '';?>">
+            <a class="nav-link" href="<?=base_url();?>dist/master_guru">Master Guru</a>
+          </li>
+          <li class="<?=$this->uri->segment(2) == 'master_guru' ? 'active' : '';?>">
+            <a class="nav-link" href="<?=base_url();?>dist/master_siswa">Master Siswa</a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Settings -->
       <li class="menu-header">Pages</li>
       <li class="dropdown <?php echo $this->uri->segment(2) == 'features_profile' ? 'active' : ''; ?>">
         <a href="#" class="nav-link has-dropdown"><i class="far fa-user"></i> <span>User</span></a>
@@ -63,8 +93,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </li>
         </ul>
       </li>
-      <li
-        class="dropdown <?php echo $this->uri->segment(2) == 'features_activities' || $this->uri->segment(2) == 'features_settings' || $this->uri->segment(2) == 'features_setting_detail' ? 'active' : ''; ?>">
+      <li class="dropdown <?php echo $this->uri->segment(2) == 'features_activities' || $this->uri->segment(2) == 'features_settings' || $this->uri->segment(2) == 'features_setting_detail' ? 'active' : ''; ?>">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-toolbox fa-sm" style="color: #B197FC;"></i>
           <span>Features</span></a>
         <ul class="dropdown-menu">

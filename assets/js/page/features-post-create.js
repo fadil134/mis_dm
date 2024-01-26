@@ -9,7 +9,6 @@ $(document).ready(function () {
   */
   $("#kontenSm,#konten").summernote({
     width: "100%",
-    right: 0,
     height: "100",
     minHeight: null,
     maxHeight: 200,

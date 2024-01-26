@@ -14,42 +14,42 @@ class Dist extends CI_Controller
 
     public function master_tag()
     {
-		$data = array(
-			'title' => "Master Tag"
-		);
-		$this->load->view('dist/master-tag', $data);
+        $data = array(
+            'title' => "Master Tag",
+        );
+        $this->load->view('dist/master-tag', $data);
     }
 
     public function master_kategori()
     {
-		$data = array(
-			'title' => "Master Kategori"
-		);
-		$this->load->view('dist/master-kategori', $data);
+        $data = array(
+            'title' => "Master Kategori",
+        );
+        $this->load->view('dist/master-kategori', $data);
     }
 
     public function data_guru()
     {
-		$data = array(
-			'title' => "Data Guru"
-		);
-		$this->load->view('dist/data-guru', $data);
+        $data = array(
+            'title' => "Data Guru",
+        );
+        $this->load->view('dist/data-guru', $data);
     }
 
     public function data_siswa()
     {
-		$data = array(
-			'title' => "Data Siswa"
-		);
-		$this->load->view('dist/data-siswa', $data);
+        $data = array(
+            'title' => "Data Siswa",
+        );
+        $this->load->view('dist/data-siswa', $data);
     }
 
     public function data_pelajaran()
     {
-		$data = array(
-			'title' => "Data Pelajaran"
-		);
-		$this->load->view('dist/data-pelajaran', $data);
+        $data = array(
+            'title' => "Data Pelajaran",
+        );
+        $this->load->view('dist/data-pelajaran', $data);
     }
 
     public function assign_role()
@@ -217,6 +217,14 @@ class Dist extends CI_Controller
             'title' => "Tickets",
         );
         $this->load->view('dist/features-tickets', $data);
+    }
+
+    public function beranda()
+    {
+        $data = array(
+            'title' => 'Manajemen Beranda'
+        );
+        $this->load->view('dist/page-beranda', $data);
     }
 
 }
