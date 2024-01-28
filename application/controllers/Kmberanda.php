@@ -7,47 +7,79 @@ class Kmberanda extends CI_Controller
 
     public function index()
     {
-
+        $data = $this->Page_m->ss();
+        echo json_encode($data);
     }
 
-    public function s_sirih()
+    public function save_ssirih()
     {
-        $s_sirih = array(
-            $this->input->post('sekapur_sirih'));
-        $config['upload_path']      = './uploads/beranda/';
-        $config['allowed_types']    = 'gif|jpg|png';
-        $config['max_size']         = 1000;
-        $config['max_width']        = 1024;
-        $config['max_height']       = 768;
-
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload('photo')) {
-            $error = array('error' => $this->upload->display_errors());
-            $this->load->view('upload_form', $error);
-        } else {
-            $data['photo_data'] = $this->upload->data();
-        }
-
-        // Konfigurasi upload untuk video
-        $config['upload_path']      = './uploads/beranda/';
-        $config['allowed_types']    = 'mp4|avi|mov';
-        $config['max_size']         = 5000; // 5000 KB
-        $config['max_width']        = 1920;
-        $config['max_height']       = 1080;
+        $allowed_referer = base_url('dist/beranda'); // Adjust to your specific value
+        $config['upload_path'] = FCPATH . 'uploads/beranda/';
+        $config['allowed_types'] = 'gif|jpg|png|mp4|mpeg';
+        $config['max_size'] = 10000;
+        $config['overwrite'] = true;
 
         $this->upload->initialize($config);
+        $error = array();
 
-        if (!$this->upload->do_upload('video')) {
-            $error = array('error' => $this->upload->display_errors());
-            $this->load->view('upload_form', $error);
+        $this->form_validation->set_rules('sekapur_sirih', 'Sekapur Sirih', 'required');
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == $allowed_referer && $this->form_validation->run()) {
+            // Handle picture upload
+            $data = array();
+            $error = array();
+            if (isset($_FILES['ssgambar'])) {
+                if ($this->upload->do_upload('ssgambar')) {
+                    $data['picture_data'] = $this->upload->data();
+                } else {
+                    $error['ssgambar'] = $this->upload->display_errors();
+                    $this->session->set_flashdata('error_ssgambar', $error['ssgambar']);
+                }
+            }
+
+            // Handle video upload
+            if (isset($_FILES['ssvideo'])) {
+                $this->upload->initialize($config); // Reinitialize for video upload
+
+                if ($this->upload->do_upload('ssvideo')) {
+                    $data['video_data'] = $this->upload->data();
+
+                    // Process or save video data as needed
+                } else {
+                    $error['ssvideo'] = $this->upload->display_errors();
+                    $this->session->set_flashdata('error_ssvideo', $error['ssvideo']);
+                }
+            }
+
+            if (!empty($data['picture_data']) && !empty($data['video_data'])) {
+                $s_sirih = array(
+                    'filename' => $data['picture_data']['file_name'],
+                    'url' => base_url() . 'uploads/beranda/' . $data['picture_data']['file_name'],
+                    'display_location' => 'beranda',
+                    'created_at' => date('Y-m-d'),
+                    'description' => $this->input->post('sekapur_sirih'),
+                    'is_active' => 0,
+                    'url_video' => base_url() . 'uploads/beranda/' . $data['video_data']['file_name'],
+                    'video' => $data['video_data']['file_name'],
+                    'display_section' => 'sekapur sirih',
+                );
+                $this->Page_m->save_ss($s_sirih);
+                redirect('dist/beranda', 'refresh');
+            } else {
+                echo 'error';
+            }
+            //redirect('dist/beranda','refresh');
         } else {
-            $data['video_data'] = $this->upload->data();
-            // Tambahkan logika atau pemrosesan tambahan untuk video di sini
+            show_404();
         }
+    }
 
-        // Tampilkan halaman sukses dengan data upload
-        $this->load->view('upload_success', $data);
+    public function update_ssirih()
+    {
+        $id = $this->input->post('id');
+        $data = array(
+            'is_active' => $this->input->post('switch'),
+        );
     }
 
 }

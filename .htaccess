@@ -2,7 +2,7 @@
     RewriteEngine On
 
     # Internal redirect from /dist/... to /...
-    RewriteRule ^dist/(.*)$ $1 [L]
+    # RewriteRule ^dist/(.*)$ $1 [L]
 
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

@@ -58,7 +58,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <!-- Content Manajemen Web -->
       <li class="menu-header">Konten Manajemen Web</li>
       <li class="dropdown <?=$this->uri->segment(2) == 'beranda' || $this->uri->segment(2) == 'tentang_kami' || $this->uri->segment(2) == 'ekskul' || $this->uri->segment(2) == 'kontak' ? 'active' : '';?>">
-        <a href="#" class="nav-link has-dropdown"><i class="far fa-newspaper fa-sm"></i><span>Data Berita</span></a>
+        <a href="#" class="nav-link has-dropdown"><i class="far fa-newspaper fa-sm"></i><span>Halaman Web Manajemen</span></a>
         <ul class="dropdown-menu">
           <li class="<?=$this->uri->segment(2) == 'beranda' ? 'active' : '';?>">
             <a class="nav-link" href="<?=base_url();?>dist/beranda">Beranda</a>
