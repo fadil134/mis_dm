@@ -62,14 +62,14 @@ class Dist extends CI_Controller
 
     public function index()
     {
-        $allowed_referer = base_url();
+        //$allowed_referer = base_url();
         $data = array(
             'title' => "General Dashboard",
         );
-        if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == $allowed_referer) {
+        //if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == $allowed_referer) {
             $this->load->view('dist/index-0', $data);
-        }
-        show_404();
+        //}
+        //show_404();
     }
 
     public function layout_default()

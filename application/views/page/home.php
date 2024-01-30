@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- End Hero Section -->
 
 <main id="main">
-    <!-- ======= Why Choose Us Section ======= -->
+    <!-- ======= Why Choose Us Section 
     <section id="why-us" class="why-us">
         <div class="container" data-aos="fade-up">
 
@@ -60,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         doloribus quas sapiente optio.</p>
                                 </div>
                             </div>
-                            <!-- End slide item -->
+                             End slide item 
 
                             <div class="swiper-slide">
                                 <div class="item">
@@ -74,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         repellat ea. Facere est dolores fugiat dolor.</p>
                                 </div>
                             </div>
-                            <!-- End slide item -->
+                             End slide item 
 
                             <div class="swiper-slide">
                                 <div class="item">
@@ -87,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         fugiat aut.</p>
                                 </div>
                             </div>
-                            <!-- End slide item -->
+                             End slide item 
 
                             <div class="swiper-slide">
                                 <div class="item">
@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         et sed voluptate impedit. Ad et qui sint at qui animi animi rerum.</p>
                                 </div>
                             </div>
-                            <!-- End slide item -->
+                            End slide item 
 
                         </div>
                         <div class="swiper-pagination"></div>
@@ -113,14 +113,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         </div>
     </section>
-    <!-- End Why Choose Us Section -->
+     End Why Choose Us Section -->
 
     <!-- ======= Our Services Section ======= -->
     <section id="services-list" class="services-list">
         <div class="container" data-aos="fade-up">
 
             <div class="section-header">
-                <h2>Our Services</h2>
+                <h2>Eksta Kurikuler</h2>
 
             </div>
 

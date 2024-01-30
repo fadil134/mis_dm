@@ -39,6 +39,40 @@ $this->load->view('dist/_partials/header');
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
+                                                        <label for="vid_url">URL Video</label>
+                                                        <input type="text" name="vid_url" id="vid_url"
+                                                            class="form-control" placeholder=""
+                                                            aria-describedby="helpId" onchange="prev()">
+                                                        <small id="helpId" class="text-muted">Paste Video URL ke
+                                                            sini</small>
+                                                        <div id="filevideo"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label for="vid_url">File Name Video</label>
+                                                        <input type="text" name="fileV" id="fileV" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label for="img_url">URL Gambar</label>
+                                                        <input type="text" name="img_url" id="img_url"
+                                                            class="form-control" placeholder=""
+                                                            aria-describedby="helpId" onchange="previewFile()">
+                                                        <small id="helpId" class="text-muted">Paste Gambar URL ke
+                                                            sini</small>
+                                                        <div id="fileimG"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label for="imG_url">File Name Gambar</label>
+                                                        <input type="text" name="imG_url" id="imG_url" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
                                                         <label for="ss_vd">Sekapur Sirih Video</label>
                                                         <input type="file" class="form-control-file" name="ssvideo"
                                                             id="ss_vd" placeholder="upload video disini"
@@ -60,9 +94,14 @@ $this->load->view('dist/_partials/header');
                                                 </div>
                                             </div>
                                             <div class="col">
-                                                <table class="table table-responsive" id="ss">
+                                                <?php 
+                                            echo $this->session->flashdata('message');
+                                            ?>
+                                                <table class="table table-responsive text-nowrap mx-auto" id="ss">
                                                     <thead>
                                                         <tr>
+                                                            <th>#</th>
+                                                            <th>id</th>
                                                             <th>Sekapur Sirih</th>
                                                             <th>Photo</th>
                                                             <th>Video</th>
@@ -85,102 +124,61 @@ $this->load->view('dist/_partials/header');
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <h4>Tabel User</h4>
-                </div>
-                <div class="card-body">
-                    <table id="userTable" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Actions</th> <!-- New column for actions -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- User data will be dynamically added here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
     </section>
 </div>
 
-
-<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
-    aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="editss" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                <h5 class="modal-title">Modal title</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form action="<?=base_url('Kmberanda/update_ssir')?>" method="post">
+                <div class="modal-body">
+                    <input name="ids" id="ids" type="hidden">
+                    <input name="fileV" id="fileV" type="hidden">
+                    <input name="fileG" id="fileG" type="hidden">
                     <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" class="form-control" required>
+                        <label for="myvid">Existing Video</label>
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe id="myvid" class="embed-responsive-item" src="" allowfullscreen></iframe>
+                        </div>
                     </div>
-
                     <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" class="form-control" required>
+                        <label for="myimage">Existing Gambar</label>
+                        <img src="" class="img-fluid" id="myimage" alt="Responsive image">
                     </div>
-
                     <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" class="form-control" required>
+                        <label for="ssmodal">Sekapur Sirih</label>
+                        <textarea name="ssmodal" id="ssmodal"></textarea>
                     </div>
-
                     <div class="form-group">
-                        <label for="role">Role:</label>
-                        <select id="role" name="role" class="form-control" required>
-                            <option value="admin">Admin</option>
-                            <option value="editor">Editor</option>
-                            <option value="viewer">Viewer</option>
-                            <!-- Add more roles as needed -->
-                        </select>
+                        <label for="gambar">Replace Gambar</label>
+                        <input type="text" class="form-control" name="gambar" id="gambar" aria-describedby="helpId"
+                            placeholder="" onchange="previewFile()">
+                        <small id="helpId" class="form-text text-muted">Isi URL gambar untuk mengganti gambar
+                            existing</small>
+                        <div id="filePreview"></div>
                     </div>
-
-                    <button type="button" class="btn btn-primary" onclick="addUser()">Add User</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Form for editing user details (replace this with your actual form) -->
-                <form id="editUserForm">
-                    <label for="editUserName">Name:</label>
-                    <input type="text" id="editUserName" name="editUserName" class="form-control" required>
-
-                    <label for="editUserEmail">Email:</label>
-                    <input type="email" id="editUserEmail" name="editUserEmail" class="form-control" required>
-
-                    <label for="editUserRole">Role:</label>
-                    <input type="text" id="editUserRole" name="editUserRole" class="form-control" required>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
-            </div>
+                    <div class="form-group">
+                        <label for="vid">Replace Video</label>
+                        <input type="text" class="form-control" name="vid" id="vid" aria-describedby="helpId"
+                            placeholder="" onchange="prev()">
+                        <small id="helpId" class="form-text text-muted">Isi URL video untuk mengganti video
+                            existing</small>
+                        <div id="filePrev"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

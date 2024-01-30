@@ -31,7 +31,7 @@ $this->load->view('dist/_partials/header');
                 </div>
               </form>
               <div class="mt-3">
-                <a href="<?php echo base_url(); ?>dist/index">Back to Home</a>
+                <a href="<?php echo base_url(); ?>dist">Back to Home</a>
               </div>
             </div>
           </div>

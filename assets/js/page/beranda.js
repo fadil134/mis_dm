@@ -1,15 +1,236 @@
 "use strict";
 
+var table;
+function deleteRow(id, rowIndex) {
+  iziToast.show({
+    theme: "dark",
+    icon: "fa fa-question-circle",
+    title: "Konfirmasi",
+    message: "Anda yakin ingin menghapus data?",
+    position: "center",
+    progressBarColor: "rgb(0, 255, 184)",
+    buttons: [
+      [
+        "<button><b>Ya</b></button>",
+        function (instance, toast) {
+          // Aksi yang diambil jika tombol "Ya" diklik
+          instance.hide({ transitionOut: "fadeOut" }, toast, "button");
+          // Panggil fungsi untuk menghapus data dari database
+          $.ajax({
+            type: "POST",
+            url: "http://localhost/mis_dm/Kmberanda/delete_ssirih",
+            data: { id: id },
+            dataType: "json",
+            success: function (response) {
+              if (response.success) {
+                iziToast.success({
+                  title: "Success",
+                  message: response.success,
+                  position: "topRight",
+                });
+
+                // If successful, remove the row from DataTable
+                table.row(rowIndex).remove().draw(false);
+              } else if (response.error) {
+                iziToast.error({
+                  title: "Error",
+                  message: response.error,
+                  position: "topRight",
+                });
+              }
+            },
+          });
+        },
+      ],
+      [
+        "<button>Tidak</button>",
+        function (instance, toast) {
+          // Aksi yang diambil jika tombol "Tidak" diklik
+          instance.hide({ transitionOut: "fadeOut" }, toast, "button");
+        },
+      ],
+    ],
+  });
+}
+
+function editRow(id) {
+  $("#ss tbody").on("click", "button", function () {
+    let row = table.row($(this).parents("tr")).index();
+
+    let data = table.row($(this).parents("tr"));
+    $("#myvid").attr("src", data.data().url_video);
+    $("#myimage").attr("src", data.data().url);
+    $("#ssmodal").summernote("code", data.data().description);
+  });
+  $("#editss").modal("show");
+  $("#editss").on("show.bs.modal", function () {});
+  $("#ids").val(id);
+  /*
+  $.ajax({
+    type: "post",
+    url: "url",
+    data: "data",
+    dataType: "dataType",
+    success: function (response) {},
+  });
+  */
+}
+
+function prev() {
+  var fileUrl = $("#vid").val();
+  var file = $("#vid_url").val();
+
+  if (fileUrl === "") {
+    var parts = file.split("/");
+    var filenvideo = parts[parts.length - 1];
+    var fileType = getFileType(file);
+    $("#filevideo").empty();
+
+    var previewElement;
+
+    if (fileType === "video") {
+      previewElement = $("<video controls class='w-100'>").attr("src", file);
+    } else {
+      previewElement = $("<p class='text-danger'>").text(
+        "Unsupported file type"
+      );
+    }
+
+    $("#filevideo").append(previewElement);
+  } else {
+    var parts = fileUrl.split("/");
+    var filenvideo = parts[parts.length - 1];
+    var fileType = getFileType(fileUrl);
+    $("#filePrev").empty();
+
+    var previewElement;
+
+    if (fileType === "video") {
+      previewElement = $("<video controls class='w-100'>").attr("src", fileUrl);
+    } else {
+      previewElement = $("<p class='text-danger'>").text(
+        "Unsupported file type"
+      );
+    }
+
+    $("#filePrev").append(previewElement);
+  }
+
+  $("#fileV").val(filenvideo);
+  $("#fileV").on("change", function () {
+    let inputValue = $(this).val();
+    let extension = filenvideo.split(".").pop();
+
+    // Jika ekstensi tidak kosong dan input tidak diakhiri dengan ekstensi, tambahkan ekstensi
+    if (extension !== "" && !inputValue.endsWith(extension)) {
+      $(this).val(inputValue + "." + extension);
+    }
+  });
+
+  if ($("#vid_url").val() === "") {
+    $("#ss_vd").prop("disabled", false);
+  } else {
+    $("#ss_vd").prop("disabled", true);
+  }
+}
+
+function previewFile() {
+  var fileUrl = $("#gambar").val();
+  var file = $("#img_url").val();
+
+  if (fileUrl === "") {
+    $("#fileimG").empty();
+
+    var parts = file.split("/");
+    var filengambar = parts[parts.length - 1];
+
+    var fileType = getFileType(file);
+    var previewElement;
+
+    if (fileType === "image") {
+      previewElement = $("<img class='img-fluid'>").attr("src", file);
+    } else {
+      previewElement = $("<p class='text-danger'>").text(
+        "Unsupported file type"
+      );
+    }
+
+    $("#fileimG").append(previewElement);
+  } else {
+    $("#filePreview").empty();
+
+    var parts = fileUrl.split("/");
+    var filengambar = parts[parts.length - 1];
+
+    var fileType = getFileType(fileUrl);
+    var previewElement;
+
+    if (fileType === "image") {
+      previewElement = $("<img class='img-fluid'>").attr("src", fileUrl);
+    } else {
+      previewElement = $("<p class='text-danger'>").text(
+        "Unsupported file type"
+      );
+    }
+
+    $("#filePreview").append(previewElement);
+  }
+
+  $("#imG_url").val(filengambar);
+  $("#imG_url").on("change", function () {
+    let inputValue = $(this).val();
+    let extension = filenvideo.split(".").pop();
+
+    // Jika ekstensi tidak kosong dan input tidak diakhiri dengan ekstensi, tambahkan ekstensi
+    if (extension !== "" && !inputValue.endsWith(extension)) {
+      $(this).val(inputValue + "." + extension);
+    }
+  });
+
+  if ($("#imG_url").val() === "") {
+    $("#ss_bg").prop("disabled", false);
+  } else {
+    $("#ss_bg").prop("disabled", true);
+  }
+}
+
+function getFileType(url) {
+  var fileType;
+
+  if (url.match(/\.(jpeg|jpg|gif|png)$/)) {
+    fileType = "image";
+  } else if (url.match(/\.(mp4|webm|ogg)$/)) {
+    fileType = "video";
+  } else {
+    fileType = "other";
+  }
+
+  return fileType;
+}
+
+$("#editss").on("hidden.bs.modal", function () {
+  $("#filePreview, #filePrev").empty();
+  $("#fileV, #fileG, .form-control").val("");
+});
+
 $(document).ready(function () {
   /** Datatable */
 
-  var table = $("#ss").DataTable({
-    responsive: true,
+  table = $("#ss").DataTable({
     ajax: {
       url: "http://localhost/mis_dm/Kmberanda",
+      type: "GET",
       dataSrc: "", // Kosongkan untuk mengambil seluruh objek sebagai data
     },
     columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          // Mengambil nomor urut baris dan menetapkan sebagai ID
+          return meta.row + 1;
+        },
+      },
+      { data: "id", visible: false },
       { data: "description" },
       {
         data: "url",
@@ -38,65 +259,92 @@ $(document).ready(function () {
             data +
             '" class="custom-control-input" id="customSwitch' +
             meta.row +
-            '"'+ (data == 1 ? "checked" : "") +'> <label class="custom-control-label switch' +
+            '"' +
+            (data == 1 ? "checked" : "") +
+            '> <label class="custom-control-label switch' +
             meta.row +
             '" for="customSwitch' +
             meta.row +
-            '">'+ (data == 1 ? "Aktif" : "Non-Aktif") +'</label>' +
+            '">' +
+            (data == 1 ? "Aktif" : "Non-Aktif") +
+            "</label>" +
             "</div>"
           );
         },
       },
       {
-        data: null,
+        data: "id",
         render: function (data, type, row) {
+          var rowIndex = table.row($(row).closest("tr")).index();
           return (
-            '<button class="btn btn-sm btn-danger mr-2" onclick="deleteRow(' +
-            row.id +
+            '<button type="button" class="btn btn-sm btn-danger mr-2" onclick="deleteRow(' +
+            data +
+            ", " +
+            rowIndex +
             ')"><i class="fa fa-trash"></i></button>' +
-            '<button class="btn btn-sm btn-primary" onclick="editRow(' +
-            row.id +
+            '<button type="button" class="btn btn-sm btn-primary" onclick="editRow(' +
+            data +
             ')"><i class="fas fa-edit"></i></button>'
           );
         },
       },
     ],
+    createdRow: function (row, data, dataIndex) {
+      // Menetapkan ID pada elemen tr (baris) berdasarkan nomor urut
+      $(row).attr("id", "row_" + (dataIndex + 1));
+    },
     drawCallback: function (settings) {
-      update();
+      //update();
+      $('input[name="activation"]').on("change", function () {
+        $('input[name="activation"]').not(this).prop("checked", false);
+      });
     },
   });
 
-  function update() {
-    $("#ss tbody").on("change", 'input[name="activation"]', function () {
-      var isChecked = $(this).prop("checked");
-      var $parentDiv = $(this).closest(".custom-switch");
-      let row = table.row($(this).parents("tr")).index();
+  $("#ss tbody").on("change", 'input[name="activation"]', function () {
+    var isChecked = $(this).prop("checked");
+    var $parentDiv = $(this).closest(".custom-switch");
+    let row = table.row($(this).parents("tr")).index();
 
-      // Toggle the label and set the value based on the checkbox state
-      $parentDiv
-        .find(".switch" + row)
-        .text(isChecked ? "Aktif" : "Non-Aktif");
-      $parentDiv.find("#customSwitch" + row).val(isChecked ? 1 : 0);
-    });
-    /*
-    $("#ss tbody").on("click", 'input[name="activation"]', function () {
-      var active = table.row($(this).parents("tr")).data();
-      let row = table.row($(this).parents("tr")).index();
-      if (active.is_active === "0") {
-        $("#customSwitch" + row).val(1);
-        $(".switch" + row).text("Aktif");
-      } else {
-        if (active.is_active === "1") {
-          $("#customSwitch" + row).val(0);
-          $(".switch" + row).text("Non_Aktif");
+    // Toggle the label and set the value based on the checkbox state
+    $parentDiv.find(".switch" + row).text(isChecked ? "Aktif" : "Non-Aktif");
+    $parentDiv.find("#customSwitch" + row).val(isChecked ? 1 : 0);
+
+    let is_activated = $("#customSwitch" + row).val();
+    let id = table.row($(this).parents("tr")).data().id;
+    $.ajax({
+      type: "post",
+      url: "http://localhost/mis_dm/kmberanda/update_ssirih",
+      data: { switch: is_activated, id: id },
+      dataType: "json",
+      success: function (response) {
+        if (response.success) {
+          iziToast.success({
+            title: "Success",
+            message: response.success,
+            position: "topRight",
+          });
+        } else if (response.error) {
+          iziToast.error({
+            title: "Error",
+            message: response.error,
+            position: "topRight",
+          });
         }
-      }
+      },
+      error: function () {
+        iziToast.error({
+          title: "Error",
+          message: "Failed to communicate with the server.",
+          position: "topRight",
+        });
+      },
     });
-    */
-  }
+  });
+
   /** summernote */
 
-  $("#summernote").summernote({
+  $("#summernote,#ssmodal").summernote({
     width: "100%",
     height: "100",
     minHeight: null,
@@ -136,43 +384,6 @@ $(document).ready(function () {
     },
   });
 
-  /**
-   * 
-   *  
-  function cek(isFullscreen) {
-    if (isFullscreen) {
-      $("nav.navbar.navbar-expand-lg.main-navbar").css({
-        "z-index": "auto", // Perbaikan sintaks
-      });
-
-      $("body.sidebar-mini .main-sidebar::after").css({
-        "z-index": "auto",
-      });
-
-      $("body.sidebar-mini .main-sidebar::after").css({
-        "z-index": "auto",
-      });
-
-      $("div.main-sidebar").css({
-        "z-index": "auto",
-      });
-    } else {
-      
-      $("nav.navbar.navbar-expand-lg.main-navbar").css({
-        "z-index": 890,
-      });
-
-      $("body.sidebar-mini .main-sidebar::after").css({
-        "z-index": -1,
-      });
-
-      $("div.main-sidebar").css({
-        "z-index": 880,
-      });
-    }
-  }
-   */
-
   function cek(isFullscreen) {
     var screenWidth = $(window).width();
 
@@ -211,30 +422,4 @@ $(document).ready(function () {
   });
 
   /** custom */
-  function swit() {
-    $("td > div.custom-control-input").change(function () {
-      // Uncheck all switches
-      $(".custom-control-input").prop("checked", false);
-      // Check the clicked switch
-      $(this).prop("checked", true);
-      check(this);
-    });
-  }
-
-  var thi;
-  check(thi);
-  function check(thi) {
-    thi = $("td > div.custom-control-input");
-    $("td > div.custom-control-input").each(function (index, element) {
-      // Memeriksa apakah elemen tidak dicentang
-      if (!$(element).prop("checked")) {
-        // Mengatur teks dan nilai sesuai dengan status switch
-        $(element).siblings(".custom-control-label").text("Non-Aktif");
-        $(element).val("Non-Aktif");
-      } else {
-        $(element).siblings(".custom-control-label").text("Aktif");
-        $(element).val("Aktif");
-      }
-    });
-  }
 });

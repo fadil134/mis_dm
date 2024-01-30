@@ -4,16 +4,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Kmberanda extends CI_Controller
 {
-
     public function index()
     {
-        $data = $this->Page_m->ss();
-        echo json_encode($data);
+        $allowed_url = base_url('dist/beranda');
+        if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == $allowed_url) {
+            $data = $this->Page_m->ssirih();
+            echo json_encode($data);
+        }
     }
 
     public function save_ssirih()
     {
-        $allowed_referer = base_url('dist/beranda'); // Adjust to your specific value
+        //$allowed_referer = base_url('dist/beranda'); // Adjust to your specific value
         $config['upload_path'] = FCPATH . 'uploads/beranda/';
         $config['allowed_types'] = 'gif|jpg|png|mp4|mpeg';
         $config['max_size'] = 10000;
@@ -24,7 +26,7 @@ class Kmberanda extends CI_Controller
 
         $this->form_validation->set_rules('sekapur_sirih', 'Sekapur Sirih', 'required');
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == $allowed_referer && $this->form_validation->run()) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $this->form_validation->run()) {
             // Handle picture upload
             $data = array();
             $error = array();
@@ -80,8 +82,71 @@ class Kmberanda extends CI_Controller
         $data = array(
             'is_active' => $this->input->post('switch'),
         );
+        $affected_rows = $this->Page_m->update_ss($id, $data);
+
+        if ($affected_rows > 0) {
+            $response = array(
+                'success' => 'Record updated successfully.',
+            );
+        } else {
+            $response = array(
+                'error' => 'Failed to update record.',
+            );
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
     }
 
+    public function delete_ssirih()
+    {
+        $id = $this->input->post('id');
+        $affected_rows = $this->Page_m->delete_ss($id);
+
+        if ($affected_rows > 0) {
+            $response = array(
+                'success' => 'Data telah berhasil di hapus',
+            );
+        } else {
+            $response = array(
+                'error' => 'Data tidak berhasil di hapus',
+            );
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+
+    public function update_ssir()
+    {
+        $id = $this->input->post('ids');
+        $data = array(
+            'url_video' => $this->input->post('vid'),
+            'url' => $this->input->post('gambar'),
+            'filename' => $this->input->post('fileG'),
+            'video' => $this->input->post('fileV'),
+            'description' => $this->input->post('ssmodal')
+        );
+        $rows = $this->Page_m->update_sir($id,$data);
+        if ($rows > 0) {
+            $this->session->set_flashdata('message', '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <strong>Horeee!</strong> Data berhasil di simpan.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>');
+        } else {
+            //print_r($data);
+            $this->session->set_flashdata('message', '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Waduh!</strong> Data belum berhasil di simpan.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>');
+        }
+        
+        redirect('dist/beranda','refresh');
+    }
 }
 
 /* End of file Kmberanda.php */
