@@ -67,8 +67,48 @@ class Kmberanda extends CI_Controller
                 );
                 $this->Page_m->save_ss($s_sirih);
                 redirect('dist/beranda', 'refresh');
+            } elseif (empty($data['picture_data'])) {
+                $s_sirih = array(
+                    'filename' => $this->input->post('imG_url'),
+                    'url' => $this->input->post('img_url'),
+                    'display_location' => 'beranda',
+                    'created_at' => date('Y-m-d'),
+                    'description' => $this->input->post('sekapur_sirih'),
+                    'is_active' => 0,
+                    'url_video' => base_url() . 'uploads/beranda/' . $data['video_data']['file_name'],
+                    'video' => $data['video_data']['file_name'],
+                    'display_section' => 'sekapur sirih',
+                );
+                $this->Page_m->save_ss($s_sirih);
+                redirect('dist/beranda', 'refresh');
+            } elseif (empty($data['video_data'])) {
+                $s_sirih = array(
+                    'filename' => $data['picture_data']['file_name'],
+                    'url' => base_url() . 'uploads/beranda/' . $data['picture_data']['file_name'],
+                    'display_location' => 'beranda',
+                    'created_at' => date('Y-m-d'),
+                    'description' => $this->input->post('sekapur_sirih'),
+                    'is_active' => 0,
+                    'url_video' => $this->input->post('vid_url'),
+                    'video' => $this->input->post('fileVideo'),
+                    'display_section' => 'sekapur sirih',
+                );
+                $this->Page_m->save_ss($s_sirih);
+                redirect('dist/beranda', 'refresh');
             } else {
-                echo 'error';
+                $s_sirih = array(
+                    'filename' => $this->input->post('imG_url'),
+                    'url' => $this->input->post('img_url'),
+                    'display_location' => 'beranda',
+                    'created_at' => date('Y-m-d'),
+                    'description' => $this->input->post('sekapur_sirih'),
+                    'is_active' => 0,
+                    'url_video' => $this->input->post('vid_url'),
+                    'video' => $this->input->post('fileVideo'),
+                    'display_section' => 'sekapur sirih',
+                );
+                $this->Page_m->save_ss($s_sirih);
+                redirect('dist/beranda', 'refresh');
             }
             //redirect('dist/beranda','refresh');
         } else {
@@ -120,14 +160,21 @@ class Kmberanda extends CI_Controller
     public function update_ssir()
     {
         $id = $this->input->post('ids');
+        if (!empty($this->input->post('gambar')) && !empty($this->input->post('fileV'))) {
+            $data['url'] = $this->input->post('gambar');
+            $data['url_video'] = $this->input->post('vid');
+            $data['filename'] = $this->input->post('fileG');
+            $data['video'] = $this->input->post('fileV');
+        } else {
+            $data['url'] = $this->input->post('gambarex');
+            $data['url_video'] = $this->input->post('videoex');
+            $data['filename'] = $this->input->post('gambarexname');
+            $data['video'] = $this->input->post('videoexname');
+        }
         $data = array(
-            'url_video' => $this->input->post('vid'),
-            'url' => $this->input->post('gambar'),
-            'filename' => $this->input->post('fileG'),
-            'video' => $this->input->post('fileV'),
-            'description' => $this->input->post('ssmodal')
+            'description' => $this->input->post('ssmodal'),
         );
-        $rows = $this->Page_m->update_sir($id,$data);
+        $rows = $this->Page_m->update_sir($id, $data);
         if ($rows > 0) {
             $this->session->set_flashdata('message', '<div class="alert alert-primary alert-dismissible fade show" role="alert">
             <strong>Horeee!</strong> Data berhasil di simpan.
@@ -144,8 +191,8 @@ class Kmberanda extends CI_Controller
             </button>
           </div>');
         }
-        
-        redirect('dist/beranda','refresh');
+
+        redirect('dist/beranda', 'refresh');
     }
 }
 

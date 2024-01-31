@@ -56,7 +56,9 @@ if ($this->uri->segment(2) == "" || $this->uri->segment(2) == "index") {?>
 <?php
 } elseif ($this->uri->segment(2) == "beranda") {?>
 <script src="<?php echo base_url(); ?>assets/modules/datatables/datatables.min.js"></script>
+<script src="<?=base_url();?>assets/modules/datatables/DataTables-1.13.8/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/modules/datatables/DataTables-1.13.8/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?=base_url();?>assets/modules/datatables/FixedColumns-4.3.0/js/dataTables.fixedColumns.min.js"></script>
 <script src="<?=base_url();?>assets/modules/datatables/Responsive-2.5.0/js/dataTables.responsive.min.js"></script>
 <script src="<?=base_url();?>assets/modules/datatables/Responsive-2.5.0/js/responsive.bootstrap4.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/modules/datatables/Select-1.7.0/js/dataTables.select.min.js"></script>

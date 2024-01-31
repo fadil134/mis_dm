@@ -2,28 +2,27 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <!-- ======= Hero Section ======= -->
-<section id="hero" class="hero d-flex align-items-center">
+<?php foreach ($sekapur_s as $ss) : ?>
+<section id="hero" class="hero d-flex align-items-center" style="background: url('<?= $ss->url ?>') top center; background-size: cover;">
     <div class="container">
         <div class="row">
             <div class="col-xl-4">
-                <h2 data-aos="fade-up">Focus On What Matters</h2>
+                <h2 data-aos="fade-up" style="font-family: 'Amiri Quran', serif;">أَهْلًا وَسَهْلًا</h2>
                 <blockquote data-aos="fade-up" data-aos-delay="100">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis cum recusandae eum
-                        laboriosam
-                        voluptatem repudiandae odio, vel exercitationem officiis provident minima. </p>
+                    <?= $ss->description ?>
                 </blockquote>
+
                 <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
                     <a href="#about" class="btn-get-started">Get Started</a>
-                    <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ"
-                        class="glightbox btn-watch-video d-flex align-items-center"><i
+                    <a href="<?= $ss->url_video ?>" class="glightbox btn-watch-video d-flex align-items-center"><i
                             class="bi bi-play-circle"></i><span>Watch
                             Video</span></a>
                 </div>
-
             </div>
         </div>
     </div>
 </section>
+<?php endforeach; ?>
 <!-- End Hero Section -->
 
 <main id="main">
@@ -115,7 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
      End Why Choose Us Section -->
 
-    <!-- ======= Our Services Section ======= -->
+    <!-- ======= Ekskul Section ======= -->
     <section id="services-list" class="services-list">
         <div class="container" data-aos="fade-up">
 
@@ -225,7 +224,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
     <!-- End Call To Action Section -->
 
-<!--    
+    <!--    
 
     <section id="features" class="features">
         <div class="container" data-aos="fade-up">
@@ -341,16 +340,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             echo $format->format(strtotime($tanggal)); 
                             ?>
                             </span>
-                            <span class="post-author"><?= $berita->Nama_Penulis ?></span>
+                            <span class="post-author">
+                                <?= $berita->Nama_Penulis ?>
+                            </span>
                         </div>
-                        <h3 class="post-title"><?= $berita->Judul_Berita ?></h3>
-                        <p class="d-inline-block text-truncate" style="max-width: 150px;"><?= strip_tags($berita->Isi_Berita); ?></p>
-                        <a href="<?=base_url();?>page/blog_detail/<?=$berita->ID_Berita?>" class="readmore stretched-link"><span>Read More</span><i
-                                class="bi bi-arrow-right"></i></a>
+                        <h3 class="post-title">
+                            <?= $berita->Judul_Berita ?>
+                        </h3>
+                        <p class="d-inline-block text-truncate" style="max-width: 150px;">
+                            <?= strip_tags($berita->Isi_Berita); ?>
+                        </p>
+                        <a href="<?=base_url();?>page/blog_detail/<?=$berita->ID_Berita?>"
+                            class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
                 <?php endforeach; ?>
-            <!--
+                <!--
                 <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="post-box">
                         <div class="post-img"><img src="<?=base_url();?>assets/img/blog/blog-2.jpg" class="img-fluid"

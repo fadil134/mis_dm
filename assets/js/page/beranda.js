@@ -1,6 +1,7 @@
 "use strict";
 
 var table;
+var tableEk;
 function deleteRow(id, rowIndex) {
   iziToast.show({
     theme: "dark",
@@ -61,9 +62,90 @@ function editRow(id) {
     $("#myvid").attr("src", data.data().url_video);
     $("#myimage").attr("src", data.data().url);
     $("#ssmodal").summernote("code", data.data().description);
+    $("videoex").val(data.data().url_video);
+    $("#gambarex").val(data.data().url);
+    $("#videoexname").val(data.data().video);
+    $("#gambarexname").val(data.data().video);
   });
   $("#editss").modal("show");
-  $("#editss").on("show.bs.modal", function () {});
+  $("#ids").val(id);
+  /*
+  $.ajax({
+    type: "post",
+    url: "url",
+    data: "data",
+    dataType: "dataType",
+    success: function (response) {},
+  });
+  */
+}
+
+function deleteRowEk(id, rowIndex) {
+  iziToast.show({
+    theme: "dark",
+    icon: "fa fa-question-circle",
+    title: "Konfirmasi",
+    message: "Anda yakin ingin menghapus data?",
+    position: "center",
+    progressBarColor: "rgb(0, 255, 184)",
+    buttons: [
+      [
+        "<button><b>Ya</b></button>",
+        function (instance, toast) {
+          // Aksi yang diambil jika tombol "Ya" diklik
+          instance.hide({ transitionOut: "fadeOut" }, toast, "button");
+          // Panggil fungsi untuk menghapus data dari database
+          $.ajax({
+            type: "POST",
+            url: "http://localhost/mis_dm/Kmberanda/delete_ssirih",
+            data: { id: id },
+            dataType: "json",
+            success: function (response) {
+              if (response.success) {
+                iziToast.success({
+                  title: "Success",
+                  message: response.success,
+                  position: "topRight",
+                });
+
+                // If successful, remove the row from DataTable
+                table.row(rowIndex).remove().draw(false);
+              } else if (response.error) {
+                iziToast.error({
+                  title: "Error",
+                  message: response.error,
+                  position: "topRight",
+                });
+              }
+            },
+          });
+        },
+      ],
+      [
+        "<button>Tidak</button>",
+        function (instance, toast) {
+          // Aksi yang diambil jika tombol "Tidak" diklik
+          instance.hide({ transitionOut: "fadeOut" }, toast, "button");
+        },
+      ],
+    ],
+  });
+}
+
+function editRowEk(id) {
+  $("#ss tbody").on("click", "button", function () {
+    let row = tableEk.row($(this).parents("tr")).index();
+
+    let data = tableEk.row($(this).parents("tr"));
+    $("#myvid").attr("src", data.data().url_video);
+    $("#myimage").attr("src", data.data().url);
+    $("#ssmodal").summernote("code", data.data().description);
+    $("videoex").val(data.data().url_video);
+    $("#gambarex").val(data.data().url);
+    $("#videoexname").val(data.data().video);
+    $("#gambarexname").val(data.data().video);
+  });
+  $("#editss").modal("show");
   $("#ids").val(id);
   /*
   $.ajax({
@@ -217,6 +299,11 @@ $(document).ready(function () {
   /** Datatable */
 
   table = $("#ss").DataTable({
+    fixedColumns: {
+      left: "1",
+      right: "1",
+    },
+    scrollX: true,
     ajax: {
       url: "http://localhost/mis_dm/Kmberanda",
       type: "GET",
@@ -231,7 +318,10 @@ $(document).ready(function () {
         },
       },
       { data: "id", visible: false },
-      { data: "description" },
+      {
+        data: "description",
+        width: "20%",
+      },
       {
         data: "url",
         render: function (data) {
@@ -274,13 +364,13 @@ $(document).ready(function () {
       },
       {
         data: "id",
-        render: function (data, type, row) {
+        render: function (data, type, row, meta) {
           var rowIndex = table.row($(row).closest("tr")).index();
           return (
             '<button type="button" class="btn btn-sm btn-danger mr-2" onclick="deleteRow(' +
             data +
             ", " +
-            rowIndex +
+            meta.row +
             ')"><i class="fa fa-trash"></i></button>' +
             '<button type="button" class="btn btn-sm btn-primary" onclick="editRow(' +
             data +
@@ -305,6 +395,140 @@ $(document).ready(function () {
     var isChecked = $(this).prop("checked");
     var $parentDiv = $(this).closest(".custom-switch");
     let row = table.row($(this).parents("tr")).index();
+
+    // Toggle the label and set the value based on the checkbox state
+    $parentDiv.find(".switch" + row).text(isChecked ? "Aktif" : "Non-Aktif");
+    $parentDiv.find("#customSwitch" + row).val(isChecked ? 1 : 0);
+
+    let is_activated = $("#customSwitch" + row).val();
+    let id = table.row($(this).parents("tr")).data().id;
+    $.ajax({
+      type: "post",
+      url: "http://localhost/mis_dm/kmberanda/update_ssirih",
+      data: { switch: is_activated, id: id },
+      dataType: "json",
+      success: function (response) {
+        if (response.success) {
+          iziToast.success({
+            title: "Success",
+            message: response.success,
+            position: "topRight",
+          });
+        } else if (response.error) {
+          iziToast.error({
+            title: "Error",
+            message: response.error,
+            position: "topRight",
+          });
+        }
+      },
+      error: function () {
+        iziToast.error({
+          title: "Error",
+          message: "Failed to communicate with the server.",
+          position: "topRight",
+        });
+      },
+    });
+  });
+
+  tableEk = $("#ek").DataTable({
+    fixedColumns: {
+      left: "1",
+      right: "1",
+    },
+    scrollX: true,
+    ajax: {
+      url: "http://localhost/mis_dm/Kmberanda",
+      type: "GET",
+      dataSrc: "", // Kosongkan untuk mengambil seluruh objek sebagai data
+    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          // Mengambil nomor urut baris dan menetapkan sebagai ID
+          return meta.row + 1;
+        },
+      },
+      { data: "id", visible: false },
+      {
+        data: "description",
+        width: "100px",
+      },
+      {
+        data: "url",
+        render: function (data) {
+          return '<img src="' + data + '" class="img-fluid" alt="...">';
+        },
+      },
+      {
+        data: "url_video",
+        render: function (data) {
+          return (
+            '<div class="embed-responsive embed-responsive-21by9">' +
+            '<iframe class="embed-responsive-item" src="' +
+            data +
+            '"></iframe>' +
+            "</div>"
+          );
+        },
+      },
+      {
+        data: "is_active",
+        render: function (data, type, row, meta) {
+          return (
+            '<div class="custom-control custom-switch">' +
+            '<input type="checkbox" name="activation" value="' +
+            data +
+            '" class="custom-control-input" id="customSwitch' +
+            meta.row +
+            '"' +
+            (data == 1 ? "checked" : "") +
+            '> <label class="custom-control-label switch' +
+            meta.row +
+            '" for="customSwitch' +
+            meta.row +
+            '">' +
+            (data == 1 ? "Aktif" : "Non-Aktif") +
+            "</label>" +
+            "</div>"
+          );
+        },
+      },
+      {
+        data: "id",
+        render: function (data, type, row, meta) {
+          var rowIndex = table.row($(row).closest("tr")).index();
+          return (
+            '<button type="button" class="btn btn-sm btn-danger mr-2" onclick="deleteRow(' +
+            data +
+            ", " +
+            meta.row +
+            ')"><i class="fa fa-trash"></i></button>' +
+            '<button type="button" class="btn btn-sm btn-primary" onclick="editRow(' +
+            data +
+            ')"><i class="fas fa-edit"></i></button>'
+          );
+        },
+      },
+    ],
+    createdRow: function (row, data, dataIndex) {
+      // Menetapkan ID pada elemen tr (baris) berdasarkan nomor urut
+      $(row).attr("id", "row_" + (dataIndex + 1));
+    },
+    drawCallback: function (settings) {
+      //update();
+      $('input[name="activation"]').on("change", function () {
+        $('input[name="activation"]').not(this).prop("checked", false);
+      });
+    },
+  });
+
+  $("#ss tbody").on("change", 'input[name="activation"]', function () {
+    var isChecked = $(this).prop("checked");
+    var $parentDiv = $(this).closest(".custom-switch");
+    let row = tableEk.row($(this).parents("tr")).index();
 
     // Toggle the label and set the value based on the checkbox state
     $parentDiv.find(".switch" + row).text(isChecked ? "Aktif" : "Non-Aktif");
@@ -422,4 +646,12 @@ $(document).ready(function () {
   });
 
   /** custom */
+
+  
+  $("#icon").on("change", function () {
+    let val = $("#icon").val();
+    let preview = '<i class="'+ val +'" style="font-size: 2rem; color: cornflowerblue;"></i>';
+    $("#iconS").empty();
+    $("#iconS").append(preview);
+  });
 });

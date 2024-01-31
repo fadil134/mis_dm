@@ -9,6 +9,15 @@ class Page_m extends CI_Model
         return $this->db->get('photos')->result_array();
     }
 
+    public function page_ssirih()
+    {
+        $this->db->select('description, url, filename, url_video, video');
+        $this->db->from('photos');
+        $this->db->where('is_active', 1);
+        $this->db->where('display_section', 'sekapur sirih');
+        return $this->db->get()->result();
+    }
+
     public function save_ss($s_sirih)
     {
         $this->db->insert('photos', $s_sirih);
@@ -42,11 +51,24 @@ class Page_m extends CI_Model
         return $this->db->affected_rows();
     }
 
-    public function update_sir($id,$data)
+    public function update_sir($id, $data)
     {
         $this->db->where('id', $id);
         $this->db->update('photos', $data);
         return $this->db->affected_rows();
+    }
+
+    public function get_bootstrap_icons()
+    {
+        $cssFilePath = APPPATH . 'third_party/vendor/twbs/bootstrap-icons/font/bootstrap-icons.css';
+
+        $cssContent = file_get_contents($cssFilePath);
+
+        preg_match_all('/bi-[a-zA-Z0-9-]+(?=::before)/', $cssContent, $matches);
+
+        $iconClasses = $matches[0];
+
+        return $iconClasses;
     }
 
 }

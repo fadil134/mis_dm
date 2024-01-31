@@ -227,7 +227,9 @@ class Dist extends CI_Controller
     {
         $data = array(
             'title' => 'Manajemen Beranda',
+            'icons' => $this->Page_m->get_bootstrap_icons()
         );
+        //print_r($data['icons']);
         $this->load->view('dist/page-beranda', $data);
     }
 
