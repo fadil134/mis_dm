@@ -159,21 +159,21 @@ class Kmberanda extends CI_Controller
 
     public function update_ssir()
     {
+        $data = array();
         $id = $this->input->post('ids');
         if (!empty($this->input->post('gambar')) && !empty($this->input->post('fileV'))) {
             $data['url'] = $this->input->post('gambar');
             $data['url_video'] = $this->input->post('vid');
             $data['filename'] = $this->input->post('fileG');
-            $data['video'] = $this->input->post('fileV');
+            $data['video'] = $this->input->post('fileVid');
+            $data['description'] = $this->input->post('ssmodal'); 
         } else {
             $data['url'] = $this->input->post('gambarex');
             $data['url_video'] = $this->input->post('videoex');
             $data['filename'] = $this->input->post('gambarexname');
             $data['video'] = $this->input->post('videoexname');
+            $data['description'] = $this->input->post('ssmodal');
         }
-        $data = array(
-            'description' => $this->input->post('ssmodal'),
-        );
         $rows = $this->Page_m->update_sir($id, $data);
         if ($rows > 0) {
             $this->session->set_flashdata('message', '<div class="alert alert-primary alert-dismissible fade show" role="alert">
@@ -183,16 +183,16 @@ class Kmberanda extends CI_Controller
             </button>
           </div>');
         } else {
-            //print_r($data);
-            $this->session->set_flashdata('message', '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Waduh!</strong> Data belum berhasil di simpan.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>');
+            print_r($data);
+            //$this->session->set_flashdata('message', '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            //<strong>Waduh!</strong> Data belum berhasil di simpan.
+            //<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              //<span aria-hidden="true">&times;</span>
+            //</button>
+          //</div>');
         }
 
-        redirect('dist/beranda', 'refresh');
+        //redirect('dist/beranda', 'refresh');
     }
 
     public function ekskul()

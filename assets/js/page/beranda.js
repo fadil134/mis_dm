@@ -2,6 +2,99 @@
 
 var table;
 var tableEk;
+var inp;
+var tipefile;
+var file;
+
+function cekvidurl(fileurl) {
+  $.ajax({
+    type: "HEAD",
+    url: fileurl,
+    success: function () {
+      if (inp.includes("main") && tipefile === "video" && $("#vid_main_url").val() !== "") {
+        $("#vid_main_preview").empty();
+        let preview = `<video controls class="img-fluid" id="videoPreview"><source src="${fileurl}" type="video/mp4">Your browser does not support the video tag.</video>`;
+        $("#video_main").val(file).prop("disabled",false);
+        $("#vid_main_preview").append(preview);
+      } else {
+        $("#vid_main_preview").empty();
+        let preview = `<p class="text-danger">Jenis file harus berupa video!</p>`;
+        $("#video_main").val("").prop("disabled",true);
+        $("#vid_main_preview").append(preview);
+      }
+      if (inp.includes("modal") && tipefile === "video" && $("#video_modal").val() !== "") {
+        $("#vid_modal_preview").empty();
+        let preview = `<video controls class="img-fluid" id="videoPreview"><source src="${fileurl}" type="video/mp4">Your browser does not support the video tag.</video>`;
+        $("#vid_modal").val(file).prop("disabled",false);
+        $("#vid_modal_preview").append(preview);
+      } else {
+        $("#vid_modal_preview").empty();
+        let preview = `<p class="text-danger">Jenis file harus berupa video!</p>`;
+        $("#vid_modal").val("").prop("disabled",true);
+        $("#vid_modal_preview").append(preview);
+      }
+    },
+    error: function () {
+      if (inp.includes("main") && tipefile === "video" && $("#vid_main_url").val() !== "") {
+        $("#vid_main_preview").empty();
+        let preview = `<p class="text-danger">URL file tidak valid, tidak ada data yang berkaitan dengan url ini!!</p>`;
+        console.log(preview);
+        $("#video_main").val("").prop("disabled",true);
+        $("#vid_main_preview").append(preview);
+      } else if (inp.includes("modal") && tipefile === "video" && $("#video_modal").val() !== "") {
+        $("#vid_modal_preview").empty();
+        let preview = `<p class="text-danger">URL file tidak valid, tidak ada data yang berkaitan dengan url ini!!</p>`;
+        $("#vid_modal").val("").prop("disabled",true);
+        $("#vid_modal_preview").append(preview);
+      }
+    },
+  });
+}
+
+function cekimgurl(fileurl) {
+  $.ajax({
+    type: "HEAD",
+    url: fileurl,
+    success: function () {
+      if (inp.includes("main") && tipefile === "image" && $("#img_main").val() !== "") {
+        $("#img_main_preview").empty();
+        let preview = `<img src="${fileurl}" class="img-fluid" alt="${file}">`;
+        $("#image_main").val(file).prop("disabled",false);
+        $("#img_main_preview").append(preview);
+      } else {
+        $("#img_main_preview").empty();
+        let preview = `<p class="text-danger">Jenis file harus berupa gambar!</p>`;
+        $("#image_main").val("").prop("disabled",true);
+        $("#img_main_preview").append(preview);
+      }
+      if (inp.includes("modal") && tipefile === "image" && $("#image_modal").val() !== "") {
+        $("#img_modal_preview").empty();
+        let preview = `<img src="${fileurl}" class="img-fluid" alt="${file}">`;
+        $("#img_modal").val(file).prop("disabled",false);
+        $("#img_modal_preview").append(preview);
+      } else {
+        $("#img_modal_preview").empty();
+        let preview = `<p class="text-danger">Jenis file harus berupa gambar!</p>`;
+        $("#img_modal").val("").prop("disabled",true);
+        $("#img_modal_preview").append(preview);
+      }
+    },
+    error: function () {
+      if (inp.includes("main") && tipefile === "image" && $("#img_main").val() !== "") {
+        $("#img_main_preview").empty();
+        let preview = `<p class="text-danger">URL file tidak valid, tidak ada data yang berkaitan dengan url ini!!</p>`;
+        $("#image_main").val("").prop("disabled",true);
+        $("#img_main_preview").append(preview);
+      } else if (inp.includes("modal") && tipefile === "image" && $("#image_modal").val() !== "") {
+        $("#img_modal_preview").empty();
+        let preview = `<p class="text-danger">URL file tidak valid, tidak ada data yang berkaitan dengan url ini!!</p>`;
+        $("#img_modal").val("").prop("disabled",true);
+        $("#img_modal_preview").append(preview);
+      }
+    },
+  });
+}
+
 function deleteRow(id, rowIndex) {
   iziToast.show({
     theme: "dark",
@@ -62,13 +155,17 @@ function editRow(id) {
     $("#myvid").attr("src", data.data().url_video);
     $("#myimage").attr("src", data.data().url);
     $("#ssmodal").summernote("code", data.data().description);
-    $("videoex").val(data.data().url_video);
-    $("#gambarex").val(data.data().url);
-    $("#videoexname").val(data.data().video);
-    $("#gambarexname").val(data.data().video);
+    $("#vid_x_m").val(data.data().url_video);
+    $("#img_x_m").val(data.data().url);
+    $("#vid_x_m_n").val(data.data().video);
+    $("#img_x_m_n").val(data.data().filename);
   });
+  $("#img_modal_preview").empty();
+  $("#img_modal").val("").prop("disabled",false);
+  $("#vid_modal_preview").empty();
+  $("#vid_modal").val("").prop("disabled",false);
   $("#editss").modal("show");
-  $("#ids").val(id);
+  $("#idss").val(id);
   /*
   $.ajax({
     type: "post",
@@ -159,120 +256,25 @@ function editRowEk(id) {
   */
 }
 
-function prev() {
-  var fileUrl = $("#vid").val();
-  var file = $("#vid_url").val();
+function previewVid(input) {
+  inp = input.id;
+  let fileurl = $("#" + inp).val();
+  let split = fileurl.split("/");
+  file = split[split.length - 1];
+  tipefile = getFileType(file);
+  cekvidurl(fileurl);
 
-  if (fileUrl === "") {
-    var parts = file.split("/");
-    var filenvideo = parts[parts.length - 1];
-    var fileType = getFileType(file);
-    $("#filevideo").empty();
-
-    var previewElement;
-
-    if (fileType === "video") {
-      previewElement = $("<video controls class='w-100'>").attr("src", file);
-    } else {
-      previewElement = $("<p class='text-danger'>").text(
-        "Unsupported file type"
-      );
-    }
-
-    $("#filevideo").append(previewElement);
-  } else {
-    var parts = fileUrl.split("/");
-    var filenvideo = parts[parts.length - 1];
-    var fileType = getFileType(fileUrl);
-    $("#filePrev").empty();
-
-    var previewElement;
-
-    if (fileType === "video") {
-      previewElement = $("<video controls class='w-100'>").attr("src", fileUrl);
-    } else {
-      previewElement = $("<p class='text-danger'>").text(
-        "Unsupported file type"
-      );
-    }
-
-    $("#filePrev").append(previewElement);
-  }
-
-  $("#fileV").val(filenvideo);
-  $("#fileV").on("change", function () {
-    let inputValue = $(this).val();
-    let extension = filenvideo.split(".").pop();
-
-    if (extension !== "" && !inputValue.endsWith(extension)) {
-      $(this).val(inputValue + "." + extension);
-    }
-  });
-
-  if ($("#vid_url").val() === "") {
-    $("#ss_vd").prop("disabled", false);
-  } else {
-    $("#ss_vd").prop("disabled", true);
-  }
+  $("#ss_vd").prop("disabled", $("#vid_main_url").val() !== "");
 }
 
-function previewFile() {
-  var fileUrl = $("#gambar").val();
-  var file = $("#img_url").val();
-
-  if (fileUrl === "") {
-    $("#fileimG").empty();
-
-    var parts = file.split("/");
-    var filengambar = parts[parts.length - 1];
-
-    var fileType = getFileType(file);
-    var previewElement;
-
-    if (fileType === "image") {
-      previewElement = $("<img class='img-fluid'>").attr("src", file);
-    } else {
-      previewElement = $("<p class='text-danger'>").text(
-        "Unsupported file type"
-      );
-    }
-
-    $("#fileimG").append(previewElement);
-  } else {
-    $("#filePreview").empty();
-
-    var parts = fileUrl.split("/");
-    var filengambar = parts[parts.length - 1];
-
-    var fileType = getFileType(fileUrl);
-    var previewElement;
-
-    if (fileType === "image") {
-      previewElement = $("<img class='img-fluid'>").attr("src", fileUrl);
-    } else {
-      previewElement = $("<p class='text-danger'>").text(
-        "Unsupported file type"
-      );
-    }
-
-    $("#filePreview").append(previewElement);
-  }
-
-  $("#imG_url").val(filengambar);
-  $("#imG_url").on("change", function () {
-    let inputValue = $(this).val();
-    let extension = filenvideo.split(".").pop();
-
-    if (extension !== "" && !inputValue.endsWith(extension)) {
-      $(this).val(inputValue + "." + extension);
-    }
-  });
-
-  if ($("#imG_url").val() === "") {
-    $("#ss_bg").prop("disabled", false);
-  } else {
-    $("#ss_bg").prop("disabled", true);
-  }
+function previewImg(input) {
+  inp = input.id;
+  let fileurl = $("#" + inp).val();
+  let split = fileurl.split("/");
+  file = split[split.length - 1];
+  tipefile = getFileType(file);
+  cekimgurl(fileurl);
+  $("#ss_bg").prop("disabled", $("#img_main").val() !== "");
 }
 
 function getFileType(url) {
@@ -291,7 +293,7 @@ function getFileType(url) {
 
 $("#editss").on("hidden.bs.modal", function () {
   $("#filePreview, #filePrev").empty();
-  $("#fileV, #fileG, .form-control").val("");
+  $("#vidmss, #imgmss, #gambar, #vid").val("");
 });
 
 $(document).ready(function () {

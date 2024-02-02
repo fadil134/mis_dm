@@ -20,7 +20,7 @@ $this->load->view('dist/_partials/header');
                 <div class="card-header">
                     <h4>Sekapur Sirih</h4>
                 </div>
-                <form action="<?=base_url('kmberanda/save_ssirih');?>" method="post" enctype="multipart/form-data">
+                <form action="<?=base_url('kmberanda/save_ssirih'); ?>" method="post" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
@@ -29,28 +29,28 @@ $this->load->view('dist/_partials/header');
                                     <textarea class="form-control" name="sekapur_sirih" id="summernote"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vid_url">URL Video</label>
-                                    <input type="text" name="vid_url" id="vid_url" class="form-control" placeholder=""
-                                        aria-describedby="helpId" onchange="prev()">
+                                    <label for="vid_main">URL Video</label>
+                                    <input type="text" name="vid_url" id="vid_main_url" class="form-control" placeholder=""
+                                        aria-describedby="helpId" onchange="previewVid(this)">
                                     <small id="helpId" class="text-muted">Paste Video URL ke
                                         sini</small>
-                                    <div id="filevideo"></div>
+                                    <div id="vid_main_preview"></div>
                                 </div>
                                 <div class="form-group">
                                     <label for="fileVideo">File Name Video</label>
-                                    <input type="text" name="fileVideo" id="fileV" class="form-control">
+                                    <input type="text" name="fileVideo" id="video_main" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label for="img_url">URL Gambar</label>
-                                    <input type="text" name="img_url" id="img_url" class="form-control" placeholder=""
-                                        aria-describedby="helpId" onchange="previewFile()">
+                                    <label for="img_main">URL Gambar</label>
+                                    <input type="text" name="img_url" id="img_main" class="form-control" placeholder=""
+                                        aria-describedby="helpId" onchange="previewImg(this)">
                                     <small id="helpId" class="text-muted">Paste Gambar URL ke
                                         sini</small>
-                                    <div id="fileimG"></div>
+                                    <div id="img_main_preview"></div>
                                 </div>
                                 <div class="form-group">
                                     <label for="imG_url">File Name Gambar</label>
-                                    <input type="text" name="imG_url" id="imG_url" class="form-control">
+                                    <input type="text" name="imG_url" id="image_main" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label for="ss_vd">Sekapur Sirih Video</label>
@@ -70,8 +70,8 @@ $this->load->view('dist/_partials/header');
                             </div>
                             <div class="col-lg-6">
                                 <?php
-echo $this->session->flashdata('message');
-?>
+                                    echo $this->session->flashdata('message');
+                                ?>
                                 <table class="table table-striped table-bordered nowrap mx-auto" id="ss"
                                     style="width:100%">
                                     <thead>
@@ -100,20 +100,21 @@ echo $this->session->flashdata('message');
                 <div class="card-header">
                     <h4>Ekstra Kurikuler</h4>
                 </div>
-                <form action="<?=base_url('kmberanda/s_eks');?>" method="post" enctype="multipart/form-data">
+                <form action="<?=base_url('kmberanda/s_eks'); ?>" method="post" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
                                 <?php
-if ($this->session->flashdata('pesan')) {
-    echo $this->session->flashdata('pesan');
-} else if ($this->session->flashdata('validasi_error')) { ?>
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <?php echo $this->session->flashdata('validasi_error'); ?>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
+                                if ($this->session->flashdata('pesan')) {
+                                    echo $this->session->flashdata('pesan');
+                                } else if ($this->session->flashdata('validasi_error')) {
+                                ?>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <?php echo $this->session->flashdata('validasi_error'); ?>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
                                 <?php } ?>
                                 <div class="row">
                                     <div class="col-lg-5">
@@ -135,25 +136,24 @@ if ($this->session->flashdata('pesan')) {
                                                 <option value="fas fa-drum">drum band</option>
                                                 <option value="fas fa-drum-steelpan">rebana</option>
                                                 <?php foreach ($icons as $icon): ?>
-                                                <option value="<?=$icon->icon_class?>">
+                                                <option value="<?=$icon->icon_class ?>">
                                                     <?php
-$string = $icon->icon_class;
+                                                        $string = $icon->icon_class;
 
-// Memisahkan string berdasarkan tanda strip ("-")
-$parts = explode('-', $string);
+                                                        // Memisahkan string berdasarkan tanda strip ("-")
+                                                        $parts = explode('-', $string);
 
-// Menghapus elemen pertama dari array (bi)
-array_shift($parts);
+                                                        // Menghapus elemen pertama dari array (bi)
+                                                        array_shift($parts);
 
-// Menggabungkan sisa elemen menggunakan implode
-$badge = implode('-', $parts);
+                                                        // Menggabungkan sisa elemen menggunakan implode
+                                                        $badge = implode('-', $parts);
 
-// Cetak hasilnya
-echo $badge;
-?>
-
+                                                        // Cetak hasilnya
+                                                        echo $badge;
+                                                    ?>
                                                 </option>
-                                                <?php endforeach;?>
+                                                <?php endforeach; ?>
                                             </select>
                                             <small id="helpId" class="text-muted">Icon Ekskul</small>
                                         </div>
@@ -211,15 +211,36 @@ echo $badge;
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?=base_url('Kmberanda/update_ssir')?>" method="post">
+            <form action="<?=base_url('Kmberanda/update_ssir') ?>" method="post">
                 <div class="modal-body">
-                    <input name="ids" id="ids" type="hidden">
-                    <input name="fileV" id="fileV" type="hidden">
-                    <input name="fileG" id="fileG" type="hidden">
-                    <input name="videoex" id="videoex" type="hidden">
-                    <input name="gambarex" id="gambarex" type="hidden">
-                    <input name="videoexname" id="videoexname" type="hidden">
-                    <input name="gambarexname" id="gambarexname" type="hidden">
+                    <div class="form-group">
+                        <label for="ids">ID</label>
+                        <input name="ids" id="idss" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="vidmss">Video Modal</label>
+                        <input name="vidmss" id="vid_modal" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="imgmss">Image Modal</label>
+                        <input name="imgmss" id="img_modal" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="vid_x_m">Video Existing</label>
+                        <input name="vid_x_m" id="vid_x_m" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="img_x_m">Image Existing</label>
+                        <input name="img_x_m" id="img_x_m"class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="vid_x_m_n">Video Existing Name</label>
+                        <input name="vid_x_m_n" id="vid_x_m_n" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="img_x_m_n">Image Existing Name</label>
+                        <input name="img_x_m_n" id="img_x_m_n" class="form-control">
+                    </div>
                     <div class="form-group">
                         <label for="myvid">Existing Video</label>
                         <div class="embed-responsive embed-responsive-16by9">
@@ -236,19 +257,19 @@ echo $badge;
                     </div>
                     <div class="form-group">
                         <label for="gambar">Replace Gambar</label>
-                        <input type="text" class="form-control" name="gambar" id="gambar" aria-describedby="helpId"
-                            placeholder="" onchange="previewFile()">
+                        <input type="text" class="form-control" name="gambar" id="image_modal" aria-describedby="helpId"
+                            placeholder="" onchange="previewImg(this)">
                         <small id="helpId" class="form-text text-muted">Isi URL gambar untuk mengganti gambar
                             existing</small>
-                        <div id="filePreview"></div>
+                        <div id="img_modal_preview"></div>
                     </div>
                     <div class="form-group">
                         <label for="vid">Replace Video</label>
-                        <input type="text" class="form-control" name="vid" id="vid" aria-describedby="helpId"
-                            placeholder="" onchange="prev()">
+                        <input type="text" class="form-control" name="vid" id="video_modal" aria-describedby="helpId"
+                            placeholder="" onchange="previewVid(this)">
                         <small id="helpId" class="form-text text-muted">Isi URL video untuk mengganti video
                             existing</small>
-                        <div id="filePrev"></div>
+                        <div id="vid_modal_preview"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -279,19 +300,17 @@ echo $badge;
                                 <label class="input-group-text" for="inputGroupSelect01"></label>
                             </div>
                             <select class="custom-select" name="eksed" id="eksed" style="width: 80%;">
-                                <?php 
-                                foreach ($icons as $ic): ?>
-                                <option value="<?=$ic->icon_class?>">
+                                <?php foreach ($icons as $ic): ?>
+                                <option value="<?=$ic->icon_class ?>">
                                     <?php
-                                    $string = $ic->icon_class;
-                                    
-                                    $parts = explode('-', $string);
-                                    array_shift($parts);
-                                    $badge = implode('-', $parts);
-                                    echo $badge;
+                                        $string = $ic->icon_class;
+                                        $parts = explode('-', $string);
+                                        array_shift($parts);
+                                        $badge = implode('-', $parts);
+                                        echo $badge;
                                     ?>
                                 </option>
-                                <?php endforeach;?>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -304,4 +323,4 @@ echo $badge;
         </div>
     </div>
 </div>
-<?php $this->load->view('dist/_partials/footer');?>
+<?php $this->load->view('dist/_partials/footer'); ?>
