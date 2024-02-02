@@ -12,7 +12,8 @@ class Page extends CI_Controller
             'title' => 'Home',
             'attention' => $this->Pengumuman_m->pengumuman($date_now),
             'artikel' => $this->Article_m->publish_beranda($limit),
-            'sekapur_s' => $this->Page_m->page_ssirih()
+            'sekapur_s' => $this->Page_m->page_ssirih(),
+            'ekskul' => $this->Page_m->page_eks()
         );
         $this->template->load('page/home', $data);
     }

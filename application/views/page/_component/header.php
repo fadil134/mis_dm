@@ -36,6 +36,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <link href="<?= base_url('assets/vendor/glightbox/css/glightbox.min.css') ?>" rel="stylesheet">
   <link href="<?= base_url('assets/vendor/swiper/swiper-bundle.min.css') ?>" rel="stylesheet">
   <link href="<?= base_url('assets/vendor/remixicon/remixicon.css') ?>" rel="stylesheet">
+  <link rel="stylesheet" href="<?=base_url();?>assets/modules/fontawesome/css/all.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
 
   <!-- Template Main CSS File -->
   <link href="<?= base_url('assets/css/main.css') ?>" rel="stylesheet">

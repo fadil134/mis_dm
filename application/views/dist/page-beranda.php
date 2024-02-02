@@ -100,10 +100,21 @@ echo $this->session->flashdata('message');
                 <div class="card-header">
                     <h4>Ekstra Kurikuler</h4>
                 </div>
-                <form action="<?=base_url('kmberanda/save_ssirih');?>" method="post" enctype="multipart/form-data">
+                <form action="<?=base_url('kmberanda/s_eks');?>" method="post" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
+                                <?php
+if ($this->session->flashdata('pesan')) {
+    echo $this->session->flashdata('pesan');
+} else if ($this->session->flashdata('validasi_error')) { ?>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <?php echo $this->session->flashdata('validasi_error'); ?>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <?php } ?>
                                 <div class="row">
                                     <div class="col-lg-5">
                                         <div class="form-group">
@@ -115,10 +126,18 @@ echo $this->session->flashdata('message');
                                         <div class="form-group">
                                             <label for="icon">Icon</label>
                                             <select class="form-control" name="icon" id="icon">
+                                                <option value="material-symbols-rounded">sports_soccer</option>
+                                                <option value="material-symbols-rounded">sports_kabaddi</option>
+                                                <option value="material-symbols-rounded">sports_martial_arts</option>
+                                                <option value="material-symbols-rounded">sports_tennis</option>
+                                                <option value="material-symbols-rounded">sports_handball</option>
+                                                <option value="material-symbols-rounded">sports_and_outdoors</option>
+                                                <option value="fas fa-drum">drum band</option>
+                                                <option value="fas fa-drum-steelpan">rebana</option>
                                                 <?php foreach ($icons as $icon): ?>
-                                                <option value="<?=$icon?>">
+                                                <option value="<?=$icon->icon_class?>">
                                                     <?php
-$string = $icon;
+$string = $icon->icon_class;
 
 // Memisahkan string berdasarkan tanda strip ("-")
 $parts = explode('-', $string);
@@ -140,14 +159,36 @@ echo $badge;
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group" style="display: none;">
+                                    <label for="iconEk">Selected Icon</label>
+                                    <textarea name="iconEk" id="iconEk" cols="30" rows="10"
+                                        class="form-control"></textarea>
+                                </div>
                                 <div class="form-group">
                                     <label for="title">Title Ekskul</label>
                                     <input type="text" class="form-control" name="title" id="title"
                                         aria-describedby="helpId" placeholder="">
                                     <small id="helpId" class="form-text text-muted">Title Ekskul</small>
                                 </div>
+                                <div class="form-group">
+                                    <label for="deskripsi">Deskripsi Ekskul</label>
+                                    <textarea name="deskripsi" id="deskripsi">
+                                    </textarea>
+                                </div>
                             </div>
                             <div class="col-lg-6">
+                                <table class="table table-bordered table-striped table-responsive text-nowrap" id="ek">
+                                    <thead>
+                                        <th>#</th>
+                                        <th>id</th>
+                                        <th>Deskripsi</th>
+                                        <th>Ikon</th>
+                                        <th>Aktivasi</th>
+                                        <th>Aksi</th>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -213,6 +254,51 @@ echo $badge;
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ekskul -->
+<div class="modal fade" id="editeks" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Data Ekskul</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="eksed">Ikon</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01"></label>
+                            </div>
+                            <select class="custom-select" name="eksed" id="eksed" style="width: 80%;">
+                                <?php 
+                                foreach ($icons as $ic): ?>
+                                <option value="<?=$ic->icon_class?>">
+                                    <?php
+                                    $string = $ic->icon_class;
+                                    
+                                    $parts = explode('-', $string);
+                                    array_shift($parts);
+                                    $badge = implode('-', $parts);
+                                    echo $badge;
+                                    ?>
+                                </option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>

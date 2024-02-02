@@ -194,6 +194,65 @@ class Kmberanda extends CI_Controller
 
         redirect('dist/beranda', 'refresh');
     }
+
+    public function ekskul()
+    {
+        $data = $this->Page_m->eks();
+        echo json_encode($data);
+    }
+
+    public function s_eks()
+    {
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');
+        $rows = array();
+        $data = array();
+        //$icon = htmlspecialchars($this->input->post('iconEk'), ENT_QUOTES, 'UTF-8');
+        if ($this->form_validation->run() === true) {
+            $data = array(
+                'filename' => $this->input->post('iconEk'),
+                'display_location' => 'beranda',
+                'display_section' => 'ekstra_kurikuler',
+                'title' => $this->input->post('title'),
+                'created_at' => date("Y-m-d"),
+                'is_active' => 0,
+                'description' => $this->input->post('deskripsi'),
+            );
+            $rows = $this->Page_m->save_eks($data);
+            if ($rows > 0) {
+                $this->session->set_flashdata('pesan', '<div class="alert alert-primary alert-dismissible fade show" role="alert">Data berhasil di simpan<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                redirect('dist/beranda', 'refresh');
+            } else {
+                $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Data tidak berhasil di simpan<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                redirect('dist/beranda', 'refresh');
+            }
+        } else {
+            $this->session->set_flashdata('validasi_error', validation_errors());
+            redirect('dist/beranda', 'refresh');
+        }
+    }
+
+    public function u_eks()
+    {
+        $id = $this->input->post('id');
+        $data = array(
+            'is_active' => $this->input->post('suit'),
+        );
+        $affected_rows = $this->Page_m->update_ss($id, $data);
+
+        if ($affected_rows > 0) {
+            $response = array(
+                'success' => 'Record updated successfully.',
+            );
+        } else {
+            $response = array(
+                'error' => 'Failed to update record.',
+            );
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
 }
 
 /* End of file Kmberanda.php */

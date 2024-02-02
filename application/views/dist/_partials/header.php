@@ -51,6 +51,7 @@ if ($this->uri->segment(2) == "index_0") {?>
   <?php
 } elseif ($this->uri->segment(2) == "beranda") {?>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="<?=base_url();?>assets/modules/datatables/datatables.min.css">
   <link rel="stylesheet" href="<?=base_url();?>assets/modules/datatables/DataTables-1.13.8/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="<?=base_url();?>assets/modules/datatables/FixedColumns-4.3.0/css/fixedColumns.bootstrap4.min.css">

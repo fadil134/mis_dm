@@ -133,19 +133,20 @@ function deleteRowEk(id, rowIndex) {
 }
 
 function editRowEk(id) {
-  $("#ss tbody").on("click", "button", function () {
+  $("#ek tbody").on("click", "button", function () {
     let row = tableEk.row($(this).parents("tr")).index();
 
-    let data = tableEk.row($(this).parents("tr"));
-    $("#myvid").attr("src", data.data().url_video);
-    $("#myimage").attr("src", data.data().url);
-    $("#ssmodal").summernote("code", data.data().description);
-    $("videoex").val(data.data().url_video);
-    $("#gambarex").val(data.data().url);
-    $("#videoexname").val(data.data().video);
-    $("#gambarexname").val(data.data().video);
+    let dat = tableEk.row($(this).parents("tr")).data();
+    console.log(dat.filename);
+    $("#editeks").on("hidden.bs.modal", function () {
+      $("#eksed").val(null).trigger("change");
+    });
+    let option = new Option(dat.filename, dat.filename, true, true);
+    $("#eksed").append(option).trigger("change");
+    $(".input-group-text").empty().append(dat.filename);
   });
-  $("#editss").modal("show");
+
+  $("#editeks").modal("show");
   $("#ids").val(id);
   /*
   $.ajax({
@@ -203,7 +204,6 @@ function prev() {
     let inputValue = $(this).val();
     let extension = filenvideo.split(".").pop();
 
-    // Jika ekstensi tidak kosong dan input tidak diakhiri dengan ekstensi, tambahkan ekstensi
     if (extension !== "" && !inputValue.endsWith(extension)) {
       $(this).val(inputValue + "." + extension);
     }
@@ -263,7 +263,6 @@ function previewFile() {
     let inputValue = $(this).val();
     let extension = filenvideo.split(".").pop();
 
-    // Jika ekstensi tidak kosong dan input tidak diakhiri dengan ekstensi, tambahkan ekstensi
     if (extension !== "" && !inputValue.endsWith(extension)) {
       $(this).val(inputValue + "." + extension);
     }
@@ -439,15 +438,14 @@ $(document).ready(function () {
     },
     scrollX: true,
     ajax: {
-      url: "http://localhost/mis_dm/Kmberanda",
+      url: "http://localhost/mis_dm/Kmberanda/ekskul",
       type: "GET",
-      dataSrc: "", // Kosongkan untuk mengambil seluruh objek sebagai data
+      dataSrc: "",
     },
     columns: [
       {
         data: null,
         render: function (data, type, row, meta) {
-          // Mengambil nomor urut baris dan menetapkan sebagai ID
           return meta.row + 1;
         },
       },
@@ -457,37 +455,23 @@ $(document).ready(function () {
         width: "100px",
       },
       {
-        data: "url",
-        render: function (data) {
-          return '<img src="' + data + '" class="img-fluid" alt="...">';
-        },
-      },
-      {
-        data: "url_video",
-        render: function (data) {
-          return (
-            '<div class="embed-responsive embed-responsive-21by9">' +
-            '<iframe class="embed-responsive-item" src="' +
-            data +
-            '"></iframe>' +
-            "</div>"
-          );
-        },
+        data: "filename",
+        width: "100px",
       },
       {
         data: "is_active",
         render: function (data, type, row, meta) {
           return (
             '<div class="custom-control custom-switch">' +
-            '<input type="checkbox" name="activation" value="' +
+            '<input type="checkbox" name="aktivasi" value="' +
             data +
-            '" class="custom-control-input" id="customSwitch' +
+            '" class="custom-control-input" id="customSw' +
             meta.row +
             '"' +
             (data == 1 ? "checked" : "") +
             '> <label class="custom-control-label switch' +
             meta.row +
-            '" for="customSwitch' +
+            '" for="customSw' +
             meta.row +
             '">' +
             (data == 1 ? "Aktif" : "Non-Aktif") +
@@ -501,12 +485,12 @@ $(document).ready(function () {
         render: function (data, type, row, meta) {
           var rowIndex = table.row($(row).closest("tr")).index();
           return (
-            '<button type="button" class="btn btn-sm btn-danger mr-2" onclick="deleteRow(' +
+            '<button type="button" class="btn btn-sm btn-danger mr-2" onclick="deleteRowEk(' +
             data +
             ", " +
             meta.row +
             ')"><i class="fa fa-trash"></i></button>' +
-            '<button type="button" class="btn btn-sm btn-primary" onclick="editRow(' +
+            '<button type="button" class="btn btn-sm btn-primary" onclick="editRowEk(' +
             data +
             ')"><i class="fas fa-edit"></i></button>'
           );
@@ -517,29 +501,33 @@ $(document).ready(function () {
       // Menetapkan ID pada elemen tr (baris) berdasarkan nomor urut
       $(row).attr("id", "row_" + (dataIndex + 1));
     },
+    /*
     drawCallback: function (settings) {
       //update();
       $('input[name="activation"]').on("change", function () {
         $('input[name="activation"]').not(this).prop("checked", false);
       });
     },
+    */
   });
 
-  $("#ss tbody").on("change", 'input[name="activation"]', function () {
+  $("#ek tbody").on("change", 'input[name="aktivasi"]', function () {
     var isChecked = $(this).prop("checked");
     var $parentDiv = $(this).closest(".custom-switch");
     let row = tableEk.row($(this).parents("tr")).index();
 
     // Toggle the label and set the value based on the checkbox state
     $parentDiv.find(".switch" + row).text(isChecked ? "Aktif" : "Non-Aktif");
-    $parentDiv.find("#customSwitch" + row).val(isChecked ? 1 : 0);
+    $parentDiv.find("#customSw" + row).val(isChecked ? 1 : 0);
 
-    let is_activated = $("#customSwitch" + row).val();
-    let id = table.row($(this).parents("tr")).data().id;
+    let is_activated = $("#customSw" + row).val();
+    let id = tableEk.row($(this).parents("tr")).data().id;
+    console.log(id);
+    console.log(tableEk.row($(this).parents("tr")).data());
     $.ajax({
       type: "post",
-      url: "http://localhost/mis_dm/kmberanda/update_ssirih",
-      data: { switch: is_activated, id: id },
+      url: "http://localhost/mis_dm/kmberanda/u_eks",
+      data: { suit: is_activated, id: id },
       dataType: "json",
       success: function (response) {
         if (response.success) {
@@ -568,7 +556,7 @@ $(document).ready(function () {
 
   /** summernote */
 
-  $("#summernote,#ssmodal").summernote({
+  $("#summernote,#ssmodal,#deskripsi").summernote({
     width: "100%",
     height: "100",
     minHeight: null,
@@ -646,12 +634,25 @@ $(document).ready(function () {
   });
 
   /** custom */
-
-  
+  let vaL;
+  let texT;
   $("#icon").on("change", function () {
-    let val = $("#icon").val();
-    let preview = '<i class="'+ val +'" style="font-size: 2rem; color: cornflowerblue;"></i>';
+    vaL = $(this).find(":selected").val();
+    texT = $(this).find(":selected").text();
+    let preview;
+    if (vaL == "material-symbols-rounded") {
+      preview = `<i class="${vaL}" style="font-size: 2rem; color: cornflowerblue;">${texT}</i>`;
+    } else {
+      preview = `<i class="${vaL}" style="font-size: 2rem; color: cornflowerblue;"></i>`;
+    }
+
     $("#iconS").empty();
     $("#iconS").append(preview);
+
+    $("#iconEk").empty();
+
+    $("#iconEk").text(preview).val(preview);
   });
+
+  $("#icon, #eksed").select2();
 });

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 $this->load->view('dist/_partials/header');
 ?>
 <!-- Main Content -->
@@ -18,7 +18,8 @@ $this->load->view('dist/_partials/header');
         <div class="card-header-action">
         </div>
         <div class="card-body">
-          <form id="pengumumanForm" class="form-group">
+          <form method="post" id="pengumumanForm" class="form-group" action="<?=base_url();?>master/s_pengumuman"
+            enctype="multipart/form-data">
             <div class="form-row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -29,7 +30,7 @@ $this->load->view('dist/_partials/header');
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="kategoriPengumuman">Kategori Pengumuman:</label>
-                  <select multiple class="form-control custom-select" id="kategoriPengumuman" name="kategoriPengumuman[]" required>
+                  <select class="form-control custom-select" id="kategoriPengumuman" name="kategoriPengumuman" required>
                     <!-- Opsi akan ditambahkan secara dinamis oleh Select2 -->
                   </select>
                 </div>
@@ -81,14 +82,46 @@ $this->load->view('dist/_partials/header');
 
             <div class="form-group">
               <label for="lampiranPengumuman">Lampiran Pengumuman:</label>
-              <input type="file" class="form-control-file" id="lampiranPengumuman" name="lampiranPengumuman">
+              <div class="form-row">
+                <div class="col">
+                  <input type="file" class="form-control-file" id="lampiranPengumuman" name="lampiranPengumuman">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" id="lampiranPengumuman" name="lampiranPengumuman">
+                </div>
+              </div>
             </div>
-            
             <button type="submit" class="btn btn-primary">Tambah Pengumuman</button>
           </form>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h4>Table Pengumuman</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table" id="peng">
+              <thead class="">
+                <tr>
+                  <th class="align-middle">Judul</th>
+                  <th class="align-middle">Kategori</th>
+                  <th class="align-middle">Mulai</th>
+                  <th class="align-middle">Berakhir</th>
+                  <th class="align-middle">Pengumuman</th>
+                  <th class="align-middle">Status</th>
+                  <th class="nowrap align-middle">Tampil di Beranda</th>
+                  <th class="nowrap align-middle">Tampil di Halaman Pengumuman</th>
+                  <th class="align-middle">Lampiran</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </section>
 </div>
-<?php $this->load->view('dist/_partials/footer'); ?>
+<?php $this->load->view('dist/_partials/footer');?>
