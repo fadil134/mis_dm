@@ -80,6 +80,14 @@ class Page_m extends CI_Model
         return $this->db->affected_rows();
     }
 
+    public function update_eks_modal($id, $data)
+    {
+        $this->db->where('id', $id);
+        $this->db->update('photos', $data);
+        
+        return $this->db->affected_rows();
+    }
+
     public function page_eks()
     {
         $this->db->where('is_active', 1);

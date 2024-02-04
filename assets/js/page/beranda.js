@@ -11,40 +11,56 @@ function cekvidurl(fileurl) {
     type: "HEAD",
     url: fileurl,
     success: function () {
-      if (inp.includes("main") && tipefile === "video" && $("#vid_main_url").val() !== "") {
+      if (
+        inp.includes("main") &&
+        tipefile === "video" &&
+        $("#vid_main_url").val() !== ""
+      ) {
         $("#vid_main_preview").empty();
         let preview = `<video controls class="img-fluid" id="videoPreview"><source src="${fileurl}" type="video/mp4">Your browser does not support the video tag.</video>`;
-        $("#video_main").val(file).prop("disabled",false);
+        $("#video_main").val(file).prop("disabled", false);
         $("#vid_main_preview").append(preview);
       } else {
         $("#vid_main_preview").empty();
         let preview = `<p class="text-danger">Jenis file harus berupa video!</p>`;
-        $("#video_main").val("").prop("disabled",true);
+        $("#video_main").val("").prop("disabled", true);
         $("#vid_main_preview").append(preview);
       }
-      if (inp.includes("modal") && tipefile === "video" && $("#video_modal").val() !== "") {
+      if (
+        inp.includes("modal") &&
+        tipefile === "video" &&
+        $("#video_modal").val() !== ""
+      ) {
         $("#vid_modal_preview").empty();
         let preview = `<video controls class="img-fluid" id="videoPreview"><source src="${fileurl}" type="video/mp4">Your browser does not support the video tag.</video>`;
-        $("#vid_modal").val(file).prop("disabled",false);
+        $("#vid_modal").val(file).prop("disabled", false);
         $("#vid_modal_preview").append(preview);
       } else {
         $("#vid_modal_preview").empty();
         let preview = `<p class="text-danger">Jenis file harus berupa video!</p>`;
-        $("#vid_modal").val("").prop("disabled",true);
+        $("#vid_modal").val("").prop("disabled", true);
         $("#vid_modal_preview").append(preview);
       }
     },
     error: function () {
-      if (inp.includes("main") && tipefile === "video" && $("#vid_main_url").val() !== "") {
+      if (
+        inp.includes("main") &&
+        tipefile === "video" &&
+        $("#vid_main_url").val() !== ""
+      ) {
         $("#vid_main_preview").empty();
         let preview = `<p class="text-danger">URL file tidak valid, tidak ada data yang berkaitan dengan url ini!!</p>`;
         console.log(preview);
-        $("#video_main").val("").prop("disabled",true);
+        $("#video_main").val("").prop("disabled", true);
         $("#vid_main_preview").append(preview);
-      } else if (inp.includes("modal") && tipefile === "video" && $("#video_modal").val() !== "") {
+      } else if (
+        inp.includes("modal") &&
+        tipefile === "video" &&
+        $("#video_modal").val() !== ""
+      ) {
         $("#vid_modal_preview").empty();
         let preview = `<p class="text-danger">URL file tidak valid, tidak ada data yang berkaitan dengan url ini!!</p>`;
-        $("#vid_modal").val("").prop("disabled",true);
+        $("#vid_modal").val("").prop("disabled", true);
         $("#vid_modal_preview").append(preview);
       }
     },
@@ -56,39 +72,55 @@ function cekimgurl(fileurl) {
     type: "HEAD",
     url: fileurl,
     success: function () {
-      if (inp.includes("main") && tipefile === "image" && $("#img_main").val() !== "") {
+      if (
+        inp.includes("main") &&
+        tipefile === "image" &&
+        $("#img_main").val() !== ""
+      ) {
         $("#img_main_preview").empty();
         let preview = `<img src="${fileurl}" class="img-fluid" alt="${file}">`;
-        $("#image_main").val(file).prop("disabled",false);
+        $("#image_main").val(file).prop("disabled", false);
         $("#img_main_preview").append(preview);
       } else {
         $("#img_main_preview").empty();
         let preview = `<p class="text-danger">Jenis file harus berupa gambar!</p>`;
-        $("#image_main").val("").prop("disabled",true);
+        $("#image_main").val("").prop("disabled", true);
         $("#img_main_preview").append(preview);
       }
-      if (inp.includes("modal") && tipefile === "image" && $("#image_modal").val() !== "") {
+      if (
+        inp.includes("modal") &&
+        tipefile === "image" &&
+        $("#image_modal").val() !== ""
+      ) {
         $("#img_modal_preview").empty();
         let preview = `<img src="${fileurl}" class="img-fluid" alt="${file}">`;
-        $("#img_modal").val(file).prop("disabled",false);
+        $("#img_modal").val(file).prop("disabled", false);
         $("#img_modal_preview").append(preview);
       } else {
         $("#img_modal_preview").empty();
         let preview = `<p class="text-danger">Jenis file harus berupa gambar!</p>`;
-        $("#img_modal").val("").prop("disabled",true);
+        $("#img_modal").val("").prop("disabled", true);
         $("#img_modal_preview").append(preview);
       }
     },
     error: function () {
-      if (inp.includes("main") && tipefile === "image" && $("#img_main").val() !== "") {
+      if (
+        inp.includes("main") &&
+        tipefile === "image" &&
+        $("#img_main").val() !== ""
+      ) {
         $("#img_main_preview").empty();
         let preview = `<p class="text-danger">URL file tidak valid, tidak ada data yang berkaitan dengan url ini!!</p>`;
-        $("#image_main").val("").prop("disabled",true);
+        $("#image_main").val("").prop("disabled", true);
         $("#img_main_preview").append(preview);
-      } else if (inp.includes("modal") && tipefile === "image" && $("#image_modal").val() !== "") {
+      } else if (
+        inp.includes("modal") &&
+        tipefile === "image" &&
+        $("#image_modal").val() !== ""
+      ) {
         $("#img_modal_preview").empty();
         let preview = `<p class="text-danger">URL file tidak valid, tidak ada data yang berkaitan dengan url ini!!</p>`;
-        $("#img_modal").val("").prop("disabled",true);
+        $("#img_modal").val("").prop("disabled", true);
         $("#img_modal_preview").append(preview);
       }
     },
@@ -161,9 +193,9 @@ function editRow(id) {
     $("#img_x_m_n").val(data.data().filename);
   });
   $("#img_modal_preview").empty();
-  $("#img_modal").val("").prop("disabled",false);
+  $("#img_modal").val("").prop("disabled", false);
   $("#vid_modal_preview").empty();
-  $("#vid_modal").val("").prop("disabled",false);
+  $("#vid_modal").val("").prop("disabled", false);
   $("#editss").modal("show");
   $("#idss").val(id);
   /*
@@ -227,33 +259,6 @@ function deleteRowEk(id, rowIndex) {
       ],
     ],
   });
-}
-
-function editRowEk(id) {
-  $("#ek tbody").on("click", "button", function () {
-    let row = tableEk.row($(this).parents("tr")).index();
-
-    let dat = tableEk.row($(this).parents("tr")).data();
-    console.log(dat.filename);
-    $("#editeks").on("hidden.bs.modal", function () {
-      $("#eksed").val(null).trigger("change");
-    });
-    let option = new Option(dat.filename, dat.filename, true, true);
-    $("#eksed").append(option).trigger("change");
-    $(".input-group-text").empty().append(dat.filename);
-  });
-
-  $("#editeks").modal("show");
-  $("#ids").val(id);
-  /*
-  $.ajax({
-    type: "post",
-    url: "url",
-    data: "data",
-    dataType: "dataType",
-    success: function (response) {},
-  });
-  */
 }
 
 function previewVid(input) {
@@ -446,21 +451,21 @@ $(document).ready(function () {
     },
     columns: [
       {
+        className: "align-middle dt-head-center",
         data: null,
         render: function (data, type, row, meta) {
           return meta.row + 1;
         },
       },
-      { data: "id", visible: false },
+      { className: "align-middle dt-head-center", data: "id", visible: false },
       {
+        className: "align-middle dt-head-center text-wrap",
         data: "description",
         width: "100px",
       },
+      { className: "align-middle dt-head-center", data: "filename", width: "100px" },
       {
-        data: "filename",
-        width: "100px",
-      },
-      {
+        className: "align-middle dt-head-center",
         data: "is_active",
         render: function (data, type, row, meta) {
           return (
@@ -483,34 +488,76 @@ $(document).ready(function () {
         },
       },
       {
+        className: "align-middle dt-head-center",
         data: "id",
         render: function (data, type, row, meta) {
-          var rowIndex = table.row($(row).closest("tr")).index();
-          return (
-            '<button type="button" class="btn btn-sm btn-danger mr-2" onclick="deleteRowEk(' +
-            data +
-            ", " +
-            meta.row +
-            ')"><i class="fa fa-trash"></i></button>' +
-            '<button type="button" class="btn btn-sm btn-primary" onclick="editRowEk(' +
-            data +
-            ')"><i class="fas fa-edit"></i></button>'
-          );
+          return `<div class="btn-group" role="group" aria-label="">
+          <button type="button" class="btn btn btn-danger" onclick="deleteRowEk(${
+            (data, meta.row)
+          })"><i class="fa fa-trash"></i></button>
+          <button type="button" class="btn btn-primary edit_eks"><i class="fa fa-edit"></i></button>
+          </div>`;
         },
       },
     ],
     createdRow: function (row, data, dataIndex) {
-      // Menetapkan ID pada elemen tr (baris) berdasarkan nomor urut
       $(row).attr("id", "row_" + (dataIndex + 1));
     },
-    /*
-    drawCallback: function (settings) {
-      //update();
-      $('input[name="activation"]').on("change", function () {
-        $('input[name="activation"]').not(this).prop("checked", false);
+  });
+
+  $("#icon").css("width", "100%").select2();
+  $("#ek tbody").on("click", ".edit_eks", function () {
+    var data = tableEk.row($(this).parents("tr")).data();
+    var ikon = data.filename;
+    var kelas = $(ikon).attr("class");
+    var kelasarray = kelas.split("-");
+    var newtxt = kelasarray[kelasarray.length - 1];
+    var deskripsi = data.description;
+    var txt = $(ikon).text();
+    var option;
+    var intip;
+
+    $("#id_m_eks").val(data.id);
+    $("#eks_des").summernote("code",deskripsi);
+    $("#title_eks").val(data.title);
+    $("#eksed")
+      .css("width", "100%")
+      .select2({
+        dropdownParent: $("#editeks"),
       });
-    },
-    */
+
+    $("#eksed").on("select2:select", function (e) {
+      var data = e.params.data;
+      console.log(data);
+      var iconclass = data.id;
+      var icontext = data.text;
+      if (iconclass == "material-symbols-rounded") {
+        intip = `<i class="${iconclass}" style="font-size: 3rem; color: cornflowerblue;">${icontext}</i>`;
+        $("#ikonpreview").empty();
+        $("#ikonpreview").append(intip);
+      } else {
+        intip = `<i class="${iconclass}" style="font-size: 2rem; color: cornflowerblue;"></i>`;
+        $("#ikonpreview").empty();
+        $("#ikonpreview").append(intip);
+        $("#icon_modal").val(intip);
+      }
+    });
+
+    if ($("#eksed").find("option[value='" + kelas + "']").length) {
+      $("#eksed").val(kelas).trigger("change");
+    } else {
+      if (txt == "") {
+        option = new Option(newtxt, kelas, true, true);
+      } else {
+        option = new Option(txt, kelas, true, true);
+      }
+      $("#eksed").val(null).trigger("change");
+      $("#eksed").append(option).trigger("change");
+    }
+    $("#ikonpreview").empty();
+    $("#editeks").modal("show");
+    $("#ikonpreview").append(ikon);
+    $("#icon_modal").val(ikon);
   });
 
   $("#ek tbody").on("change", 'input[name="aktivasi"]', function () {
@@ -636,6 +683,7 @@ $(document).ready(function () {
   });
 
   /** custom */
+
   let vaL;
   let texT;
   $("#icon").on("change", function () {
@@ -655,6 +703,4 @@ $(document).ready(function () {
 
     $("#iconEk").text(preview).val(preview);
   });
-
-  $("#icon, #eksed").select2();
 });

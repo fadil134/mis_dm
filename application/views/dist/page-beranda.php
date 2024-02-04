@@ -16,6 +16,14 @@ $this->load->view('dist/_partials/header');
         <div class="section-body">
             <h2 class="section-title">Beranda</h2>
             <p class="section-lead">Manajemen Konten Halaman Beranda</p>
+            <?php if ($this->session->flashdata('pesan')) { ?>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <strong><?= $this->session->flashdata('pesan'); ?></strong> 
+            </div>
+            <?php } ?>
             <div class="card">
                 <div class="card-header">
                     <h4>Sekapur Sirih</h4>
@@ -30,8 +38,8 @@ $this->load->view('dist/_partials/header');
                                 </div>
                                 <div class="form-group">
                                     <label for="vid_main">URL Video</label>
-                                    <input type="text" name="vid_url" id="vid_main_url" class="form-control" placeholder=""
-                                        aria-describedby="helpId" onchange="previewVid(this)">
+                                    <input type="text" name="vid_url" id="vid_main_url" class="form-control"
+                                        placeholder="" aria-describedby="helpId" onchange="previewVid(this)">
                                     <small id="helpId" class="text-muted">Paste Video URL ke
                                         sini</small>
                                     <div id="vid_main_preview"></div>
@@ -69,9 +77,6 @@ $this->load->view('dist/_partials/header');
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <?php
-                                    echo $this->session->flashdata('message');
-                                ?>
                                 <table class="table table-striped table-bordered nowrap mx-auto" id="ss"
                                     style="width:100%">
                                     <thead>
@@ -104,18 +109,6 @@ $this->load->view('dist/_partials/header');
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
-                                <?php
-                                if ($this->session->flashdata('pesan')) {
-                                    echo $this->session->flashdata('pesan');
-                                } else if ($this->session->flashdata('validasi_error')) {
-                                ?>
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <?php echo $this->session->flashdata('validasi_error'); ?>
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                <?php } ?>
                                 <div class="row">
                                     <div class="col-lg-5">
                                         <div class="form-group">
@@ -135,6 +128,7 @@ $this->load->view('dist/_partials/header');
                                                 <option value="material-symbols-rounded">sports_and_outdoors</option>
                                                 <option value="fas fa-drum">drum band</option>
                                                 <option value="fas fa-drum-steelpan">rebana</option>
+
                                                 <?php foreach ($icons as $icon): ?>
                                                 <option value="<?=$icon->icon_class ?>">
                                                     <?php
@@ -176,8 +170,8 @@ $this->load->view('dist/_partials/header');
                                     </textarea>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <table class="table table-bordered table-striped table-responsive text-nowrap" id="ek">
+                            <div class="col-lg-6 table-responive">
+                                <table class="table table-bordered table-striped text-nowrap" id="ek">
                                     <thead>
                                         <th>#</th>
                                         <th>id</th>
@@ -231,7 +225,7 @@ $this->load->view('dist/_partials/header');
                     </div>
                     <div class="form-group">
                         <label for="img_x_m">Image Existing</label>
-                        <input name="img_x_m" id="img_x_m"class="form-control">
+                        <input name="img_x_m" id="img_x_m" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="vid_x_m_n">Video Existing Name</label>
@@ -291,33 +285,55 @@ $this->load->view('dist/_partials/header');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="" method="post">
+            <form action="<?=base_url('kmberanda/u_eks_modal'); ?>" method="post">
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="eksed">Ikon</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="inputGroupSelect01"></label>
+                    <div class="form-group" style="display: none;">
+                        <label for="id_m_eks">ID</label>
+                        <input type="text" class="form-control" name="id_m_eks" id="id_m_eks">
+                    </div>
+                    <div class="form-group" style="display: none;">
+                      <label for="icon_modal">Ikon</label>
+                      <input type="text" class="form-control" name="icon_modal" id="icon_modal">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="ikonpreview">Preview</label>
+                                <div id="ikonpreview"
+                                    class="d-flex justify-content-center border border-primary rounded"></div>
                             </div>
-                            <select class="custom-select" name="eksed" id="eksed" style="width: 80%;">
-                                <?php foreach ($icons as $ic): ?>
-                                <option value="<?=$ic->icon_class ?>">
-                                    <?php
-                                        $string = $ic->icon_class;
-                                        $parts = explode('-', $string);
-                                        array_shift($parts);
-                                        $badge = implode('-', $parts);
-                                        echo $badge;
-                                    ?>
-                                </option>
-                                <?php endforeach; ?>
-                            </select>
                         </div>
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label for="eksed">Ikon</label>
+                                <select class="form-control" name="eksed" id="eksed">
+                                    <?php foreach ($icons as $ic): ?>
+                                    <option value="<?=$ic->icon_class ?>">
+                                        <?php
+                                            $string = $ic->icon_class;
+                                            $parts = explode('-', $string);
+                                            array_shift($parts);
+                                            $badge = implode('-', $parts);
+                                            echo $badge;
+                                        ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="eks_des">Deskripsi Ekskul</label>
+                        <textarea name="eks_des" id="eks_des" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="title_eks">Title Ekskul</label>
+                        <input type="text" class="form-control" name="title_eks" id="title_eks">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>

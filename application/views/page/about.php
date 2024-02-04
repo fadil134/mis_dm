@@ -51,7 +51,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
 
         </div>
-    </section><!-- End About Section -->
+    </section>
+    <!-- End About Section -->
 
     <!-- ======= Why Choose Us Section ======= -->
     <section id="why-us" class="why-us">

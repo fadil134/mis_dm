@@ -5,12 +5,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Kmberanda extends CI_Controller
 {
     public function index()
-    {
-        $allowed_url = base_url('dist/beranda');
-        if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == $allowed_url) {
-            $data = $this->Page_m->ssirih();
-            echo json_encode($data);
-        }
+    {        
+        $data = $this->Page_m->ssirih();
+        echo json_encode($data);
     }
 
     public function save_ssirih()
@@ -35,7 +32,7 @@ class Kmberanda extends CI_Controller
                     $data['picture_data'] = $this->upload->data();
                 } else {
                     $error['ssgambar'] = $this->upload->display_errors();
-                    $this->session->set_flashdata('error_ssgambar', $error['ssgambar']);
+                    $this->session->set_flashdata('pesan', $error['ssgambar']);
                 }
             }
 
@@ -49,7 +46,7 @@ class Kmberanda extends CI_Controller
                     // Process or save video data as needed
                 } else {
                     $error['ssvideo'] = $this->upload->display_errors();
-                    $this->session->set_flashdata('error_ssvideo', $error['ssvideo']);
+                    $this->session->set_flashdata('pesan', $error['ssvideo']);
                 }
             }
 
@@ -161,38 +158,30 @@ class Kmberanda extends CI_Controller
     {
         $data = array();
         $id = $this->input->post('ids');
-        if (!empty($this->input->post('gambar')) && !empty($this->input->post('fileV'))) {
+        if (!empty($this->input->post('gambar')) && !empty($this->input->post('vid'))) {
             $data['url'] = $this->input->post('gambar');
             $data['url_video'] = $this->input->post('vid');
-            $data['filename'] = $this->input->post('fileG');
-            $data['video'] = $this->input->post('fileVid');
-            $data['description'] = $this->input->post('ssmodal'); 
+            $data['filename'] = $this->input->post('imgmss');
+            $data['video'] = $this->input->post('vidmss');
+            $data['description'] = $this->input->post('ssmodal');
         } else {
-            $data['url'] = $this->input->post('gambarex');
-            $data['url_video'] = $this->input->post('videoex');
-            $data['filename'] = $this->input->post('gambarexname');
-            $data['video'] = $this->input->post('videoexname');
+            $data['url'] = $this->input->post('img_x_m');
+            $data['url_video'] = $this->input->post('vid_x_m');
+            $data['filename'] = $this->input->post('img_x_m_n');
+            $data['video'] = $this->input->post('vid_x_m_n');
             $data['description'] = $this->input->post('ssmodal');
         }
         $rows = $this->Page_m->update_sir($id, $data);
         if ($rows > 0) {
-            $this->session->set_flashdata('message', '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-            <strong>Horeee!</strong> Data berhasil di simpan.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>');
+            $this->session->set_flashdata('pesan', 'Data berhasil di simpan');
+            redirect('dist/beranda', 'refresh');
         } else {
-            print_r($data);
-            //$this->session->set_flashdata('message', '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-            //<strong>Waduh!</strong> Data belum berhasil di simpan.
-            //<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              //<span aria-hidden="true">&times;</span>
-            //</button>
-          //</div>');
+            //print_r($data);
+            $this->session->set_flashdata('pesan', 'Data tidak berhasil di simpan!!');
+            redirect('dist/beranda', 'refresh');
         }
 
-        //redirect('dist/beranda', 'refresh');
+        redirect('dist/beranda', 'refresh');
     }
 
     public function ekskul()
@@ -220,14 +209,14 @@ class Kmberanda extends CI_Controller
             );
             $rows = $this->Page_m->save_eks($data);
             if ($rows > 0) {
-                $this->session->set_flashdata('pesan', '<div class="alert alert-primary alert-dismissible fade show" role="alert">Data berhasil di simpan<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                $this->session->set_flashdata('pesan', 'Data berhasil di simpan');
                 redirect('dist/beranda', 'refresh');
             } else {
-                $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Data tidak berhasil di simpan<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                $this->session->set_flashdata('pesan', 'Data tidak berhasil di simpan!!');
                 redirect('dist/beranda', 'refresh');
             }
         } else {
-            $this->session->set_flashdata('validasi_error', validation_errors());
+            $this->session->set_flashdata('pesan', validation_errors());
             redirect('dist/beranda', 'refresh');
         }
     }
@@ -252,6 +241,38 @@ class Kmberanda extends CI_Controller
 
         header('Content-Type: application/json');
         echo json_encode($response);
+    }
+
+    public function u_eks_modal()
+    {
+        $this->form_validation->set_rules('icon_modal', 'Ikon', 'required');
+        $this->form_validation->set_rules('title_eks', 'Title Ekskul', 'required');
+        $this->form_validation->set_rules('eks_des', 'Deskripsi Ekskul', 'required');
+        $this->form_validation->set_rules('id_m_eks', 'ID', 'required');
+        if ($this->form_validation->run() == true) {
+            $id = $this->input->post('id_m_eks');
+            $data = array(
+                'filename' => $this->input->post('icon_modal'),
+                'title' => $this->input->post('title_eks'),
+                'description' => $this->input->post('eks_des'),
+            );
+            $rows = $this->Page_m->update_eks_modal($id, $data);
+            if ($rows > 0) {
+                $this->session->set_flashdata('pesan', 'Data berhasil di simpan');
+
+                redirect('dist/beranda', 'refresh');
+            } else {
+                $this->session->set_flashdata('pesan', 'Data tidak berhasil di simpan!!');
+
+                redirect('dist/beranda', 'refresh');
+            }
+        } else {
+            $errors = validation_error();
+            foreach ($errors as $error) {
+                $this->session->set_flashdata('pesan', ''. $error .'');
+            }
+            redirect('dist/beranda', 'refresh');
+        }
     }
 }
 

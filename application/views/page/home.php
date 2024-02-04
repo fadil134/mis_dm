@@ -3,7 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <!-- ======= Hero Section ======= -->
 <?php foreach ($sekapur_s as $ss) : ?>
-<section id="hero" class="hero d-flex align-items-center" style="background: url('<?= $ss->url ?>') top center; background-size: cover;">
+<section id="hero" class="hero d-flex align-items-center"
+    style="background: url('<?= $ss->url ?>') top center; background-size: cover;">
     <div class="container">
         <div class="row">
             <div class="col-xl-4">
@@ -114,6 +115,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
      End Why Choose Us Section -->
 
+    <section id="about" class="about">
+        <div class="container" data-aos="fade-up">
+
+            <div class="row gy-4" data-aos="fade-up">
+                <div class="col-lg-4">
+                    <img src="<?=base_url();?>assets/img/about.jpg" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-8">
+                    <div class="content ps-lg-5">
+                        <h3>Voluptatem dignissimos provident quasi</h3>
+                        <p>
+                            Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                            reprehenderit in
+                            voluptate
+                            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                            proident
+                        </p>
+                        <ul>
+                            <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo
+                                consequat.
+                            </li>
+                            <li><i class="bi bi-check-circle-fill"></i> Duis aute irure dolor in reprehenderit in
+                                voluptate velit.
+                            </li>
+                            <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo
+                                consequat.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
     <!-- ======= Ekskul Section ======= -->
     <section id="services-list" class="services-list">
         <div class="container" data-aos="fade-up">
@@ -125,10 +161,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="row gy-5">
                 <?php foreach ($ekskul as $eks) : ?>
                 <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
-                    <div class="icon flex-shrink-0"><?= $eks->filename ?></div>
+                    <div class="icon flex-shrink-0">
+                        <?= $eks->filename ?>
+                    </div>
                     <div>
-                        <h4 class="title"><a href="#" class="stretched-link"><?= $eks->title ?></a></h4>
-                        <p class="description"><?= $eks->description ?></p>
+                        <h4 class="title"><a href="#" class="stretched-link">
+                                <?= $eks->title ?>
+                            </a></h4>
+                        <p class="description">
+                            <?= $eks->description ?>
+                        </p>
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -139,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
     <!-- End Our Services Section -->
 
-    <!-- ======= Call To Action Section ======= -->
+    <!-- ======= Pengumuman ======= -->
     <section id="call-to-action" class="call-to-action">
         <div class="container" data-aos="fade-up">
             <div class="justify-content-center">
