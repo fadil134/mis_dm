@@ -439,12 +439,46 @@ $(document).ready(function () {
   });
 
   tableEk = $("#ek").DataTable({
+    columnDefs: [
+      { targets: "_all", className: "align-middle dt-head-center" },
+      {
+        target: [3],
+        render: function (data, type, row, meta) {
+          return ('<div class="custom-control custom-switch">' +
+            '<input type="checkbox" name="aktivasi" value="' +
+            data +
+            '" class="custom-control-input" id="customSw' +
+            meta.row +
+            '"' +
+            (data == 1 ? "checked" : "") +
+            '> <label class="custom-control-label switch' +
+            meta.row +
+            '" for="customSw' +
+            meta.row +
+            '">' +
+            (data == 1 ? "Aktif" : "Non-Aktif") +
+            "</label>" +
+            "</div>"
+          );
+        },
+      },
+    ],
+    fixedColumns: {
+      left: "1",
+      right: "1",
+    },
+    scrollX: true,
+  });
+  /*
+  tableEk = $("#ek").DataTable({
     fixedColumns: {
       left: "1",
       right: "1",
     },
     scrollX: true,
     ajax: {
+      processing: true,
+      serverSide: true,
       url: "http://localhost/mis_dm/Kmberanda/ekskul",
       type: "GET",
       dataSrc: "",
@@ -463,7 +497,11 @@ $(document).ready(function () {
         data: "description",
         width: "100px",
       },
-      { className: "align-middle dt-head-center", data: "filename", width: "100px" },
+      {
+        className: "align-middle dt-head-center",
+        data: "filename",
+        width: "100px",
+      },
       {
         className: "align-middle dt-head-center",
         data: "is_active",
@@ -504,22 +542,24 @@ $(document).ready(function () {
       $(row).attr("id", "row_" + (dataIndex + 1));
     },
   });
+  */
 
   $("#icon").css("width", "100%").select2();
   $("#ek tbody").on("click", ".edit_eks", function () {
     var data = tableEk.row($(this).parents("tr")).data();
-    var ikon = data.filename;
+    console.log(data);
+    var ikon = data[2];
     var kelas = $(ikon).attr("class");
     var kelasarray = kelas.split("-");
     var newtxt = kelasarray[kelasarray.length - 1];
-    var deskripsi = data.description;
+    var deskripsi = data[1];
     var txt = $(ikon).text();
     var option;
     var intip;
 
-    $("#id_m_eks").val(data.id);
-    $("#eks_des").summernote("code",deskripsi);
-    $("#title_eks").val(data.title);
+    $("#id_m_eks").val(data[0]);
+    $("#eks_des").summernote("code", deskripsi);
+    $("#title_eks").val(data[4]);
     $("#eksed")
       .css("width", "100%")
       .select2({
@@ -570,7 +610,8 @@ $(document).ready(function () {
     $parentDiv.find("#customSw" + row).val(isChecked ? 1 : 0);
 
     let is_activated = $("#customSw" + row).val();
-    let id = tableEk.row($(this).parents("tr")).data().id;
+    let data = tableEk.row($(this).parents("tr")).data();
+    let id = data[0];
     console.log(id);
     console.log(tableEk.row($(this).parents("tr")).data());
     $.ajax({
@@ -683,6 +724,25 @@ $(document).ready(function () {
   });
 
   /** custom */
+
+  $("#ssirih, #eks_kul").ajaxForm({
+    beforeSubmit: function (formData, jqForm, options) {
+      // Logika sebelum pengajuan formulir
+      console.log("Before form submission");
+    },
+    success: function (responseText, status, xhr, $form) {
+      // Logika setelah formulir berhasil di-submit
+      console.log("Form submitted successfully");
+      console.log("Server response:", responseText);
+
+      // Perbarui DataTable setelah formulir berhasil
+      $("#ek, #ss").DataTable().ajax.reload();
+    },
+    error: function () {
+      // Logika jika ada kesalahan
+      console.error("Error during form submission");
+    },
+  });
 
   let vaL;
   let texT;

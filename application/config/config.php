@@ -405,6 +405,7 @@ $config['cookie_domain'] = '';
 $config['cookie_path'] = '/';
 $config['cookie_secure'] = false;
 $config['cookie_httponly'] = false;
+$config['cookie_samesite'] = 'None';
 
 /*
 |--------------------------------------------------------------------------

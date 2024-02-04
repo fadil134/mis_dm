@@ -131,6 +131,7 @@ if ($this->uri->segment(2) == "" || $this->uri->segment(2) == "index") {?>
 <!-- Page Specific JS File -->
 <?php
 if ($this->uri->segment(2) == "beranda") {?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/page/beranda.js"></script>
 
 <?php

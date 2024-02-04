@@ -18,17 +18,20 @@ $this->load->view('dist/_partials/header');
             <p class="section-lead">Manajemen Konten Halaman Beranda</p>
             <?php if ($this->session->flashdata('pesan')) { ?>
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <strong><?= $this->session->flashdata('pesan'); ?></strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>
+                    <?= $this->session->flashdata('pesan'); ?>
+                </strong>
             </div>
             <?php } ?>
             <div class="card">
                 <div class="card-header">
                     <h4>Sekapur Sirih</h4>
                 </div>
-                <form action="<?=base_url('kmberanda/save_ssirih'); ?>" method="post" enctype="multipart/form-data">
+                <form action="<?=base_url('kmberanda/save_ssirih'); ?>" method="post" enctype="multipart/form-data"
+                    id="ssirih">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
@@ -105,7 +108,8 @@ $this->load->view('dist/_partials/header');
                 <div class="card-header">
                     <h4>Ekstra Kurikuler</h4>
                 </div>
-                <form action="<?=base_url('kmberanda/s_eks'); ?>" method="post" enctype="multipart/form-data">
+                <form action="<?=base_url('kmberanda/s_eks'); ?>" method="post" enctype="multipart/form-data"
+                    id="eks_kul">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
@@ -170,17 +174,37 @@ $this->load->view('dist/_partials/header');
                                     </textarea>
                                 </div>
                             </div>
-                            <div class="col-lg-6 table-responive">
-                                <table class="table table-bordered table-striped text-nowrap" id="ek">
+                            <div class="col-lg-6">
+                                <table class="table table-bordered table-striped" id="ek">
                                     <thead>
-                                        <th>#</th>
+                                        <!--<th>#</th>-->
                                         <th>id</th>
                                         <th>Deskripsi</th>
                                         <th>Ikon</th>
                                         <th>Aktivasi</th>
+                                        <th>Ekskul</th>
                                         <th>Aksi</th>
                                     </thead>
                                     <tbody>
+                                        <?php foreach ($table_ek as $eks) : ?>
+                                        <tr>
+                                            <td><?=$eks->id ?></td>
+                                            <td><?=$eks->description ?></td>
+                                            <td><?=$eks->filename ?></td>
+                                            <td><?=$eks->is_active ?></td>
+                                            <td><?=$eks->title ?></td>
+                                            <td>
+                                                <div class="btn-group" role="group" aria-label="">
+                                                    <button type="button" class="btn btn-primary edit_eks">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach;?>
                                     </tbody>
                                 </table>
                             </div>
@@ -292,8 +316,8 @@ $this->load->view('dist/_partials/header');
                         <input type="text" class="form-control" name="id_m_eks" id="id_m_eks">
                     </div>
                     <div class="form-group" style="display: none;">
-                      <label for="icon_modal">Ikon</label>
-                      <input type="text" class="form-control" name="icon_modal" id="icon_modal">
+                        <label for="icon_modal">Ikon</label>
+                        <input type="text" class="form-control" name="icon_modal" id="icon_modal">
                     </div>
                     <div class="row">
                         <div class="col-lg-4">

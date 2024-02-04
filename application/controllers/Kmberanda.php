@@ -186,8 +186,7 @@ class Kmberanda extends CI_Controller
 
     public function ekskul()
     {
-        $data = $this->Page_m->eks();
-        echo json_encode($data);
+        return $this->Page_m->eks();
     }
 
     public function s_eks()
