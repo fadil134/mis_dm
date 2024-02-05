@@ -6,7 +6,7 @@ $this->load->view('dist/_partials/header');
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Gallery</h1>
+            <h1>Beranda</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                 <div class="breadcrumb-item"><a href="#">Components</a></div>
@@ -26,6 +26,8 @@ $this->load->view('dist/_partials/header');
                 </strong>
             </div>
             <?php } ?>
+
+            <!-- Sekapur Sirih -->
             <div class="card">
                 <div class="card-header">
                     <h4>Sekapur Sirih</h4>
@@ -34,7 +36,7 @@ $this->load->view('dist/_partials/header');
                     id="ssirih">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="sekapur_sirih">Sekapur Sirih</label>
                                     <textarea class="form-control" name="sekapur_sirih" id="summernote"></textarea>
@@ -79,7 +81,7 @@ $this->load->view('dist/_partials/header');
                                         Background</small>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-8">
                                 <table class="table table-striped table-bordered nowrap mx-auto" id="ss"
                                     style="width:100%">
                                     <thead>
@@ -104,6 +106,8 @@ $this->load->view('dist/_partials/header');
                     </div>
                 </form>
             </div>
+
+            <!-- Ekstra Kulikuler -->
             <div class="card">
                 <div class="card-header">
                     <h4>Ekstra Kurikuler</h4>
@@ -112,7 +116,7 @@ $this->load->view('dist/_partials/header');
                     id="eks_kul">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="row">
                                     <div class="col-lg-5">
                                         <div class="form-group">
@@ -174,11 +178,12 @@ $this->load->view('dist/_partials/header');
                                     </textarea>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-8 mx-auto">
                                 <table class="table table-bordered table-striped" id="ek">
                                     <thead>
                                         <!--<th>#</th>-->
-                                        <th>id</th>
+                                        <th>ID</th>
+                                        <th>#</th>
                                         <th>Deskripsi</th>
                                         <th>Ikon</th>
                                         <th>Aktivasi</th>
@@ -186,9 +191,15 @@ $this->load->view('dist/_partials/header');
                                         <th>Aksi</th>
                                     </thead>
                                     <tbody>
+                                        <?php
+                                        $Counter = 1;
+                                        ?>
                                         <?php foreach ($table_ek as $eks) : ?>
                                         <tr>
                                             <td><?=$eks->id ?></td>
+                                            <td>
+                                                <?=$Counter ?>
+                                            </td>
                                             <td><?=$eks->description ?></td>
                                             <td><?=$eks->filename ?></td>
                                             <td><?=$eks->is_active ?></td>
@@ -198,12 +209,15 @@ $this->load->view('dist/_partials/header');
                                                     <button type="button" class="btn btn-primary edit_eks">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-danger">
+                                                    <button type="button" class="btn btn-danger hapus_eks">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </div>
                                             </td>
                                         </tr>
+                                        <?php
+                                        $Counter++;
+                                        ?>
                                         <?php endforeach;?>
                                     </tbody>
                                 </table>
@@ -214,6 +228,118 @@ $this->load->view('dist/_partials/header');
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h4>Form Pengumuman</h4>
+                </div>
+                <div class="card-header-action">
+                </div>
+                <div class="card-body">
+                    <form method="post" id="pengumumanForm" class="form-group"
+                        action="<?=base_url();?>master/s_pengumuman" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="judulPengumuman">Judul Pengumuman:</label>
+                                    <input type="text" class="form-control" id="judulPengumuman" name="judulPengumuman"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="kategoriPengumuman">Kategori Pengumuman:</label>
+                                    <select class="form-control custom-select" id="kategoriPengumuman"
+                                        name="kategoriPengumuman" required>
+                                        <!-- Opsi akan ditambahkan secara dinamis oleh Select2 -->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tanggalMulai">Tanggal Mulai:</label>
+                                    <input type="date" class="form-control" id="tanggalMulai" name="tanggalMulai"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tanggalSelesai">Tanggal Selesai:</label>
+                                    <input type="date" class="form-control" id="tanggalSelesai" name="tanggalSelesai"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="isiPengumuman">Isi Pengumuman:</label>
+                            <textarea class="summernote" id="isiPengumuman" name="isiPengumuman" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Status Pengumuman :</label>
+                            <div class="custom-control custom-switch">
+                                <input name="status" type="checkbox" class="custom-control-input" id="statPbtn"
+                                    value="0">
+                                <label class="custom-control-label" for="statPbtn" id="statP">Non Aktif</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tampilkan Beranda :</label>
+                            <div class="custom-control custom-switch">
+                                <input name="beranda" type="checkbox" class="custom-control-input" id="statBbtn"
+                                    value="0">
+                                <label class="custom-control-label" for="statBbtn" id="statB">Non Aktif</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tampilkan Halaman Pengumuman :</label>
+                            <div class="custom-control custom-switch">
+                                <input name="halaman" type="checkbox" class="custom-control-input" id="statHbtn"
+                                    value="0">
+                                <label class="custom-control-label" for="statHbtn" id="statH">Non Aktif</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lampiranPengumuman">Lampiran Pengumuman:</label>
+                            <input type="file" class="form-control-file" id="lampiranPengumuman"
+                                name="lampiranPengumuman">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Tambah Pengumuman</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h4>Table Pengumuman</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table" id="peng">
+                            <thead>
+                                <tr>
+                                    <th>Judul</th>
+                                    <th>Kategori</th>
+                                    <th>Mulai</th>
+                                    <th>Berakhir</th>
+                                    <th>Pengumuman</th>
+                                    <th>Status</th>
+                                    <th>Tampil di Beranda</th>
+                                    <th>Tampil di Halaman Pengumuman</th>
+                                    <th>Lampiran</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -262,7 +388,7 @@ $this->load->view('dist/_partials/header');
                     <div class="form-group">
                         <label for="myvid">Existing Video</label>
                         <div class="embed-responsive embed-responsive-16by9">
-                            <iframe id="myvid" class="embed-responsive-item" src="" allowfullscreen></iframe>
+                            <video id="myvid" class="embed-responsive-item" src="" allowfullscreen controls></video>
                         </div>
                     </div>
                     <div class="form-group">
@@ -311,13 +437,15 @@ $this->load->view('dist/_partials/header');
             </div>
             <form action="<?=base_url('kmberanda/u_eks_modal'); ?>" method="post">
                 <div class="modal-body">
-                    <div class="form-group" style="display: none;">
-                        <label for="id_m_eks">ID</label>
-                        <input type="text" class="form-control" name="id_m_eks" id="id_m_eks">
-                    </div>
-                    <div class="form-group" style="display: none;">
-                        <label for="icon_modal">Ikon</label>
-                        <input type="text" class="form-control" name="icon_modal" id="icon_modal">
+                    <div style="display: none;">
+                        <div class="form-group">
+                            <label for="id_m_eks">ID</label>
+                            <input type="text" class="form-control" name="id_m_eks" id="id_m_eks">
+                        </div>
+                        <div class="form-group">
+                            <label for="icon_modal">Ikon</label>
+                            <input type="text" class="form-control" name="icon_modal" id="icon_modal">
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-4">

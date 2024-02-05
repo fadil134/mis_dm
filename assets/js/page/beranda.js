@@ -1,3 +1,5 @@
+
+
 "use strict";
 
 var table;
@@ -127,6 +129,41 @@ function cekimgurl(fileurl) {
   });
 }
 
+function previewVid(input) {
+  inp = input.id;
+  let fileurl = $("#" + inp).val();
+  let split = fileurl.split("/");
+  file = split[split.length - 1];
+  tipefile = getFileType(file);
+  cekvidurl(fileurl);
+
+  $("#ss_vd").prop("disabled", $("#vid_main_url").val() !== "");
+}
+
+function previewImg(input) {
+  inp = input.id;
+  let fileurl = $("#" + inp).val();
+  let split = fileurl.split("/");
+  file = split[split.length - 1];
+  tipefile = getFileType(file);
+  cekimgurl(fileurl);
+  $("#ss_bg").prop("disabled", $("#img_main").val() !== "");
+}
+
+function getFileType(url) {
+  var fileType;
+
+  if (url.match(/\.(jpeg|jpg|gif|png)$/)) {
+    fileType = "image";
+  } else if (url.match(/\.(mp4|webm|ogg)$/)) {
+    fileType = "video";
+  } else {
+    fileType = "other";
+  }
+
+  return fileType;
+}
+
 function deleteRow(id, rowIndex) {
   iziToast.show({
     theme: "dark",
@@ -209,100 +246,159 @@ function editRow(id) {
   */
 }
 
-function deleteRowEk(id, rowIndex) {
-  iziToast.show({
-    theme: "dark",
-    icon: "fa fa-question-circle",
-    title: "Konfirmasi",
-    message: "Anda yakin ingin menghapus data?",
-    position: "center",
-    progressBarColor: "rgb(0, 255, 184)",
-    buttons: [
-      [
-        "<button><b>Ya</b></button>",
-        function (instance, toast) {
-          // Aksi yang diambil jika tombol "Ya" diklik
-          instance.hide({ transitionOut: "fadeOut" }, toast, "button");
-          // Panggil fungsi untuk menghapus data dari database
-          $.ajax({
-            type: "POST",
-            url: "http://localhost/mis_dm/Kmberanda/delete_ssirih",
-            data: { id: id },
-            dataType: "json",
-            success: function (response) {
-              if (response.success) {
-                iziToast.success({
-                  title: "Success",
-                  message: response.success,
-                  position: "topRight",
-                });
-
-                // If successful, remove the row from DataTable
-                table.row(rowIndex).remove().draw(false);
-              } else if (response.error) {
-                iziToast.error({
-                  title: "Error",
-                  message: response.error,
-                  position: "topRight",
-                });
-              }
-            },
-          });
-        },
-      ],
-      [
-        "<button>Tidak</button>",
-        function (instance, toast) {
-          // Aksi yang diambil jika tombol "Tidak" diklik
-          instance.hide({ transitionOut: "fadeOut" }, toast, "button");
-        },
-      ],
-    ],
-  });
-}
-
-function previewVid(input) {
-  inp = input.id;
-  let fileurl = $("#" + inp).val();
-  let split = fileurl.split("/");
-  file = split[split.length - 1];
-  tipefile = getFileType(file);
-  cekvidurl(fileurl);
-
-  $("#ss_vd").prop("disabled", $("#vid_main_url").val() !== "");
-}
-
-function previewImg(input) {
-  inp = input.id;
-  let fileurl = $("#" + inp).val();
-  let split = fileurl.split("/");
-  file = split[split.length - 1];
-  tipefile = getFileType(file);
-  cekimgurl(fileurl);
-  $("#ss_bg").prop("disabled", $("#img_main").val() !== "");
-}
-
-function getFileType(url) {
-  var fileType;
-
-  if (url.match(/\.(jpeg|jpg|gif|png)$/)) {
-    fileType = "image";
-  } else if (url.match(/\.(mp4|webm|ogg)$/)) {
-    fileType = "video";
+function check(id, row) {
+  if ($("#halaman" + id).prop("checked")) {
+    $(".halaman" + id).text("Aktif");
+    $("#halaman" + id).val(1);
   } else {
-    fileType = "other";
+    $(".halaman" + id).text("Non-Aktif");
+    $("#halaman" + id).val(0);
   }
 
-  return fileType;
+  $.ajax({
+    type: "post",
+    url: "http://localhost/mis_dm/master/u_pengumuman",
+    data: { id: row, stat: $("#halaman" + id).val() },
+    dataType: "json",
+    success: function (response) {
+      if (response.success) {
+        iziToast.success({
+          title: "OK",
+          message: response.success,
+        });
+      } else {
+        iziToast.error({
+          title: "Error",
+          message: response.error,
+        });
+      }
+      $("#peng").DataTable().ajax.reload();
+    },
+  });
+  console.log("halaman" + id + " " + $("#halaman" + id).val());
 }
 
-$("#editss").on("hidden.bs.modal", function () {
-  $("#filePreview, #filePrev").empty();
-  $("#vidmss, #imgmss, #gambar, #vid").val("");
-});
-
 $(document).ready(function () {
-  /** Datatable */
+  /**
+   * Datatable Pengumuman
+   */
+  
+  $("#peng").DataTable({
+    fixedColumns: {
+      left: "1",
+      right: "1",
+    },
+    ajax: {
+      url: "http://localhost/mis_dm/master/pengumuman",
+      type: "GET",
+      dataSrc: "",
+    },
+    columns: [
+      { data: "Judul_Pengumuman", className: "align-middle" },
+      { data: "Kategori_Pengumuman", className: "align-middle" },
+      { data: "Tanggal_Mulai", className: "align-middle" },
+      { data: "Tanggal_Selesai", className: "align-middle" },
+      { data: "Isi_Pengumuman", className: "align-middle" },
+      {
+        data: "Status_Pengumuman",
+        className: "align-middle",
+        render: function (data, type, row, meta) {
+          return (
+            '<div class="custom-control custom-switch">' +
+            '<input type="checkbox" name="activation" value="' +
+            data +
+            '" class="custom-control-input" id="switch_peng' +
+            meta.row +
+            '"' +
+            (data == "Aktif" ? "checked" : "") +
+            '> <label class="custom-control-label switch' +
+            meta.row +
+            '" for="switch_peng' +
+            meta.row +
+            '">' +
+            (data == "Aktif" ? "Aktif" : "Non-Aktif") +
+            "</label>" +
+            "</div>"
+          );
+        },
+      },
+      {
+        data: "Ditampilkan_di_Beranda",
+        className: "align-middle",
+        render: function (data, type, row, meta) {
+          return (
+            '<div class="custom-control custom-switch">' +
+            '<input type="checkbox" name="active" value="' +
+            data +
+            '" class="custom-control-input" id="beranda' +
+            meta.row +
+            '"' +
+            (data == 1 ? "checked" : "") +
+            '> <label class="custom-control-label beranda' +
+            meta.row +
+            '" for="beranda' +
+            meta.row +
+            '">' +
+            (data == 1 ? "Aktif" : "Non-Aktif") +
+            "</label>" +
+            "</div>"
+          );
+        },
+      },
+      {
+        data: null,
+        className: "align-middle",
+        render: function (data, type, row, meta) {
+          return (
+            '<div class="custom-control custom-switch">' +
+            '<input onchange="check(' +
+            meta.row +
+            "," +
+            data.ID_Pengumuman +
+            ')" type="checkbox" name="act" value="' +
+            data.Ditampilkan_di_Halaman_Pengumuman +
+            '" class="custom-control-input" id="halaman' +
+            meta.row +
+            '"' +
+            (data.Ditampilkan_di_Halaman_Pengumuman == 1 ? "checked" : "") +
+            '> <label class="custom-control-label halaman' +
+            meta.row +
+            '" for="halaman' +
+            meta.row +
+            '">' +
+            (data.Ditampilkan_di_Halaman_Pengumuman == 1
+              ? "Aktif"
+              : "Non-Aktif") +
+            "</label>" +
+            "</div>"
+          );
+        },
+      },
+      {
+        data: "Lampiran_Pengumuman",
+        className: "align-middle",
+        render: function (data) {
+          return (
+            '<a href="' +
+            data +
+            '" class="preview-link" data-src="' +
+            data +
+            '">' +
+            data +
+            "</a>"
+          );
+        },
+      },
+    ],
+    columnDefs: [
+      { targets: "_all", className: "dt-head-nowrap text-center" },
+      { target: [1], className: "dt-body-justify" },
+    ],
+  });
+
+  /**
+   * Datatable Sekapur Sirih
+   */
 
   table = $("#ss").DataTable({
     fixedColumns: {
@@ -326,7 +422,7 @@ $(document).ready(function () {
       { data: "id", visible: false },
       {
         data: "description",
-        width: "20%",
+        className: "text-wrap",
       },
       {
         data: "url",
@@ -337,13 +433,9 @@ $(document).ready(function () {
       {
         data: "url_video",
         render: function (data) {
-          return (
-            '<div class="embed-responsive embed-responsive-21by9">' +
-            '<iframe class="embed-responsive-item" src="' +
-            data +
-            '"></iframe>' +
-            "</div>"
-          );
+          return `<div class="embed-responsive embed-responsive-21by9">
+          <video class="embed-responsive-item" src="${data}" controls></video>
+          </div>`;
         },
       },
       {
@@ -372,19 +464,18 @@ $(document).ready(function () {
         data: "id",
         render: function (data, type, row, meta) {
           var rowIndex = table.row($(row).closest("tr")).index();
-          return (
-            '<button type="button" class="btn btn-sm btn-danger mr-2" onclick="deleteRow(' +
-            data +
-            ", " +
-            meta.row +
-            ')"><i class="fa fa-trash"></i></button>' +
-            '<button type="button" class="btn btn-sm btn-primary" onclick="editRow(' +
-            data +
-            ')"><i class="fas fa-edit"></i></button>'
-          );
+          return `<div class="btn-group" role="group" aria-label="">
+              <button onclick="editRow(${data})" type="button" class="btn btn-primary">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button onclick="deleteRow(${data},${meta.row})" type="button" class="btn btn-danger">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>`;
         },
       },
     ],
+    columnDefs: [{ targets: "_all", className: "align-middle dt-head-center" }],
     createdRow: function (row, data, dataIndex) {
       // Menetapkan ID pada elemen tr (baris) berdasarkan nomor urut
       $(row).attr("id", "row_" + (dataIndex + 1));
@@ -441,70 +532,9 @@ $(document).ready(function () {
   tableEk = $("#ek").DataTable({
     columnDefs: [
       { targets: "_all", className: "align-middle dt-head-center" },
+      { target: [0], visible: false },
       {
-        target: [3],
-        render: function (data, type, row, meta) {
-          return ('<div class="custom-control custom-switch">' +
-            '<input type="checkbox" name="aktivasi" value="' +
-            data +
-            '" class="custom-control-input" id="customSw' +
-            meta.row +
-            '"' +
-            (data == 1 ? "checked" : "") +
-            '> <label class="custom-control-label switch' +
-            meta.row +
-            '" for="customSw' +
-            meta.row +
-            '">' +
-            (data == 1 ? "Aktif" : "Non-Aktif") +
-            "</label>" +
-            "</div>"
-          );
-        },
-      },
-    ],
-    fixedColumns: {
-      left: "1",
-      right: "1",
-    },
-    scrollX: true,
-  });
-  /*
-  tableEk = $("#ek").DataTable({
-    fixedColumns: {
-      left: "1",
-      right: "1",
-    },
-    scrollX: true,
-    ajax: {
-      processing: true,
-      serverSide: true,
-      url: "http://localhost/mis_dm/Kmberanda/ekskul",
-      type: "GET",
-      dataSrc: "",
-    },
-    columns: [
-      {
-        className: "align-middle dt-head-center",
-        data: null,
-        render: function (data, type, row, meta) {
-          return meta.row + 1;
-        },
-      },
-      { className: "align-middle dt-head-center", data: "id", visible: false },
-      {
-        className: "align-middle dt-head-center text-wrap",
-        data: "description",
-        width: "100px",
-      },
-      {
-        className: "align-middle dt-head-center",
-        data: "filename",
-        width: "100px",
-      },
-      {
-        className: "align-middle dt-head-center",
-        data: "is_active",
+        target: [4],
         render: function (data, type, row, meta) {
           return (
             '<div class="custom-control custom-switch">' +
@@ -525,41 +555,30 @@ $(document).ready(function () {
           );
         },
       },
-      {
-        className: "align-middle dt-head-center",
-        data: "id",
-        render: function (data, type, row, meta) {
-          return `<div class="btn-group" role="group" aria-label="">
-          <button type="button" class="btn btn btn-danger" onclick="deleteRowEk(${
-            (data, meta.row)
-          })"><i class="fa fa-trash"></i></button>
-          <button type="button" class="btn btn-primary edit_eks"><i class="fa fa-edit"></i></button>
-          </div>`;
-        },
-      },
     ],
-    createdRow: function (row, data, dataIndex) {
-      $(row).attr("id", "row_" + (dataIndex + 1));
+    fixedColumns: {
+      left: "1",
+      right: "1",
     },
+    scrollX: true,
   });
-  */
 
   $("#icon").css("width", "100%").select2();
   $("#ek tbody").on("click", ".edit_eks", function () {
     var data = tableEk.row($(this).parents("tr")).data();
     console.log(data);
-    var ikon = data[2];
+    var ikon = data[3];
     var kelas = $(ikon).attr("class");
     var kelasarray = kelas.split("-");
     var newtxt = kelasarray[kelasarray.length - 1];
-    var deskripsi = data[1];
+    var deskripsi = data[2];
     var txt = $(ikon).text();
     var option;
     var intip;
 
     $("#id_m_eks").val(data[0]);
     $("#eks_des").summernote("code", deskripsi);
-    $("#title_eks").val(data[4]);
+    $("#title_eks").val(data[5]);
     $("#eksed")
       .css("width", "100%")
       .select2({
@@ -598,6 +617,62 @@ $(document).ready(function () {
     $("#editeks").modal("show");
     $("#ikonpreview").append(ikon);
     $("#icon_modal").val(ikon);
+  });
+
+  $("#ek tbody").on("click", ".hapus_eks", function () {
+    var data = tableEk.row($(this).parents("tr")).data();
+    var row = tableEk.row($(this).parents("tr"));
+    console.log(row);
+    var id = data[0];
+    iziToast.show({
+      theme: "dark",
+      icon: "fa fa-question-circle",
+      title: "Konfirmasi",
+      message: "Anda yakin ingin menghapus data?",
+      position: "center",
+      progressBarColor: "rgb(0, 255, 184)",
+      buttons: [
+        [
+          "<button><b>Ya</b></button>",
+          function (instance, toast) {
+            // Aksi yang diambil jika tombol "Ya" diklik
+            instance.hide({ transitionOut: "fadeOut" }, toast, "button");
+            // Panggil fungsi untuk menghapus data dari database
+            $.ajax({
+              type: "POST",
+              url: "http://localhost/mis_dm/Kmberanda/delete_ssirih",
+              data: { id: id },
+              dataType: "json",
+              success: function (response) {
+                if (response.success) {
+                  iziToast.success({
+                    title: "Success",
+                    message: response.success,
+                    position: "topRight",
+                  });
+
+                  // If successful, remove the row from DataTable
+                  row.remove().draw();
+                } else if (response.error) {
+                  iziToast.error({
+                    title: "Error",
+                    message: response.error,
+                    position: "topRight",
+                  });
+                }
+              },
+            });
+          },
+        ],
+        [
+          "<button>Tidak</button>",
+          function (instance, toast) {
+            // Aksi yang diambil jika tombol "Tidak" diklik
+            instance.hide({ transitionOut: "fadeOut" }, toast, "button");
+          },
+        ],
+      ],
+    });
   });
 
   $("#ek tbody").on("change", 'input[name="aktivasi"]', function () {
@@ -725,27 +800,14 @@ $(document).ready(function () {
 
   /** custom */
 
-  $("#ssirih, #eks_kul").ajaxForm({
-    beforeSubmit: function (formData, jqForm, options) {
-      // Logika sebelum pengajuan formulir
-      console.log("Before form submission");
-    },
-    success: function (responseText, status, xhr, $form) {
-      // Logika setelah formulir berhasil di-submit
-      console.log("Form submitted successfully");
-      console.log("Server response:", responseText);
-
-      // Perbarui DataTable setelah formulir berhasil
-      $("#ek, #ss").DataTable().ajax.reload();
-    },
-    error: function () {
-      // Logika jika ada kesalahan
-      console.error("Error during form submission");
-    },
-  });
-
   let vaL;
   let texT;
+
+  $("#editss").on("hidden.bs.modal", function () {
+    $("#filePreview, #filePrev").empty();
+    $("#vidmss, #imgmss, #gambar, #vid").val("");
+  });
+
   $("#icon").on("change", function () {
     vaL = $(this).find(":selected").val();
     texT = $(this).find(":selected").text();
@@ -762,5 +824,78 @@ $(document).ready(function () {
     $("#iconEk").empty();
 
     $("#iconEk").text(preview).val(preview);
+  });
+
+  $("#isiPengumuman").summernote({
+    height: 100,
+    minHeight: null,
+    maxHeight: 200,
+    focus: true,
+    toolbar: [
+      ["style", ["style"]],
+      ["font", ["bold", "italic", "underline", "clear"]],
+      ["fontname", ["fontname"]],
+      ["fontsize", ["fontsize"]],
+      ["color", ["color"]],
+      ["para", ["ul", "ol", "paragraph"]],
+      ["table", ["table"]],
+      ["insert", ["link", "picture", "video"]],
+    ],
+    dialogsInBody: true,
+    callbacks: {
+      onImageUpload: function (files) {
+        var formData = new FormData();
+        formData.append("file", files[0]);
+
+        $.ajax({
+          url: "http://localhost/mis_dm/server_processing/summ_upload",
+          method: "POST",
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function (data) {
+            $(".summernote").summernote("insertImage", JSON.parse(data).url);
+          },
+          error: function (error) {
+            console.error("Error uploading image:", error);
+          },
+        });
+      },
+    },
+  });
+
+  $("#statPbtn").on("click", function () {
+    if ($("#statP").text() == "Aktif") {
+      $("#statP").text("Non Aktif");
+      $("#statPbtn").val("Non Aktif");
+    } else {
+      $("#statP").text("Aktif");
+      $("#statPbtn").val("Aktif");
+    }
+  });
+
+  $("#statBbtn").on("click", function () {
+    if ($("#statB").text() == "Aktif") {
+      $("#statB").text("Non Aktif");
+      $("#statBbtn").val(0);
+    } else {
+      $("#statB").text("Aktif");
+      $("#statBbtn").val(1);
+    }
+  });
+
+  $("#statHbtn").on("click", function () {
+    if ($("#statH").text() == "Aktif") {
+      $("#statH").text("Non Aktif");
+      $("#statHbtn").val(0);
+    } else {
+      $("#statH").text("Aktif");
+      $("#statHbtn").val(1);
+    }
+  });
+
+  $("#kategoriPengumuman").select2({
+    tags: true,
+    tokenSeparators: [",", " "],
   });
 });

@@ -124,25 +124,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="col-lg-8">
                     <div class="content ps-lg-5">
-                        <h3>Voluptatem dignissimos provident quasi</h3>
-                        <p>
-                            Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in
-                            voluptate
-                            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                            proident
-                        </p>
-                        <ul>
-                            <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat.
-                            </li>
-                            <li><i class="bi bi-check-circle-fill"></i> Duis aute irure dolor in reprehenderit in
-                                voluptate velit.
-                            </li>
-                            <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat.
-                            </li>
-                        </ul>
+                        <h3>Sejarah Singkat</h3>
+                        <div align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Lembaga Pendidikan Islam (LPI) Daarul Ma’arif terletak di Desa Banjar Negeri, Kecamatan
+                            Natar, Kabupaten Lampung Selatan. Namun, lembaga ini lebih dikenal oleh masyarakat berada di
+                            Kecamatan Tegineneng. Sebelum adanya pemekaran kabupaten, Desa Banjar Negeri masuk dalam
+                            wilayah Kecamatan Tegineneng.<br>Pada tahun 1965&nbsp; pengaruh Partai Komunis Indonesia
+                            (PKI) dengan tindakan yang bersifat anti agama telah banyak dipentaskan dalam arena
+                            kehidupan bangsa Indonesia. Masa ini adalah masa yang sangat kritis bagi kehidupan
+                            pendidikan Islam secara umum di Indonesia.
+                        </div>
+                        <a href="<?=base_url('page/about');?>" class="btn-get-started">Selengkapnya</a>
                     </div>
                 </div>
             </div>
@@ -209,7 +201,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
     <!-- End Call To Action Section -->
 
-    <!--    
+    <!--    unused
 
     <section id="features" class="features">
         <div class="container" data-aos="fade-up">

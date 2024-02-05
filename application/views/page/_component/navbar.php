@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <nav id="navbar" class="navbar">
     <ul>
         <li><a href="<?= base_url('page/home') ?>" <?php if ($this->uri->segment(1) == "" || $this->uri->segment(2) == "home") { ?> class="active" <?php } ?>>Beranda</a></li>
-        <li><a href="<?= base_url('page/about') ?>"<?php if ($this->uri->segment(2) == "about") { ?> class="active" <?php } ?>>Tentang Kami</a></li>
-        <li><a href="<?= base_url('page/porto') ?>" <?php if ($this->uri->segment(2) == "porto") { ?> class="active" <?php } ?>>Kegiatan Ekskul</a></li>
-        <li><a href="<?= base_url('page/blog') ?>" <?php if ($this->uri->segment(2) == "blog") { ?> class="active" <?php } ?>>Berita dan Acara</a></li>
+        <li><a href="<?= base_url('page/about') ?>"<?php if ($this->uri->segment(2) == "about") { ?> class="active" <?php } ?>>Profil</a></li>
+        <li><a href="<?= base_url('page/porto') ?>" <?php if ($this->uri->segment(2) == "porto") { ?> class="active" <?php } ?>>Galeri</a></li>
+        <li><a href="<?= base_url('page/blog') ?>" <?php if ($this->uri->segment(2) == "blog") { ?> class="active" <?php } ?>>Blog</a></li>
         <li><a href="<?= base_url('page/contact') ?>" <?php if ($this->uri->segment(2) == "contact") { ?> class="active" <?php } ?>>Contact</a></li>
         <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
             <ul>
