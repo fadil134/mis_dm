@@ -14,10 +14,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </blockquote>
 
                 <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
-                    <a href="#about" class="btn-get-started">Get Started</a>
                     <a href="<?= $ss->url_video ?>" class="glightbox btn-watch-video d-flex align-items-center"><i
-                            class="bi bi-play-circle"></i><span>Watch
-                            Video</span></a>
+                            class="bi bi-play-circle"></i><span>Kata Sambutan</span></a>
                 </div>
             </div>
         </div>
@@ -185,6 +183,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="slides">
                     <div class="slides-1 swiper">
                         <div class="swiper-wrapper">
+                            <?php if ($attention !== null) { ?>
                             <?php foreach ($attention as $att) : ?>
                             <div class="swiper-slide">
                                 <div class=" item text-center">
@@ -194,10 +193,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <p>
                                         <?= $att->Isi_Pengumuman ?>
                                     </p>
-                                    <a class="cta-btn" href="#">Call To Action</a>
+                                    <a class="cta-btn" href="#">Link</a>
                                 </div>
                             </div>
                             <?php endforeach; ?>
+                            <?php } ?>
+                            <div class="swiper-slide">
+                                <div class=" item text-center">
+                                    <h3>Belum Ada Pengumuman
+                                    </h3>
+                                    <a class="cta-btn" href="#">Link</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
