@@ -183,28 +183,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="slides">
                     <div class="slides-1 swiper">
                         <div class="swiper-wrapper">
-                            <?php if ($attention !== null) { ?>
+                        <?php if ($attention !== null && count($attention) > 0) { ?>
                             <?php foreach ($attention as $att) : ?>
-                            <div class="swiper-slide">
-                                <div class=" item text-center">
-                                    <h3>
-                                        <?= $att->Judul_Pengumuman ?>
-                                    </h3>
-                                    <p>
-                                        <?= $att->Isi_Pengumuman ?>
-                                    </p>
-                                    <a class="cta-btn" href="#">Link</a>
+                                <div class="swiper-slide">
+                                    <div class="item text-center">
+                                        <h3><?= $att->Judul_Pengumuman ?></h3>
+                                        <p><?= $att->Isi_Pengumuman ?></p>
+                                        <a class="cta-btn" href="#">Link</a>
+                                    </div>
                                 </div>
-                            </div>
                             <?php endforeach; ?>
-                            <?php } ?>
+                        <?php } else { ?>
                             <div class="swiper-slide">
-                                <div class=" item text-center">
-                                    <h3>Belum Ada Pengumuman
-                                    </h3>
-                                    <a class="cta-btn" href="#">Link</a>
+                                <div class="item text-center">
+                                    <h3>Belum Ada Pengumuman</h3>
                                 </div>
                             </div>
+                        <?php } ?>
                         </div>
                     </div>
                 </div>
