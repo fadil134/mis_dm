@@ -508,7 +508,7 @@ section {
   .hero:after {
     position: absolute;
     content: "";
-    width: 40%;
+    width: 10%;
     background: var(--color-secondary);
     top: 0;
     bottom: 0;

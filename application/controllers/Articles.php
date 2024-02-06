@@ -56,10 +56,10 @@ class Articles extends CI_Controller
     }
     public function upload_image()
     {
-        $config['upload_path'] = 'uploads/';
+        $config['upload_path'] = FCPATH . 'uploads/';
         $config['allowed_types'] = 'gif|jpg|jpeg|png';
 
-        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
 
         if ($this->upload->do_upload('file')) {
             $data = $this->upload->data();

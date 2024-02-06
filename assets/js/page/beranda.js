@@ -1,5 +1,3 @@
-
-
 "use strict";
 
 var table;
@@ -7,6 +5,8 @@ var tableEk;
 var inp;
 var tipefile;
 var file;
+var tipefile_main;
+var tipefile_modal;
 
 function cekvidurl(fileurl) {
   $.ajax({
@@ -76,7 +76,7 @@ function cekimgurl(fileurl) {
     success: function () {
       if (
         inp.includes("main") &&
-        tipefile === "image" &&
+        tipefile_main === "image" &&
         $("#img_main").val() !== ""
       ) {
         $("#img_main_preview").empty();
@@ -91,7 +91,7 @@ function cekimgurl(fileurl) {
       }
       if (
         inp.includes("modal") &&
-        tipefile === "image" &&
+        tipefile_modal === "image" &&
         $("#image_modal").val() !== ""
       ) {
         $("#img_modal_preview").empty();
@@ -108,7 +108,7 @@ function cekimgurl(fileurl) {
     error: function () {
       if (
         inp.includes("main") &&
-        tipefile === "image" &&
+        tipefile_main === "image" &&
         $("#img_main").val() !== ""
       ) {
         $("#img_main_preview").empty();
@@ -116,8 +116,8 @@ function cekimgurl(fileurl) {
         $("#image_main").val("").prop("disabled", true);
         $("#img_main_preview").append(preview);
       } else if (
-        inp.includes("modal") &&
-        tipefile === "image" &&
+        np.includes("modal") &&
+        tipefile_modal === "image" &&
         $("#image_modal").val() !== ""
       ) {
         $("#img_modal_preview").empty();
@@ -128,6 +128,11 @@ function cekimgurl(fileurl) {
     },
   });
 }
+
+$("#editss").on("hidden.bs.modal", function () {
+  $("#filePreview, #filePrev").empty();
+  $("#vidmss, #imgmss, #gambar, #vid, #video_modal,#vid_modal").val("");
+});
 
 function previewVid(input) {
   inp = input.id;
@@ -143,10 +148,13 @@ function previewVid(input) {
 function previewImg(input) {
   inp = input.id;
   let fileurl = $("#" + inp).val();
+  cekimgurl(fileurl);
   let split = fileurl.split("/");
   file = split[split.length - 1];
-  tipefile = getFileType(file);
-  cekimgurl(fileurl);
+  let fileimg_main = $("#img_main").val();
+  let fileimg_modal = $("#img_modal").val();
+  tipefile_main = getFileType(fileimg_main);
+  tipefile_modal = getFileType(fileimg_modal);
   $("#ss_bg").prop("disabled", $("#img_main").val() !== "");
 }
 
@@ -220,14 +228,14 @@ function editRow(id) {
   $("#ss tbody").on("click", "button", function () {
     let row = table.row($(this).parents("tr")).index();
 
-    let data = table.row($(this).parents("tr"));
-    $("#myvid").attr("src", data.data().url_video);
-    $("#myimage").attr("src", data.data().url);
-    $("#ssmodal").summernote("code", data.data().description);
-    $("#vid_x_m").val(data.data().url_video);
-    $("#img_x_m").val(data.data().url);
-    $("#vid_x_m_n").val(data.data().video);
-    $("#img_x_m_n").val(data.data().filename);
+    let data = table.row($(this).parents("tr")).data();
+    $("#myvid").attr("src", data[4]);
+    $("#myimage").attr("src", data[3]);
+    $("#ssmodal").summernote("code", data[2]);
+    $("#vid_x_m").val(data[4]);
+    $("#img_x_m").val(data[3]);
+    $("#vid_x_m_n").val(data[7]);
+    $("#img_x_m_n").val(data[8]);
   });
   $("#img_modal_preview").empty();
   $("#img_modal").val("").prop("disabled", false);
@@ -258,7 +266,7 @@ function check(id, row) {
   $.ajax({
     type: "post",
     url: "http://localhost/mis_dm/master/u_pengumuman",
-    data: { id: row, stat: $("#halaman" + id).val() },
+    data: { id: row, statH: $("#halaman" + id).val() },
     dataType: "json",
     success: function (response) {
       if (response.success) {
@@ -282,8 +290,8 @@ $(document).ready(function () {
   /**
    * Datatable Pengumuman
    */
-  
-  $("#peng").DataTable({
+
+  let tab_p = $("#peng").DataTable({
     fixedColumns: {
       left: "1",
       right: "1",
@@ -305,7 +313,7 @@ $(document).ready(function () {
         render: function (data, type, row, meta) {
           return (
             '<div class="custom-control custom-switch">' +
-            '<input type="checkbox" name="activation" value="' +
+            '<input type="checkbox" name="act_stat" value="' +
             data +
             '" class="custom-control-input" id="switch_peng' +
             meta.row +
@@ -396,6 +404,74 @@ $(document).ready(function () {
     ],
   });
 
+  $("#peng tbody").on("click", 'input[name="act_stat"]', function () {
+    let data = tab_p.row($(this).parents("tr")).data();
+    let id = data.ID_Pengumuman;
+    let rowI = tab_p.row($(this).parents("tr")).index();
+    if ($("#switch_peng" + rowI).prop("checked")) {
+      $("#switch_peng" + rowI).val("Aktif");
+      $(".switch" + rowI).text("Aktif");
+    } else {
+      $("#switch_peng" + rowI).val("Nonaktif");
+      $(".switch" + rowI).text("Non - Aktif");
+    }
+
+    $.ajax({
+      type: "POST",
+      url: "http://localhost/mis_dm/master/u_pengumuman",
+      data: { id: id, statP: $("#switch_peng" + rowI).val() },
+      dataType: "json",
+      success: function (response) {
+        if (response.success) {
+          iziToast.success({
+            title: "OK",
+            message: response.success,
+          });
+        } else {
+          iziToast.error({
+            title: "Error",
+            message: response.error,
+          });
+        }
+        $("#peng").DataTable().ajax.reload();
+      },
+    });
+  });
+
+  $("#peng tbody").on("click", 'input[name="active"]', function () {
+    let data = tab_p.row($(this).parents("tr")).data();
+    let id = data.ID_Pengumuman;
+    let rowI = tab_p.row($(this).parents("tr")).index();
+    if ($("#beranda" + rowI).prop("checked")) {
+      $("#beranda" + rowI).val(1);
+      $(".beranda" + rowI).text("Aktif");
+    } else {
+      $("#beranda" + rowI).val(0);
+      $(".beranda" + rowI).text("Non - Aktif");
+    }
+
+    $.ajax({
+      type: "POST",
+      url: "http://localhost/mis_dm/master/u_pengumuman",
+      data: { id: id, statB: $("#beranda" + rowI).val() },
+      dataType: "json",
+      success: function (response) {
+        if (response.success) {
+          iziToast.success({
+            title: "OK",
+            message: response.success,
+          });
+        } else {
+          iziToast.error({
+            title: "Error",
+            message: response.error,
+          });
+        }
+        $("#peng").DataTable().ajax.reload();
+      },
+    });
+  });
+
   /**
    * Datatable Sekapur Sirih
    */
@@ -406,32 +482,21 @@ $(document).ready(function () {
       right: "1",
     },
     scrollX: true,
-    ajax: {
-      url: "http://localhost/mis_dm/Kmberanda",
-      type: "GET",
-      dataSrc: "", // Kosongkan untuk mengambil seluruh objek sebagai data
-    },
-    columns: [
+    columnDefs: [
+      { targets: "_all", className: "align-middle dt-head-center" },
+      { target: [1,7,8], visible: false },
       {
-        data: null,
-        render: function (data, type, row, meta) {
-          // Mengambil nomor urut baris dan menetapkan sebagai ID
-          return meta.row + 1;
-        },
-      },
-      { data: "id", visible: false },
-      {
-        data: "description",
+        target:[2],
         className: "text-wrap",
       },
       {
-        data: "url",
+        target: [3],
         render: function (data) {
           return '<img src="' + data + '" class="img-fluid" alt="...">';
         },
       },
       {
-        data: "url_video",
+        target: [4],
         render: function (data) {
           return `<div class="embed-responsive embed-responsive-21by9">
           <video class="embed-responsive-item" src="${data}" controls></video>
@@ -439,7 +504,7 @@ $(document).ready(function () {
         },
       },
       {
-        data: "is_active",
+        target: [5],
         render: function (data, type, row, meta) {
           return (
             '<div class="custom-control custom-switch">' +
@@ -461,9 +526,8 @@ $(document).ready(function () {
         },
       },
       {
-        data: "id",
+        target: [6],
         render: function (data, type, row, meta) {
-          var rowIndex = table.row($(row).closest("tr")).index();
           return `<div class="btn-group" role="group" aria-label="">
               <button onclick="editRow(${data})" type="button" class="btn btn-primary">
                 <i class="fas fa-edit"></i>
@@ -475,11 +539,6 @@ $(document).ready(function () {
         },
       },
     ],
-    columnDefs: [{ targets: "_all", className: "align-middle dt-head-center" }],
-    createdRow: function (row, data, dataIndex) {
-      // Menetapkan ID pada elemen tr (baris) berdasarkan nomor urut
-      $(row).attr("id", "row_" + (dataIndex + 1));
-    },
     drawCallback: function (settings) {
       //update();
       $('input[name="activation"]').on("change", function () {
@@ -497,8 +556,9 @@ $(document).ready(function () {
     $parentDiv.find(".switch" + row).text(isChecked ? "Aktif" : "Non-Aktif");
     $parentDiv.find("#customSwitch" + row).val(isChecked ? 1 : 0);
 
+    let data = table.row($(this).parents("tr")).data();
     let is_activated = $("#customSwitch" + row).val();
-    let id = table.row($(this).parents("tr")).data().id;
+    let id = data[1];
     $.ajax({
       type: "post",
       url: "http://localhost/mis_dm/kmberanda/update_ssirih",
@@ -528,6 +588,10 @@ $(document).ready(function () {
       },
     });
   });
+
+  /**
+   * Datatable Sekapur Sirih
+   */
 
   tableEk = $("#ek").DataTable({
     columnDefs: [
@@ -568,9 +632,9 @@ $(document).ready(function () {
     var data = tableEk.row($(this).parents("tr")).data();
     console.log(data);
     var ikon = data[3];
-    var kelas = $(ikon).attr("class");
-    var kelasarray = kelas.split("-");
-    var newtxt = kelasarray[kelasarray.length - 1];
+    var kelas = ikon !== "" ? $(ikon).attr("class"): null;
+    var kelasarray = kelas!== null ? kelas.split("-") : null;
+    var newtxt = kelasarray!== null ? kelasarray[kelasarray.length - 1]: null;
     var deskripsi = data[2];
     var txt = $(ikon).text();
     var option;
@@ -803,17 +867,12 @@ $(document).ready(function () {
   let vaL;
   let texT;
 
-  $("#editss").on("hidden.bs.modal", function () {
-    $("#filePreview, #filePrev").empty();
-    $("#vidmss, #imgmss, #gambar, #vid").val("");
-  });
-
   $("#icon").on("change", function () {
     vaL = $(this).find(":selected").val();
     texT = $(this).find(":selected").text();
     let preview;
     if (vaL == "material-symbols-rounded") {
-      preview = `<i class="${vaL}" style="font-size: 2rem; color: cornflowerblue;">${texT}</i>`;
+      preview = `<i class="${vaL}" style="font-size: 3rem; color: cornflowerblue;">${texT}</i>`;
     } else {
       preview = `<i class="${vaL}" style="font-size: 2rem; color: cornflowerblue;"></i>`;
     }
@@ -898,4 +957,146 @@ $(document).ready(function () {
     tags: true,
     tokenSeparators: [",", " "],
   });
+
+  $("#video_main, #vid_modal").prop("disabled", true).val(null);
+  $("#vid_main_url, #video_modal").on("change focus", function () {
+    let ele = this.id;
+    let url = $(this).val();
+    let file_vid_array = url.split("/");
+    let video = file_vid_array[file_vid_array.length - 1];
+    let filevideo;
+    let previewvid;
+    $("#vid_main_preview ,#vid_modal_preview").empty();
+
+    $.ajax({
+      type: "HEAD",
+      url: url,
+      crossDomain: true,
+      success: function () {
+        if (ele.includes("main")) {
+          filevideo = getFileType(video);
+          $("#vid_main_preview").empty();
+          if (filevideo === "video") {
+            $("#video_main").prop("disabled", false);
+            $("#video_main").val(video);
+            previewvid = `<div class="embed-responsive embed-responsive-16by9"><video class="embed-responsive-item" src="${url}" controls></video></div>`;
+            $("#vid_main_preview").append(previewvid);
+            $("#ss_vd").prop("disabled", true);
+          } else {
+            $("#video_main").prop("disabled", true);
+            $("#video_main").val(null);
+            previewvid = `<p class="text-danger">Jenis file bukan video, mohon input ulang!</p>`;
+            $("#vid_main_preview").append(previewvid);
+            $("#ss_vd").prop("disabled", false);
+          }
+        } else {
+          filevideo = getFileType(video);
+          $("#vid_modal_preview").empty();
+          if (filevideo === "video") {
+            $("#vid_modal").prop("disabled", false);
+            $("#vid_modal").val(video);
+            previewvid = `<div class="embed-responsive embed-responsive-16by9"><video class="embed-responsive-item" src="${url}" controls></video></div>`;
+            $("#vid_modal_preview").append(previewvid);
+          } else {
+            $("#vid_modal").prop("disabled", true);
+            $("#vid_modal").val(null);
+            previewvid = `<p class="text-danger">Jenis file bukan video, mohon input ulang!</p>`;
+            $("#vid_modal_preview").append(previewvid);
+          }
+        }
+      },
+      error: function () {
+        if (ele.includes("main")) {
+          $("#video_main").prop("disabled", true);
+          $("#video_main").val(null);
+          previewvid = `<p class="text-danger">URL tidak valid, mohon di periksa untuk url</p>`;
+          $("#vid_main_preview").append(previewvid);
+          $("#ss_vd").prop("disabled", false);
+        } else {
+          $("#vid_modal").prop("disabled", true);
+          $("#vid_modal").val(null);
+          previewvid = `<p class="text-danger">URL tidak valid, mohon di periksa untuk url</p>`;
+          $("#vid_modal_preview").append(previewvid);
+        }
+      },
+    });
+  });
+
+  $("#image_main, #img_modal").prop("disabled", true).val(null);
+  $("#img_main, #image_modal").on("change focus", function () {
+    let ele = this.id;
+    let url = $(this).val();
+    let file_vid_array = url.split("/");
+    let gambar = file_vid_array[file_vid_array.length - 1];
+    let filegambar;
+    let previewimg;
+    $("#img_main_preview ,#img_modal_preview").empty();
+  
+    $.ajax({
+      type: "HEAD",
+      url: url,
+      crossDomain: true,
+      success: function () {
+        if (ele.includes("main")) {
+          filegambar = getFileType(gambar);
+          $("#img_main_preview").empty();
+          if (filegambar === "image") {
+            $("#image_main").prop("disabled", false);
+            $("#image_main").val(gambar);
+            previewimg = `<img src="${url}" class="img-fluid rounded" alt="${gambar}">`;
+            $("#img_main_preview").append(previewimg);
+            $("#ss_bg").prop("disabled", true);
+          } else {
+            $("#image_main").prop("disabled", true);
+            $("#image_main").val(null);
+            previewimg = `<p class="text-danger">Jenis file bukan gambar, mohon input ulang!</p>`;
+            $("#img_main_preview").append(previewimg);
+            $("#ss_bg").prop("disabled", false);
+          }
+        } else {
+          filegambar = getFileType(gambar);
+          $("#img_modal_preview").empty();
+          if (filegambar === "image") {
+            $("#img_modal").prop("disabled", false);
+            $("#img_modal").val(gambar);
+            previewimg = `<img src="${url}" class="img-fluid rounded" alt="${gambar}">`;
+            $("#img_modal_preview").append(previewimg);
+          } else {
+            $("#img_modal").prop("disabled", true);
+            $("#img_modal").val(null);
+            previewimg = `<p class="text-danger">Jenis file bukan gambar, mohon input ulang!</p>`;
+            $("#img_modal_preview").append(previewimg);
+          }
+        }
+      },
+      error: function () {
+        if (ele.includes("main")) {
+          $("#image_main").prop("disabled", true);
+          $("#image_main").val(null);
+          previewimg = `<p class="text-danger">URL tidak valid, mohon di periksa untuk url</p>`;
+          $("#img_main_preview").append(previewimg);
+          $("#ss_bg").prop("disabled", false);
+        } else {
+          $("#img_modal").prop("disabled", true);
+          $("#img_modal").val(null);
+          previewimg = `<p class="text-danger">URL tidak valid, mohon di periksa untuk url</p>`;
+          $("#img_modal_preview").append(previewimg);
+        }
+      },
+    });
+  });
+
+  function getFileType(url) {
+    var fileType;
+
+    if (url.match(/\.(jpeg|jpg|gif|png)$/)) {
+      fileType = "image";
+    } else if (url.match(/\.(mp4|webm|ogg)$/)) {
+      fileType = "video";
+    } else {
+      fileType = "other";
+    }
+
+    return fileType;
+  }
 });

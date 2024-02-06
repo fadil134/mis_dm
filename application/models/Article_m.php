@@ -63,7 +63,7 @@ class Article_m extends CI_Model
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
         $this->db->join('statusberita', 'berita.Status_ID = statusberita.ID_Status', 'left');
         $this->db->join('berita_kategori', 'berita.Kategori_ID = berita_kategori.ID_Kategori', 'left');
-        $this->db->where('statusberita.Nama_Status', 'Draf');
+        $this->db->where('statusberita.Nama_Status', 'Draft');
         $this->db->group_by('berita.ID_Berita');
 
         $query = $this->db->get();

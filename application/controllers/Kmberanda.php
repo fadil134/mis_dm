@@ -18,16 +18,20 @@ class Kmberanda extends CI_Controller
         $config['max_size'] = 10000;
         $config['overwrite'] = true;
 
-        $this->upload->initialize($config);
         $error = array();
 
         $this->form_validation->set_rules('sekapur_sirih', 'Sekapur Sirih', 'required');
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $this->form_validation->run()) {
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $this->form_validation->run() === true) {
             // Handle picture upload
             $data = array();
             $error = array();
+            $img_url = $this->input->post('img_url');
+            $vid_url = $this->input->post('vid_url');
+            
             if (isset($_FILES['ssgambar'])) {
+                $this->upload->initialize($config);
                 if ($this->upload->do_upload('ssgambar')) {
                     $data['picture_data'] = $this->upload->data();
                 } else {
@@ -38,8 +42,7 @@ class Kmberanda extends CI_Controller
 
             // Handle video upload
             if (isset($_FILES['ssvideo'])) {
-                $this->upload->initialize($config); // Reinitialize for video upload
-
+                $this->upload->initialize($config);
                 if ($this->upload->do_upload('ssvideo')) {
                     $data['video_data'] = $this->upload->data();
 
@@ -49,8 +52,7 @@ class Kmberanda extends CI_Controller
                     $this->session->set_flashdata('pesan', $error['ssvideo']);
                 }
             }
-
-            if (!empty($data['picture_data']) && !empty($data['video_data'])) {
+            if (isset($_FILES['ssvideo']) && isset($_FILES['ssgambar'])) {
                 $s_sirih = array(
                     'filename' => $data['picture_data']['file_name'],
                     'url' => base_url() . 'uploads/beranda/' . $data['picture_data']['file_name'],
@@ -64,7 +66,7 @@ class Kmberanda extends CI_Controller
                 );
                 $this->Page_m->save_ss($s_sirih);
                 redirect('dist/beranda', 'refresh');
-            } elseif (empty($data['picture_data'])) {
+            } else if (isset($_FILES['ssvideo']) && !isset($_FILES['ssgambar'])) {
                 $s_sirih = array(
                     'filename' => $this->input->post('imG_url'),
                     'url' => $this->input->post('img_url'),
@@ -78,7 +80,7 @@ class Kmberanda extends CI_Controller
                 );
                 $this->Page_m->save_ss($s_sirih);
                 redirect('dist/beranda', 'refresh');
-            } elseif (empty($data['video_data'])) {
+            } else if (!isset($_FILES['ssvideo']) && isset($_FILES['ssgambar'])) {
                 $s_sirih = array(
                     'filename' => $data['picture_data']['file_name'],
                     'url' => base_url() . 'uploads/beranda/' . $data['picture_data']['file_name'],
@@ -92,7 +94,7 @@ class Kmberanda extends CI_Controller
                 );
                 $this->Page_m->save_ss($s_sirih);
                 redirect('dist/beranda', 'refresh');
-            } else {
+            } else if (isset($vid_url) && isset($img_url)){
                 $s_sirih = array(
                     'filename' => $this->input->post('imG_url'),
                     'url' => $this->input->post('img_url'),
@@ -105,11 +107,12 @@ class Kmberanda extends CI_Controller
                     'display_section' => 'sekapur sirih',
                 );
                 $this->Page_m->save_ss($s_sirih);
+                print_r($s_sirih);
                 redirect('dist/beranda', 'refresh');
             }
             //redirect('dist/beranda','refresh');
         } else {
-            show_404();
+            echo validation_errors();
         }
     }
 

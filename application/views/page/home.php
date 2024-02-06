@@ -117,7 +117,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <section id="about" class="about">
         <div class="container" data-aos="fade-up">
-
+            <div class="section-header">
+                <h2>Profil Madrasah</h2>
+            </div>
             <div class="row gy-4" data-aos="fade-up">
                 <div class="col-lg-4">
                     <img src="<?=base_url();?>assets/img/about.jpg" class="img-fluid" alt="">
@@ -175,6 +177,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- ======= Pengumuman ======= -->
     <section id="call-to-action" class="call-to-action">
+        <div class="section-header">
+            <h2 style="color: white;">Pengumuman</h2>
+        </div>
         <div class="container" data-aos="fade-up">
             <div class="justify-content-center">
                 <div class="slides">

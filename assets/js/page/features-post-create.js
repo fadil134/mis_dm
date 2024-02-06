@@ -47,45 +47,6 @@ $(document).ready(function () {
     },
   });
 
-  /**
-   * 
-   *  
-  function check(isFullscreen) {
-    if (isFullscreen) {
-      $("nav.navbar.navbar-expand-lg.main-navbar").css({
-        "z-index": "auto", // Perbaikan sintaks
-      });
-
-      $("body.sidebar-mini .main-sidebar::after").css({
-        "z-index": "auto",
-      });
-
-      $("body.sidebar-mini .main-sidebar::after").css({
-        "z-index": "auto",
-      });
-
-      $("div.main-sidebar").css({
-        "z-index" : "auto"
-      });
-      console.log("Editor is in fullscreen mode");
-    } else {
-      console.log("Editor is not in fullscreen mode");
-
-      $("nav.navbar.navbar-expand-lg.main-navbar").css({
-        "z-index": 890,
-      });
-
-      $("body.sidebar-mini .main-sidebar::after").css({
-        "z-index": -1,
-      });
-
-      $("div.main-sidebar").css({
-        "z-index" : 880
-      });
-    }
-  }
-   */
-
   function check(isFullscreen) {
     var screenWidth = $(window).width();
 

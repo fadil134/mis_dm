@@ -44,7 +44,7 @@ $this->load->view('dist/_partials/header');
                                 <div class="form-group">
                                     <label for="vid_main">URL Video</label>
                                     <input type="text" name="vid_url" id="vid_main_url" class="form-control"
-                                        placeholder="" aria-describedby="helpId" onchange="previewVid(this)">
+                                        placeholder="" aria-describedby="helpId">
                                     <small id="helpId" class="text-muted">Paste Video URL ke
                                         sini</small>
                                     <div id="vid_main_preview"></div>
@@ -56,7 +56,7 @@ $this->load->view('dist/_partials/header');
                                 <div class="form-group">
                                     <label for="img_main">URL Gambar</label>
                                     <input type="text" name="img_url" id="img_main" class="form-control" placeholder=""
-                                        aria-describedby="helpId" onchange="previewImg(this)">
+                                        aria-describedby="helpId">
                                     <small id="helpId" class="text-muted">Paste Gambar URL ke
                                         sini</small>
                                     <div id="img_main_preview"></div>
@@ -92,10 +92,29 @@ $this->load->view('dist/_partials/header');
                                             <th>Photo</th>
                                             <th>Video</th>
                                             <th>Aktivasi</th>
-                                            <th class="text-nowrap">Action</th>
+                                            <th>Action</th>
+                                            <th>Video</th>
+                                            <th>Image</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php $counter = 1; ?>
+                                        <?php foreach($table_ss as $ss) : ?>
+                                        <tr>
+                                            <td><?=$counter?></td>
+                                            <td><?=$ss->id?></td>
+                                            <td><?=$ss->description?></td>
+                                            <td><?=$ss->url?></td>
+                                            <td><?=$ss->url_video?></td>
+                                            <td><?=$ss->is_active?></td>
+                                            <td><?=$ss->id?></td>
+                                            <td><?=$ss->video?></td>
+                                            <td><?=$ss->filename?></td>
+                                        </tr>
+                                        <?php
+                                        $counter++;
+                                        ?>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -410,7 +429,7 @@ $this->load->view('dist/_partials/header');
                     <div class="form-group">
                         <label for="vid">Replace Video</label>
                         <input type="text" class="form-control" name="vid" id="video_modal" aria-describedby="helpId"
-                            placeholder="" onchange="previewVid(this)">
+                            placeholder="">
                         <small id="helpId" class="form-text text-muted">Isi URL video untuk mengganti video
                             existing</small>
                         <div id="vid_modal_preview"></div>

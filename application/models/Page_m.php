@@ -7,7 +7,7 @@ class Page_m extends CI_Model
     public function ssirih()
     {
         $this->db->where('display_section', 'sekapur sirih');
-        return $this->db->get('photos')->result_array();
+        return $this->db->get('photos')->result();
     }
 
     public function page_ssirih()
