@@ -10,6 +10,16 @@
 # Set main reusable colors and fonts using CSS variables
 # Learn more about CSS variables at https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties
 --------------------------------------------------------------*/
+
+.bootstrap-card {
+  width: 250px;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(10, 1, 1, 0.884);
+  background-color: #fff;
+}
+
 /* Fonts */
 :root {
   --font-default: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

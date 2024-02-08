@@ -55,12 +55,12 @@ class Kmberanda extends CI_Controller
             if (isset($_FILES['ssvideo']) && isset($_FILES['ssgambar'])) {
                 $s_sirih = array(
                     'filename' => $data['picture_data']['file_name'],
-                    'url' => base_url() . 'uploads/beranda/' . $data['picture_data']['file_name'],
+                    'url' => 'uploads/beranda/' . $data['picture_data']['file_name'],
                     'display_location' => 'beranda',
                     'created_at' => date('Y-m-d'),
                     'description' => $this->input->post('sekapur_sirih'),
                     'is_active' => 0,
-                    'url_video' => base_url() . 'uploads/beranda/' . $data['video_data']['file_name'],
+                    'url_video' => 'uploads/beranda/' . $data['video_data']['file_name'],
                     'video' => $data['video_data']['file_name'],
                     'display_section' => 'sekapur sirih',
                 );
@@ -74,7 +74,7 @@ class Kmberanda extends CI_Controller
                     'created_at' => date('Y-m-d'),
                     'description' => $this->input->post('sekapur_sirih'),
                     'is_active' => 0,
-                    'url_video' => base_url() . 'uploads/beranda/' . $data['video_data']['file_name'],
+                    'url_video' => 'uploads/beranda/' . $data['video_data']['file_name'],
                     'video' => $data['video_data']['file_name'],
                     'display_section' => 'sekapur sirih',
                 );
@@ -83,7 +83,7 @@ class Kmberanda extends CI_Controller
             } else if (!isset($_FILES['ssvideo']) && isset($_FILES['ssgambar'])) {
                 $s_sirih = array(
                     'filename' => $data['picture_data']['file_name'],
-                    'url' => base_url() . 'uploads/beranda/' . $data['picture_data']['file_name'],
+                    'url' => 'uploads/beranda/' . $data['picture_data']['file_name'],
                     'display_location' => 'beranda',
                     'created_at' => date('Y-m-d'),
                     'description' => $this->input->post('sekapur_sirih'),

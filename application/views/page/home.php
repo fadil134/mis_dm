@@ -1,31 +1,59 @@
-<?php 
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <!-- ======= Hero Section ======= -->
-<?php foreach ($sekapur_s as $ss) : ?>
+<?php if ($sekapur_s !== array()) { ?>
+<?php foreach ($sekapur_s as $ss): ?>
 <section id="hero" class="hero d-flex align-items-center"
-    style="background: url('<?= $ss->url ?>') top center; background-size: cover;">
+    style="background: url(' <?= base_url() . $ss->url; ?>') top center; background-size: cover;">
     <div class="container">
         <div class="row">
             <div class="col-xl-4">
                 <h2 data-aos="fade-up" style="font-family: 'Amiri Quran', serif;">أَهْلًا وَسَهْلًا</h2>
                 <blockquote data-aos="fade-up" data-aos-delay="100">
-                    <?= $ss->description ?>
+                    <?=$ss->description ?>
                 </blockquote>
-
                 <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
-                    <a href="<?= $ss->url_video ?>" class="glightbox btn-watch-video d-flex align-items-center"><i
-                            class="bi bi-play-circle"></i><span>Kata Sambutan</span></a>
+                    <a href="<?=base_url() . $ss->url_video ?>"
+                        class="glightbox btn-watch-video d-flex align-items-center">
+                        <i class="bi bi-play-circle"></i>
+                        <span>Kata Sambutan</span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </section>
 <?php endforeach; ?>
+<?php } else { ?>
+<section id="hero" class="hero d-flex align-items-center bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-4">
+                <h2 data-aos="fade-up" style="font-family: 'Amiri Quran', serif;">أَهْلًا وَسَهْلًا</h2>
+                <blockquote data-aos="fade-up" data-aos-delay="100">
+                    <p align="justify">Selamat datang di Website Resmi MIS Daarul Maarif !</p align="justify">Terima
+                    kasih sekali atas kunjungan Anda. Semoga website ini dapat menjadi
+                    sumber informasi yang bermanfaat dan memberikan gambaran yang jelas
+                    tentang kehidupan di MIS Daarul Maarif.
+                </blockquote>
+                <!-- 
+                    <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
+                        <a href="#" class="glightbox btn-watch-video d-flex align-items-center">
+                            <i class="bi bi-play-circle"></i>
+                            <span>Kata Sambutan</span>
+                        </a>
+                    </div>
+                -->
+            </div>
+        </div>
+    </div>
+</section>
+<?php } ?>
 <!-- End Hero Section -->
 
 <main id="main">
-    <!-- ======= Why Choose Us Section 
+    <!-- ======= Why Choose Us Section
     <section id="why-us" class="why-us">
         <div class="container" data-aos="fade-up">
 
@@ -36,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             <div class="row g-0" data-aos="fade-up" data-aos-delay="200">
 
-                <div class="col-xl-5 img-bg" style="background-image: url('<?=base_url();?>assets/img/why-us-bg.jpg')">
+                <div class="col-xl-5 img-bg" style="background-image: url('<?=base_url(); ?>assets/img/why-us-bg.jpg')">
                 </div>
                 <div class="col-xl-7 slides  position-relative">
 
@@ -58,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         doloribus quas sapiente optio.</p>
                                 </div>
                             </div>
-                             End slide item 
+                             End slide item
 
                             <div class="swiper-slide">
                                 <div class="item">
@@ -72,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         repellat ea. Facere est dolores fugiat dolor.</p>
                                 </div>
                             </div>
-                             End slide item 
+                             End slide item
 
                             <div class="swiper-slide">
                                 <div class="item">
@@ -85,7 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         fugiat aut.</p>
                                 </div>
                             </div>
-                             End slide item 
+                             End slide item
 
                             <div class="swiper-slide">
                                 <div class="item">
@@ -98,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         et sed voluptate impedit. Ad et qui sint at qui animi animi rerum.</p>
                                 </div>
                             </div>
-                            End slide item 
+                            End slide item
 
                         </div>
                         <div class="swiper-pagination"></div>
@@ -120,7 +148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="row gy-4" data-aos="fade-up">
                 <div class="col-lg-4">
-                    <img src="<?=base_url();?>assets/img/about.jpg" class="img-fluid" alt="">
+                    <img src="<?=base_url(); ?>assets/img/about.jpg" class="img-fluid" alt="">
                 </div>
                 <div class="col-lg-8">
                     <div class="content ps-lg-5">
@@ -134,7 +162,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             kehidupan bangsa Indonesia. Masa ini adalah masa yang sangat kritis bagi kehidupan
                             pendidikan Islam secara umum di Indonesia.
                         </div>
-                        <a href="<?=base_url('page/about');?>" class="btn-get-started">Selengkapnya</a>
+                        <a href="<?=base_url('page/about'); ?>" class="btn-get-started">Selengkapnya</a>
                     </div>
                 </div>
             </div>
@@ -151,17 +179,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
 
             <div class="row gy-5">
-                <?php foreach ($ekskul as $eks) : ?>
+                <?php foreach ($ekskul as $eks): ?>
                 <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
                     <div class="icon flex-shrink-0">
-                        <?= $eks->filename ?>
+                        <?=$eks->filename ?>
                     </div>
                     <div>
                         <h4 class="title"><a href="#" class="stretched-link">
-                                <?= $eks->title ?>
+                                <?=$eks->title ?>
                             </a></h4>
                         <p class="description">
-                            <?= $eks->description ?>
+                            <?=$eks->description ?>
                         </p>
                     </div>
                 </div>
@@ -183,23 +211,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="slides">
                     <div class="slides-1 swiper">
                         <div class="swiper-wrapper">
-                        <?php if ($attention !== null && count($attention) > 0) { ?>
-                            <?php foreach ($attention as $att) : ?>
-                                <div class="swiper-slide">
-                                    <div class="item text-center">
-                                        <h3><?= $att->Judul_Pengumuman ?></h3>
-                                        <p><?= $att->Isi_Pengumuman ?></p>
-                                        <a class="cta-btn" href="#">Link</a>
-                                    </div>
+                            <?php if ($attention !== null && count($attention) > 0) { ?>
+                            <?php foreach ($attention as $att): ?>
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <h3>
+                                        <?=$att->Judul_Pengumuman ?>
+                                    </h3>
+                                    <p>
+                                        <?=$att->Isi_Pengumuman ?>
+                                    </p>
+                                    <a class="cta-btn" href="#">Link</a>
                                 </div>
+                            </div>
                             <?php endforeach; ?>
-                        <?php } else { ?>
+                            <?php } else { ?>
                             <div class="swiper-slide">
                                 <div class="item text-center">
                                     <h3>Belum Ada Pengumuman</h3>
                                 </div>
                             </div>
-                        <?php } ?>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -277,7 +309,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="col-lg-5 position-relative" data-aos="fade-up" data-aos-delay="200">
                     <div class="phone-wrap">
-                        <img src="<?=base_url();?>assets/img/iphone.png" alt="Image" class="img-fluid">
+                        <img src="<?=base_url(); ?>assets/img/iphone.png" alt="Image" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -314,27 +346,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="col-xl-3 col-md-6 mx-auto" data-aos="fade-up" data-aos-delay="100">
                     <div class="post-box">
                         <div class="post-img">
-                            <img src="<?= $berita->url ?>" class="img-fluid equal-image" alt="">
+                            <img src="<?=base_url() . $berita->url ?>" class="img-fluid equal-image" alt="">
                         </div>
                         <div class="meta">
                             <span class="post-date">
-                                <?php 
-                            $tanggal = $berita->updated;
-                            $format = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
-                            echo $format->format(strtotime($tanggal)); 
-                            ?>
+                                <?php
+$tanggal = $berita->updated;
+$format = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
+echo $format->format(strtotime($tanggal));
+?>
                             </span>
                             <span class="post-author">
-                                <?= $berita->Nama_Penulis ?>
+                                <?=$berita->Nama_Penulis ?>
                             </span>
                         </div>
                         <h3 class="post-title">
-                            <?= $berita->Judul_Berita ?>
+                            <?=$berita->Judul_Berita ?>
                         </h3>
                         <p class="d-inline-block text-truncate" style="max-width: 150px;">
-                            <?= strip_tags($berita->Isi_Berita); ?>
+                            <?=strip_tags($berita->Isi_Berita); ?>
                         </p>
-                        <a href="<?=base_url();?>page/blog_detail/<?=$berita->ID_Berita?>"
+                        <a href="<?=base_url(); ?>page/blog_detail/<?=$berita->ID_Berita ?>"
                             class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
@@ -342,7 +374,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <!--
                 <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="post-box">
-                        <div class="post-img"><img src="<?=base_url();?>assets/img/blog/blog-2.jpg" class="img-fluid"
+                        <div class="post-img"><img src="<?=base_url(); ?>assets/img/blog/blog-2.jpg" class="img-fluid"
                                 alt=""></div>
                         <div class="meta">
                             <span class="post-date">Fri, September 05</span>
@@ -359,7 +391,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
                     <div class="post-box">
-                        <div class="post-img"><img src="<?=base_url();?>assets/img/blog/blog-3.jpg" class="img-fluid"
+                        <div class="post-img"><img src="<?=base_url(); ?>assets/img/blog/blog-3.jpg" class="img-fluid"
                                 alt=""></div>
                         <div class="meta">
                             <span class="post-date">Tue, July 27</span>
@@ -376,7 +408,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
                     <div class="post-box">
-                        <div class="post-img"><img src="<?=base_url();?>assets/img/blog/blog-4.jpg" class="img-fluid"
+                        <div class="post-img"><img src="<?=base_url(); ?>assets/img/blog/blog-4.jpg" class="img-fluid"
                                 alt=""></div>
                         <div class="meta">
                             <span class="post-date">Tue, Sep 16</span>

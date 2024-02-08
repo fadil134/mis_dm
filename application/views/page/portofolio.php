@@ -5,17 +5,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <main id="main">
 
 <!-- ======= Breadcrumbs ======= -->
-<div class="breadcrumbs d-flex align-items-center" style="background-image: url('<?= base_url('assets/img/portfolio-header.jpg') ?>');">
+<div class="breadcrumbs d-flex align-items-center <?php echo $hero !== "" ? 'style="background-image: url(' . base_url() . $hero[0]->url . ');"' : 'style="background-color: #343a40;"'; ?>">
   <div class="container position-relative d-flex flex-column align-items-center">
-
     <h2>Galeri</h2>
     <ol>
-      <li><a href="<?= base_url() ?>page/home">Home</a></li>
+      <li><a href="<?= base_url() ?>page/home">Beranda</a></li>
       <li>Galeri</li>
     </ol>
 
   </div>
-</div><!-- End Breadcrumbs -->
+</div>
+<!-- End Breadcrumbs -->
 
 <!-- ======= Portfolio Section ======= -->
 <section id="portfolio" class="portfolio">
@@ -33,6 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
       <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="300">
 
+      
         <div class="col-lg-4 col-md-6 portfolio-item filter-app">
           <img src="<?= base_url() ?>assets/img/portfolio/app-1.jpg" class="img-fluid" alt="">
           <div class="portfolio-info">

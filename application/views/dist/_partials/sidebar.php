@@ -57,17 +57,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
       <!-- Content Manajemen Web -->
       <li class="menu-header">Konten Manajemen Web</li>
-      <li class="dropdown <?=$this->uri->segment(2) == 'beranda' || $this->uri->segment(2) == 'tentang_kami' || $this->uri->segment(2) == 'ekskul' || $this->uri->segment(2) == 'kontak' ? 'active' : '';?>">
+      <li class="dropdown <?=$this->uri->segment(2) == 'beranda' || $this->uri->segment(2) == 'profil' || $this->uri->segment(2) == 'galeri' || $this->uri->segment(2) == 'kontak' ? 'active' : '';?>">
         <a href="#" class="nav-link has-dropdown"><i class="far fa-newspaper fa-sm"></i><span>Web Manajemen</span></a>
         <ul class="dropdown-menu">
           <li class="<?=$this->uri->segment(2) == 'beranda' ? 'active' : '';?>">
             <a class="nav-link" href="<?=base_url();?>dist/beranda">Beranda</a>
           </li>
-          <li class="<?=$this->uri->segment(2) == 'tentang_kami' ? 'active' : '';?>">
-            <a class="nav-link" href="<?=base_url();?>dist/tentang_kami">Tentang Kami</a>
+          <li class="<?=$this->uri->segment(2) == 'profil' ? 'active' : '';?>">
+            <a class="nav-link" href="<?=base_url();?>dist/profil">Profil</a>
           </li>
-          <li class="<?=$this->uri->segment(2) == 'ekskul' ? 'active' : '';?>">
-            <a class="nav-link" href="<?=base_url();?>dist/ekskul">Ekskul</a>
+          <li class="<?=$this->uri->segment(2) == 'galeri' ? 'active' : '';?>">
+            <a class="nav-link" href="<?=base_url();?>dist/galeri">Galeri</a>
           </li>
         </ul>
       </li>

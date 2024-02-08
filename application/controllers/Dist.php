@@ -235,4 +235,25 @@ class Dist extends CI_Controller
         $this->load->view('dist/page-beranda', $data);
     }
 
+    public function profil()
+    {
+        $data = array(
+            'title' => 'Manajemen Beranda',
+            'icons' => $this->Page_m->icons(),
+            'table_ek' => $this->Page_m->eks(),
+            'table_ss' => $this->Page_m->ssirih()
+        );
+        //print_r($data['icons']);
+        $this->load->view('dist/page-profil', $data);
+    }
+
+    public function galeri()
+    {
+        $data = array(
+            'title' => 'Manajemen Galeri',
+            'galeri' => $this->Page_m->galeri(),
+        );
+        //print_r($data['icons']);
+        $this->load->view('dist/page-galeri', $data);
+    }
 }

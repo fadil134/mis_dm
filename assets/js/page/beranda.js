@@ -8,127 +8,6 @@ var file;
 var tipefile_main;
 var tipefile_modal;
 
-function cekvidurl(fileurl) {
-  $.ajax({
-    type: "HEAD",
-    url: fileurl,
-    success: function () {
-      if (
-        inp.includes("main") &&
-        tipefile === "video" &&
-        $("#vid_main_url").val() !== ""
-      ) {
-        $("#vid_main_preview").empty();
-        let preview = `<video controls class="img-fluid" id="videoPreview"><source src="${fileurl}" type="video/mp4">Your browser does not support the video tag.</video>`;
-        $("#video_main").val(file).prop("disabled", false);
-        $("#vid_main_preview").append(preview);
-      } else {
-        $("#vid_main_preview").empty();
-        let preview = `<p class="text-danger">Jenis file harus berupa video!</p>`;
-        $("#video_main").val("").prop("disabled", true);
-        $("#vid_main_preview").append(preview);
-      }
-      if (
-        inp.includes("modal") &&
-        tipefile === "video" &&
-        $("#video_modal").val() !== ""
-      ) {
-        $("#vid_modal_preview").empty();
-        let preview = `<video controls class="img-fluid" id="videoPreview"><source src="${fileurl}" type="video/mp4">Your browser does not support the video tag.</video>`;
-        $("#vid_modal").val(file).prop("disabled", false);
-        $("#vid_modal_preview").append(preview);
-      } else {
-        $("#vid_modal_preview").empty();
-        let preview = `<p class="text-danger">Jenis file harus berupa video!</p>`;
-        $("#vid_modal").val("").prop("disabled", true);
-        $("#vid_modal_preview").append(preview);
-      }
-    },
-    error: function () {
-      if (
-        inp.includes("main") &&
-        tipefile === "video" &&
-        $("#vid_main_url").val() !== ""
-      ) {
-        $("#vid_main_preview").empty();
-        let preview = `<p class="text-danger">URL file tidak valid, tidak ada data yang berkaitan dengan url ini!!</p>`;
-        console.log(preview);
-        $("#video_main").val("").prop("disabled", true);
-        $("#vid_main_preview").append(preview);
-      } else if (
-        inp.includes("modal") &&
-        tipefile === "video" &&
-        $("#video_modal").val() !== ""
-      ) {
-        $("#vid_modal_preview").empty();
-        let preview = `<p class="text-danger">URL file tidak valid, tidak ada data yang berkaitan dengan url ini!!</p>`;
-        $("#vid_modal").val("").prop("disabled", true);
-        $("#vid_modal_preview").append(preview);
-      }
-    },
-  });
-}
-
-function cekimgurl(fileurl) {
-  $.ajax({
-    type: "HEAD",
-    url: fileurl,
-    success: function () {
-      if (
-        inp.includes("main") &&
-        tipefile_main === "image" &&
-        $("#img_main").val() !== ""
-      ) {
-        $("#img_main_preview").empty();
-        let preview = `<img src="${fileurl}" class="img-fluid" alt="${file}">`;
-        $("#image_main").val(file).prop("disabled", false);
-        $("#img_main_preview").append(preview);
-      } else {
-        $("#img_main_preview").empty();
-        let preview = `<p class="text-danger">Jenis file harus berupa gambar!</p>`;
-        $("#image_main").val("").prop("disabled", true);
-        $("#img_main_preview").append(preview);
-      }
-      if (
-        inp.includes("modal") &&
-        tipefile_modal === "image" &&
-        $("#image_modal").val() !== ""
-      ) {
-        $("#img_modal_preview").empty();
-        let preview = `<img src="${fileurl}" class="img-fluid" alt="${file}">`;
-        $("#img_modal").val(file).prop("disabled", false);
-        $("#img_modal_preview").append(preview);
-      } else {
-        $("#img_modal_preview").empty();
-        let preview = `<p class="text-danger">Jenis file harus berupa gambar!</p>`;
-        $("#img_modal").val("").prop("disabled", true);
-        $("#img_modal_preview").append(preview);
-      }
-    },
-    error: function () {
-      if (
-        inp.includes("main") &&
-        tipefile_main === "image" &&
-        $("#img_main").val() !== ""
-      ) {
-        $("#img_main_preview").empty();
-        let preview = `<p class="text-danger">URL file tidak valid, tidak ada data yang berkaitan dengan url ini!!</p>`;
-        $("#image_main").val("").prop("disabled", true);
-        $("#img_main_preview").append(preview);
-      } else if (
-        np.includes("modal") &&
-        tipefile_modal === "image" &&
-        $("#image_modal").val() !== ""
-      ) {
-        $("#img_modal_preview").empty();
-        let preview = `<p class="text-danger">URL file tidak valid, tidak ada data yang berkaitan dengan url ini!!</p>`;
-        $("#img_modal").val("").prop("disabled", true);
-        $("#img_modal_preview").append(preview);
-      }
-    },
-  });
-}
-
 $("#editss").on("hidden.bs.modal", function () {
   $("#filePreview, #filePrev").empty();
   $("#vidmss, #imgmss, #gambar, #vid, #video_modal,#vid_modal").val("");
@@ -189,7 +68,7 @@ function deleteRow(id, rowIndex) {
           // Panggil fungsi untuk menghapus data dari database
           $.ajax({
             type: "POST",
-            url: "http://localhost/mis_dm/Kmberanda/delete_ssirih",
+            url: base_url + 'Kmberanda/delete_ssirih',
             data: { id: id },
             dataType: "json",
             success: function (response) {
@@ -265,7 +144,7 @@ function check(id, row) {
 
   $.ajax({
     type: "post",
-    url: "http://localhost/mis_dm/master/u_pengumuman",
+    url: base_url+"master/u_pengumuman",
     data: { id: row, statH: $("#halaman" + id).val() },
     dataType: "json",
     success: function (response) {
@@ -297,7 +176,7 @@ $(document).ready(function () {
       right: "1",
     },
     ajax: {
-      url: "http://localhost/mis_dm/master/pengumuman",
+      url: base_url+"master/pengumuman",
       type: "GET",
       dataSrc: "",
     },
@@ -418,7 +297,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: "POST",
-      url: "http://localhost/mis_dm/master/u_pengumuman",
+      url: base_url+"master/u_pengumuman",
       data: { id: id, statP: $("#switch_peng" + rowI).val() },
       dataType: "json",
       success: function (response) {
@@ -452,7 +331,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: "POST",
-      url: "http://localhost/mis_dm/master/u_pengumuman",
+      url: base_url+"master/u_pengumuman",
       data: { id: id, statB: $("#beranda" + rowI).val() },
       dataType: "json",
       success: function (response) {
@@ -561,7 +440,7 @@ $(document).ready(function () {
     let id = data[1];
     $.ajax({
       type: "post",
-      url: "http://localhost/mis_dm/kmberanda/update_ssirih",
+      url: base_url+"kmberanda/update_ssirih",
       data: { switch: is_activated, id: id },
       dataType: "json",
       success: function (response) {
@@ -704,7 +583,7 @@ $(document).ready(function () {
             // Panggil fungsi untuk menghapus data dari database
             $.ajax({
               type: "POST",
-              url: "http://localhost/mis_dm/Kmberanda/delete_ssirih",
+              url: base_url+"Kmberanda/delete_ssirih",
               data: { id: id },
               dataType: "json",
               success: function (response) {
@@ -755,7 +634,7 @@ $(document).ready(function () {
     console.log(tableEk.row($(this).parents("tr")).data());
     $.ajax({
       type: "post",
-      url: "http://localhost/mis_dm/kmberanda/u_eks",
+      url: base_url+"kmberanda/u_eks",
       data: { suit: is_activated, id: id },
       dataType: "json",
       success: function (response) {
@@ -809,7 +688,7 @@ $(document).ready(function () {
         formData.append("file", files[0]);
 
         $.ajax({
-          url: "http://localhost/mis_dm/server_processing/summ_upload",
+          url: base_url+"server_processing/summ_upload",
           method: "POST",
           data: formData,
           contentType: false,
@@ -907,7 +786,7 @@ $(document).ready(function () {
         formData.append("file", files[0]);
 
         $.ajax({
-          url: "http://localhost/mis_dm/server_processing/summ_upload",
+          url: base_url+"server_processing/summ_upload",
           method: "POST",
           data: formData,
           contentType: false,

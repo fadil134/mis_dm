@@ -85,6 +85,23 @@ if ($this->uri->segment(2) == "" || $this->uri->segment(2) == "index") {?>
 <script src="<?=base_url();?>assets/modules/izitoast/js/iziToast.min.js"></script>
 
 <?php
+} elseif ($this->uri->segment(2) == "galeri") {?>
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+<script src="<?=base_url();?>assets/modules/glightbox/js/glightbox.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/modules/datatables/datatables.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/modules/datatables/DataTables-1.13.8/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?=base_url();?>assets/modules/datatables/Responsive-2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="<?=base_url();?>assets/modules/datatables/Responsive-2.5.0/js/responsive.bootstrap4.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/modules/datatables/Select-1.7.0/js/dataTables.select.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/modules/jquery-ui/jquery-ui.min.js"></script>
+<script src="<?=base_url();?>assets/modules/select2/dist/js/select2.min.js"></script>
+<script src="<?=base_url();?>assets/modules/dropzonejs/min/dropzone.min.js"></script>
+<script src="<?=base_url();?>assets/modules/pica/dist/pica.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/modules/summernote/summernote-bs4.js"></script>
+<script src="<?=base_url();?>assets/modules/izitoast/js/iziToast.min.js"></script>
+
+<?php
 } elseif ($this->uri->segment(2) == "features_posts") {?>
 <script src="<?php echo base_url(); ?>assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
 
@@ -133,6 +150,10 @@ if ($this->uri->segment(2) == "" || $this->uri->segment(2) == "index") {?>
 if ($this->uri->segment(2) == "beranda") {?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/page/beranda.js"></script>
+
+<?php
+} elseif ($this->uri->segment(2) == "galeri") {?>
+<script src="<?php echo base_url(); ?>assets/js/page/galeri.js"></script>
 
 <?php
 } elseif ($this->uri->segment(2) == "index_0") {?>

@@ -104,8 +104,8 @@ $this->load->view('dist/_partials/header');
                                             <td><?=$counter?></td>
                                             <td><?=$ss->id?></td>
                                             <td><?=$ss->description?></td>
-                                            <td><?=$ss->url?></td>
-                                            <td><?=$ss->url_video?></td>
+                                            <td><?=base_url() . $ss->url?></td>
+                                            <td><?=base_url() . $ss->url_video?></td>
                                             <td><?=$ss->is_active?></td>
                                             <td><?=$ss->id?></td>
                                             <td><?=$ss->video?></td>

@@ -20,12 +20,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
+        <div class="section-header">
+            <h2>Sejarah Singkat</h2>
+        </div>
         <div class="container" data-aos="fade-up">
-
             <div class="row gy-4" data-aos="fade-up">
                 <div class="col-lg">
                     <div class="content ps-lg-5">
-                        <h3>Sejarah Singkat</h3>
                         <div align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             Lembaga Pendidikan Islam (LPI) Daarul Ma’arif terletak di Desa Banjar Negeri, Kecamatan
                             Natar, Kabupaten Lampung Selatan. Namun, lembaga ini lebih dikenal oleh masyarakat berada di
@@ -68,44 +69,54 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
     </section>
 
-    <section id="about" class="about">
+    <section id="about" class="about  border-info border-top">
         <div class="container" data-aos="fade-up">
             <div class="row gy-4" data-aos="fade-up">
-                <div class="col-lg">
-                    <div class="content ps-lg-5">
-                        <h3>Struktur Organisasi</h3>
-                    </div>
-                    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                    <script type="text/javascript">
-                        google.charts.load('current', { packages: ["orgchart"] });
-                        google.charts.setOnLoadCallback(drawChart);
-
-                        function drawChart() {
-                            var data = new google.visualization.DataTable();
-                            data.addColumn('string', 'Name');
-                            data.addColumn('string', 'Manager');
-                            data.addColumn('string', 'ToolTip');
-
-                            // For each orgchart box, provide the name, manager, and tooltip to show.
-                            data.addRows([
-                                [{ 'v': 'Mike', 'f': 'Mike<div style="color:red; font-style:italic">President</div>' },
-                                    '', 'The President'],
-                                [{ 'v': 'Jim', 'f': 'Jim<div style="color:red; font-style:italic">Vice President</div>' },
-                                    'Mike', 'VP'],
-                                ['Alice', 'Mike', ''],
-                                ['Bob', 'Jim', 'Bob Sponge'],
-                                ['Carol', 'Bob', '']
-                            ]);
-
-                            // Create the chart.
-                            var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
-                            // Draw the chart, setting the allowHtml option to true for the tooltips.
-                            chart.draw(data, { 'allowHtml': true });
-                        }
-                    </script>
-                    <div id="chart_div"></div>
+                <div class="section-header">
+                    <h2>Struktur Organisasi</h2>
                 </div>
+                <div class="container mt-5 border border-info border-2 rounded">
+                    <div id="chart-container"></div>
+                </div>
+                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                <script>
+                    let dataChart = <?= json_encode($org); ?>;
+                    let preview = [];
+                    for (let i = 0; i < dataChart.length; i++) {
+                        let chart = [{ 'v': dataChart[i].nama_guru, 'f': `<div class="card border-dark mb-3" style="max-width: 18rem;"><div class="card-header">${dataChart[i].jabatan_guru}</div><div class="card-body"><p class="card-text">${dataChart[i].nama_guru}</p></div></div>` }, dataChart[i].nama_atasan === null ? '' : dataChart[i].nama_atasan, ''];
+                        preview.push(chart);
+                    }
+                    console.log(preview);
+
+
+                    google.charts.load('current', { 'packages': ['orgchart'] });
+                    google.charts.setOnLoadCallback(drawChart);
+
+                    function drawChart() {
+                        var data = new google.visualization.DataTable();
+                        data.addColumn('string', 'nama_guru');
+                        data.addColumn('string', 'atasan');
+                        data.addColumn('string', 'ToolTip');
+                        // Data Organisasi
+                        data.addRows(preview);
+
+                        var chart = new google.visualization.OrgChart(document.getElementById('chart-container'));
+
+                        // Options untuk mengaktifkan kartu Bootstrap
+                        var options = {
+                            allowHtml: true,
+                            nodeClass: "text-nowrap",
+                            compactRows: true,
+                            allowCollapse: true
+                        };
+
+                        chart.draw(data, options);
+                    }
+                </script>
             </div>
+        </div>
     </section>
     <!-- End About Section -->
 
@@ -213,88 +224,56 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!-- ======= Team Section ======= -->
     <section id="team" class="team">
         <div class="container" data-aos="fade-up">
-
             <div class="section-header">
                 <h2>Dewan Guru</h2>
-
             </div>
+            <div class="slides-1 swiper">
+                <div class="swiper-wrapper">
+                    <?php $counter = 0; foreach ($guru as $g): ?>
+                    <?php if ($counter % 4 === 0): ?>
+                    <!-- Start New Slide -->
+                    <div class="swiper-slide">
+                        <div class="slides">
+                            <div class="row gy-4">
+                                <?php endif; ?>
 
-            <div class="row gy-4">
+                                <div class="col-lg-3 col-md-6" data-aos="fade-up"
+                                    data-aos-delay="<?= $counter % 4 * 100; ?>">
+                                    <div class="team-member">
+                                        <div class="member-img">
+                                            <img src="<?= base_url(); ?>"
+                                                class="img-fluid" alt="">
+                                            <div class="social">
+                                                <a href=""><i class="bi bi-twitter"></i></a>
+                                                <a href=""><i class="bi bi-facebook"></i></a>
+                                                <a href=""><i class="bi bi-instagram"></i></a>
+                                                <a href=""><i class="bi bi-linkedin"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="member-info">
+                                            <h4>
+                                                <?= $g->Nama ?>
+                                            </h4>
+                                            <span>
+                                                <?= $g->jabatan ?>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <img src="<?=base_url(); ?>assets/img/team/team-1.jpg" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
+                                <?php $counter++; if ($counter % 4 === 0): ?>
                             </div>
                         </div>
-                        <div class="member-info">
-                            <h4>Walter White</h4>
-                            <span>Chief Executive Officer</span>
-                        </div>
                     </div>
-                </div><!-- End Team Member -->
+                    <!-- End Slide -->
+                    <?php endif; ?>
+                    <?php endforeach; ?>
 
-                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <img src="<?=base_url(); ?>assets/img/team/team-2.jpg" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info">
-                            <h4>Sarah Jhonson</h4>
-                            <span>Product Manager</span>
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-
-                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <img src="<?=base_url(); ?>assets/img/team/team-3.jpg" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info">
-                            <h4>William Anderson</h4>
-                            <span>CTO</span>
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-
-                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <img src="<?=base_url(); ?>assets/img/team/team-4.jpg" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info">
-                            <h4>Amanda Jepson</h4>
-                            <span>Accountant</span>
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-
+                    <?php if ($counter % 4 !== 0): ?>
+                    <!-- Penanganan jika anggota tim tidak mencapai kelipatan 4 -->
+                </div>
             </div>
-
+            <?php endif; ?>
         </div>
     </section><!-- End Team Section -->
 

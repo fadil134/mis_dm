@@ -6,7 +6,8 @@ class Page_m extends CI_Model
 {
     public function ssirih()
     {
-        $this->db->where('display_section', 'sekapur sirih');
+        $this->db->where('display_section', 'hero');
+        $this->db->where('display_location', 'beranda');
         return $this->db->get('photos')->result();
     }
 
@@ -15,7 +16,8 @@ class Page_m extends CI_Model
         $this->db->select('description, url, filename, url_video, video');
         $this->db->from('photos');
         $this->db->where('is_active', 1);
-        $this->db->where('display_section', 'sekapur sirih');
+        $this->db->where('display_section', 'hero');
+        $this->db->where('display_location', 'beranda');
         return $this->db->get()->result();
     }
 
@@ -84,7 +86,7 @@ class Page_m extends CI_Model
     {
         $this->db->where('id', $id);
         $this->db->update('photos', $data);
-        
+
         return $this->db->affected_rows();
     }
 
@@ -98,6 +100,71 @@ class Page_m extends CI_Model
     public function icons()
     {
         return $this->db->get('icons')->result();
+    }
+
+    public function org()
+    {
+        $list = array("WAKA V BID. KEPRAMUKAAN", "WAKA IV BID. PERPUSTAKAAN", "WAKA III BID. SARPRAS", "WAKA II BID. KESISWAAN", "WAKA I BID. KURIKULUM", "KETUA YAYASAN", "KEPALA MADRASAH", "BENDAHARA", "KOMITE MADRASAH");
+        $this->db->select('guru.jabatan AS jabatan_guru, guru.Nama AS nama_guru, atasan.Nama AS nama_atasan');
+        $this->db->from('guru');
+        $this->db->join('org', 'guru.ID_Guru = org.id_guru', 'left');
+        $this->db->join('guru as atasan', 'org.id_atasan = atasan.ID_Guru', 'left');
+        $this->db->where_in('guru.jabatan', $list);
+        //$this->db->group_by('nama_guru');
+        //$this->db->order_by('nama_atasan', 'ASC');
+        $query = $this->db->get();
+
+        if ($query) {
+            $result = $query->result_array();
+            return $result;
+        } else {
+            $error = $this->db->error();
+            echo 'Database error - ' . $error['code'] . ': ' . $error['message'];
+        }
+    }
+
+    public function dewan_guru()
+    {
+        $this->db->select('*');
+        $this->db->from('guru');
+        $this->db->where("(jabatan LIKE 'WALI%' OR jabatan LIKE 'GURU%')");
+        return $this->db->get()->result();
+    }
+
+    public function galeri_hero()
+    {
+        $this->db->where('display_location', 'galeri');
+        $this->db->where('display_section', 'hero');
+        $this->db->where('is_active', 1);
+        return $this->db->get('photos')->result();
+    }
+
+    public function galeri()
+    {
+        $this->db->where('display_section !=', 'hero');
+        $this->db->where('display_location', 'galeri');
+        $this->db->where('is_active', 1);
+        return $this->db->get('photos')->result();
+
+    }
+
+    public function save_galeri($data_kegiatan, $data)
+    {
+        // Simpan data background galeri ke tabel tertentu
+        $this->db->insert('photos', $data);
+        $bg_id = $this->db->insert_id();
+
+        // Simpan data gambar kegiatan ke tabel tertentu
+        foreach ($data_kegiatan as $kegiatan) {
+            $this->db->insert('photos', $kegiatan);
+        }
+    }
+
+    public function update_galeri($id, $data)
+    {
+        $this->db->where('id', $id);
+        $this->db->update('photos', $data);
+        return $this->db->affected_rows();
     }
     /**
      * unused_function
