@@ -22,3 +22,6 @@
 /user_guide_src/cilexer/build/*
 /user_guide_src/cilexer/dist/*
 /user_guide_src/cilexer/pycilexer.egg-info/*
+mis_dm.zip
+mis_dm.tar
+application/config/database.php

@@ -23,10 +23,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
       <!-- Master -->
       <li class="menu-header">Master Data</li>
-      <li class="<?php echo $this->uri->segment(2) == 'pengumuman' ? 'active' : ''; ?>">
-        <a class="nav-link" href="<?php echo base_url(); ?>dist/pengumuman"><i class="fas fa-bullhorn fa-lg fa-fw"></i>
-          <span>Pengumuman</span></a>
-      </li>
       <li class="dropdown <?=$this->uri->segment(2) == 'master_tag' || $this->uri->segment(2) == 'master_kategori' || $this->uri->segment(2) == 'features_post_create' ? 'active' : '';?>">
         <a href="#" class="nav-link has-dropdown"><i class="far fa-newspaper fa-sm"></i><span>Data Berita</span></a>
         <ul class="dropdown-menu">

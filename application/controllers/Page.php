@@ -6,6 +6,7 @@ class Page extends CI_Controller
 
     public function home()
     {
+        set_custom_cookie();
         $limit = 4;
         $date_now = date('Y-m-d');
         $data = array(
@@ -22,6 +23,7 @@ class Page extends CI_Controller
 
     public function about()
     {
+        set_custom_cookie();
         $data = array(
             'title' => 'About',
             //'guru' => $this->guru_model->guru(),
@@ -34,6 +36,7 @@ class Page extends CI_Controller
 
     public function blog()
     {
+        set_custom_cookie();
         $data = array(
             'title' => 'Blog',
             //'artikel' => $this->Article_m->publish(),
@@ -43,6 +46,7 @@ class Page extends CI_Controller
 
     public function porto()
     {
+        set_custom_cookie();
         $data = array(
             'title' => 'Portofolio',
             'hero' => $this->Page_m->galeri_hero(),
@@ -53,6 +57,7 @@ class Page extends CI_Controller
 
     public function contact()
     {
+        set_custom_cookie();
         $data = array(
             'title' => 'Kontak',
         );
@@ -61,6 +66,7 @@ class Page extends CI_Controller
 
     public function blog_detail($berita_id)
     {
+        set_custom_cookie();
         $data = array(
             'title' => 'Blog',
             'artikel' => $this->Article_m->get_publish($berita_id),
