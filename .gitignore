@@ -1,23 +1,24 @@
-*/config/development
-*/logs/log-*.php
-!*/logs/index.html
-*/cache/*
-!system/cache/*
-!*/cache/index.html
-!*/cache/.htaccess
-
-user_guide_src/build/*
-user_guide_src/cilexer/build/*
-user_guide_src/cilexer/dist/*
-user_guide_src/cilexer/pycilexer.egg-info/*
-
-#codeigniter 3
-application/logs/*
-!application/logs/index.html
-!application/logs/.htaccess
+# CodeIgniter specific
+/application/logs/*
+!/application/logs/index.html
+!/application/logs/.htaccess
 /vendor/
-uploads/beranda/mixkit-going-down-a-curved-highway-through-a-mountain-range-41576-large.mp4
-.vscode/launch.json
-.vscode/launch.json
-application/config/database.php
-application/config/database.php
+/uploads/beranda/mixkit-going-down-a-curved-highway-through-a-mountain-range-41576-large.mp4
+/.vscode/launch.json
+
+# CodeIgniter configuration files
+/application/config/development
+/application/config/database.php
+/application/config/config.php
+/application/libraries/Template.php
+
+# CodeIgniter system files
+/system/cache/*
+!/system/cache/index.html
+!/system/cache/.htaccess
+
+# CodeIgniter user guide
+/user_guide_src/build/*
+/user_guide_src/cilexer/build/*
+/user_guide_src/cilexer/dist/*
+/user_guide_src/cilexer/pycilexer.egg-info/*
