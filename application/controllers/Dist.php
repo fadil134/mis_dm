@@ -251,7 +251,7 @@ class Dist extends CI_Controller
     {
         $data = array(
             'title' => 'Manajemen Galeri',
-            'galeri' => $this->Page_m->galeri(),
+            'galeri' => $this->Page_m->gal(),
         );
         //print_r($data['icons']);
         $this->load->view('dist/page-galeri', $data);

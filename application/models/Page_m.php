@@ -131,6 +131,12 @@ class Page_m extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function gal()
+    {
+        $this->db->where('display_location', 'galeri');
+        return $this->db->get('photos')->result();
+    }
+
     public function galeri_hero()
     {
         $this->db->where('display_location', 'galeri');
@@ -148,16 +154,10 @@ class Page_m extends CI_Model
 
     }
 
-    public function save_galeri($data_kegiatan, $data)
+    public function save_galeri($data)
     {
         // Simpan data background galeri ke tabel tertentu
         $this->db->insert('photos', $data);
-        $bg_id = $this->db->insert_id();
-
-        // Simpan data gambar kegiatan ke tabel tertentu
-        foreach ($data_kegiatan as $kegiatan) {
-            $this->db->insert('photos', $kegiatan);
-        }
     }
 
     public function update_galeri($id, $data)

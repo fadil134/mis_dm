@@ -164,8 +164,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /**
-   * Porfolio isotope and filter
-   */
+   * Porfolio isotope and filter default
+   * 
+   * 
+  */
   let portfolionIsotope = document.querySelector(".portfolio-isotope");
 
   if (portfolionIsotope) {
@@ -210,6 +212,44 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  /*** 
+   * custom 
+  document.addEventListener("DOMContentLoaded", function () {
+    let portfolioIsotope = document.querySelector(".portfolio-container");
+
+    if (portfolioIsotope) {
+      let portfolioFilter =
+        portfolioIsotope.getAttribute("data-portfolio-filter") || "*";
+      let portfolioLayout =
+        portfolioIsotope.getAttribute("data-portfolio-layout") || "masonry";
+      let portfolioSort =
+        portfolioIsotope.getAttribute("data-portfolio-sort") ||
+        "original-order";
+
+      let iso = new Isotope(portfolioIsotope, {
+        itemSelector: ".portfolio-item",
+        layoutMode: portfolioLayout,
+        filter: portfolioFilter,
+        sortBy: portfolioSort,
+      });
+
+      let menuFilters = document.querySelectorAll(".portfolio-flters li");
+      menuFilters.forEach(function (el) {
+        el.addEventListener("click", function () {
+          document
+            .querySelector(".portfolio-flters .filter-active")
+            .classList.remove("filter-active");
+          this.classList.add("filter-active");
+          iso.arrange({
+            filter: this.getAttribute("data-filter"),
+          });
+        });
+      });
+    }
+  });
+  */
+
 
   /**
    * Animation on scroll function and init

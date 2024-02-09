@@ -76,7 +76,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <h2>Struktur Organisasi</h2>
                 </div>
                 <div class="container mt-5 border border-info border-2 rounded">
-                    <div id="chart-container"></div>
+                    <div id="chart-container" style="overflow-x: auto;">
+                    </div>
                 </div>
                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -88,9 +89,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         let chart = [{ 'v': dataChart[i].nama_guru, 'f': `<div class="card border-dark mb-3" style="max-width: 18rem;"><div class="card-header">${dataChart[i].jabatan_guru}</div><div class="card-body"><p class="card-text">${dataChart[i].nama_guru}</p></div></div>` }, dataChart[i].nama_atasan === null ? '' : dataChart[i].nama_atasan, ''];
                         preview.push(chart);
                     }
-                    console.log(preview);
-
-
                     google.charts.load('current', { 'packages': ['orgchart'] });
                     google.charts.setOnLoadCallback(drawChart);
 
@@ -241,8 +239,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     data-aos-delay="<?= $counter % 4 * 100; ?>">
                                     <div class="team-member">
                                         <div class="member-img">
-                                            <img src="<?= base_url(); ?>"
-                                                class="img-fluid" alt="">
+                                            <img src="<?= base_url(); ?>" class="img-fluid" alt="">
                                             <div class="social">
                                                 <a href=""><i class="bi bi-twitter"></i></a>
                                                 <a href=""><i class="bi bi-facebook"></i></a>
