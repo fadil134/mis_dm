@@ -68,7 +68,7 @@ function deleteRow(id, rowIndex) {
           // Panggil fungsi untuk menghapus data dari database
           $.ajax({
             type: "POST",
-            url: base_url + 'Kmberanda/delete_ssirih',
+            url: base_url + "Kmberanda/delete_ssirih",
             data: { id: id },
             dataType: "json",
             success: function (response) {
@@ -144,7 +144,7 @@ function check(id, row) {
 
   $.ajax({
     type: "post",
-    url: base_url+"master/u_pengumuman",
+    url: base_url + "master/u_pengumuman",
     data: { id: row, statH: $("#halaman" + id).val() },
     dataType: "json",
     success: function (response) {
@@ -171,24 +171,22 @@ $(document).ready(function () {
    */
 
   let tab_p = $("#peng").DataTable({
-    fixedColumns: {
-      left: "1",
-      right: "1",
-    },
     ajax: {
-      url: base_url+"master/pengumuman",
+      url: base_url + "master/pengumuman",
       type: "GET",
       dataSrc: "",
+      xhrFields: {
+        withCredentials: true,
+      },
     },
     columns: [
-      { data: "Judul_Pengumuman", className: "align-middle" },
-      { data: "Kategori_Pengumuman", className: "align-middle" },
-      { data: "Tanggal_Mulai", className: "align-middle" },
-      { data: "Tanggal_Selesai", className: "align-middle" },
-      { data: "Isi_Pengumuman", className: "align-middle" },
+      { data: "Judul_Pengumuman" },
+      { data: "Kategori_Pengumuman" },
+      { data: "Tanggal_Mulai" },
+      { data: "Tanggal_Selesai" },
+      { data: "Isi_Pengumuman" },
       {
         data: "Status_Pengumuman",
-        className: "align-middle",
         render: function (data, type, row, meta) {
           return (
             '<div class="custom-control custom-switch">' +
@@ -211,7 +209,6 @@ $(document).ready(function () {
       },
       {
         data: "Ditampilkan_di_Beranda",
-        className: "align-middle",
         render: function (data, type, row, meta) {
           return (
             '<div class="custom-control custom-switch">' +
@@ -234,7 +231,6 @@ $(document).ready(function () {
       },
       {
         data: null,
-        className: "align-middle",
         render: function (data, type, row, meta) {
           return (
             '<div class="custom-control custom-switch">' +
@@ -263,24 +259,23 @@ $(document).ready(function () {
       },
       {
         data: "Lampiran_Pengumuman",
-        className: "align-middle",
         render: function (data) {
-          return (
-            '<a href="' +
-            data +
-            '" class="preview-link" data-src="' +
-            data +
-            '">' +
-            data +
-            "</a>"
-          );
+          return `<a href="${data}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Lampiran</a>`;
         },
       },
     ],
     columnDefs: [
-      { targets: "_all", className: "dt-head-nowrap text-center" },
+      { targets: "_all", className: "dt-head-nowrap text-center align-middle" },
       { target: [1], className: "dt-body-justify" },
+      //{ target: [4], className: "text-truncate" },
+      { target: [4], className: "text-nowrap" },
+      { target: [5], className: "text-nowrap" },
     ],
+    fixedColumns: {
+      left: 1,
+      //right: 1
+    },
+    scrollX: true,
   });
 
   $("#peng tbody").on("click", 'input[name="act_stat"]', function () {
@@ -297,7 +292,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: "POST",
-      url: base_url+"master/u_pengumuman",
+      url: base_url + "master/u_pengumuman",
       data: { id: id, statP: $("#switch_peng" + rowI).val() },
       dataType: "json",
       success: function (response) {
@@ -331,7 +326,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: "POST",
-      url: base_url+"master/u_pengumuman",
+      url: base_url + "master/u_pengumuman",
       data: { id: id, statB: $("#beranda" + rowI).val() },
       dataType: "json",
       success: function (response) {
@@ -363,9 +358,9 @@ $(document).ready(function () {
     scrollX: true,
     columnDefs: [
       { targets: "_all", className: "align-middle dt-head-center" },
-      { target: [1,7,8], visible: false },
+      { target: [1, 7, 8], visible: false },
       {
-        target:[2],
+        target: [2],
         className: "text-wrap",
       },
       {
@@ -440,7 +435,7 @@ $(document).ready(function () {
     let id = data[1];
     $.ajax({
       type: "post",
-      url: base_url+"kmberanda/update_ssirih",
+      url: base_url + "kmberanda/update_ssirih",
       data: { switch: is_activated, id: id },
       dataType: "json",
       success: function (response) {
@@ -476,6 +471,7 @@ $(document).ready(function () {
     columnDefs: [
       { targets: "_all", className: "align-middle dt-head-center" },
       { target: [0], visible: false },
+      { target: [2], className: "text-truncate", width: "10px" },
       {
         target: [4],
         render: function (data, type, row, meta) {
@@ -511,9 +507,9 @@ $(document).ready(function () {
     var data = tableEk.row($(this).parents("tr")).data();
     console.log(data);
     var ikon = data[3];
-    var kelas = ikon !== "" ? $(ikon).attr("class"): null;
-    var kelasarray = kelas!== null ? kelas.split("-") : null;
-    var newtxt = kelasarray!== null ? kelasarray[kelasarray.length - 1]: null;
+    var kelas = ikon !== "" ? $(ikon).attr("class") : null;
+    var kelasarray = kelas !== null ? kelas.split("-") : null;
+    var newtxt = kelasarray !== null ? kelasarray[kelasarray.length - 1] : null;
     var deskripsi = data[2];
     var txt = $(ikon).text();
     var option;
@@ -583,7 +579,7 @@ $(document).ready(function () {
             // Panggil fungsi untuk menghapus data dari database
             $.ajax({
               type: "POST",
-              url: base_url+"Kmberanda/delete_ssirih",
+              url: base_url + "Kmberanda/delete_ssirih",
               data: { id: id },
               dataType: "json",
               success: function (response) {
@@ -634,7 +630,7 @@ $(document).ready(function () {
     console.log(tableEk.row($(this).parents("tr")).data());
     $.ajax({
       type: "post",
-      url: base_url+"kmberanda/u_eks",
+      url: base_url + "kmberanda/u_eks",
       data: { suit: is_activated, id: id },
       dataType: "json",
       success: function (response) {
@@ -688,7 +684,7 @@ $(document).ready(function () {
         formData.append("file", files[0]);
 
         $.ajax({
-          url: base_url+"server_processing/summ_upload",
+          url: base_url + "server_processing/summ_upload",
           method: "POST",
           data: formData,
           contentType: false,
@@ -786,7 +782,7 @@ $(document).ready(function () {
         formData.append("file", files[0]);
 
         $.ajax({
-          url: base_url+"server_processing/summ_upload",
+          url: base_url + "server_processing/summ_upload",
           method: "POST",
           data: formData,
           contentType: false,
@@ -910,7 +906,7 @@ $(document).ready(function () {
     let filegambar;
     let previewimg;
     $("#img_main_preview ,#img_modal_preview").empty();
-  
+
     $.ajax({
       type: "HEAD",
       url: url,

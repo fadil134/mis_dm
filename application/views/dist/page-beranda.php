@@ -340,7 +340,7 @@ $this->load->view('dist/_partials/header');
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table" id="peng">
+                        <table class="table table-bordered table-striped" id="peng">
                             <thead>
                                 <tr>
                                     <th>Judul</th>
