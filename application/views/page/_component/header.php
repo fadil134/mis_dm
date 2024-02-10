@@ -49,6 +49,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KN2CCRZ7VF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-KN2CCRZ7VF');
+  </script>
 </head>
 
 <body class="page-<?= strtolower($title) ?>">
