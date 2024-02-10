@@ -12,11 +12,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <span><?= $footer_data[0]['nama_sekolah'] ?></span>
         </a>
         <div align="justify">Madrasah Ibtidaiyah Daarul Maarif adalah lembaga pendidikan tingkat dasar yang memberikan pendidikan formal pada jenjang pendidikan dasar. Madrasah Ibtidaiyah Daarul Maarif fokus pada pembelajaran akademis dan nilai-nilai keagamaan Islam untuk siswa usia dini, membantu membentuk dasar pendidikan mereka. Madrasah Ibtidaiyah Daarul Maarif memiliki peran penting dalam membentuk karakter, moral, dan pengetahuan agama bagi siswa Muslim.</div>
-        <div class="social-links d-flex  mt-3">
-          <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-          <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+        <div class="social-links d-flex  mt-3">\
+          <a href="<?= $footer_data[0]['facebook'] ?>" class="facebook"><i class="bi bi-facebook"></i></a>
+          <a href="<?= $footer_data[0]['instagram'] ?>" class="instagram"><i class="bi bi-instagram"></i></a>
+          <a href="<?= $footer_data[0]['youtube'] ?>" class="youtube"><i class="bi bi-youtube"></i></a>
         </div>
       </div>
 

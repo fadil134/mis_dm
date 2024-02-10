@@ -354,8 +354,6 @@ $this->load->view('dist/_partials/header');
                                     <th>Lampiran</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                            </tbody>
                         </table>
                     </div>
                 </div>
