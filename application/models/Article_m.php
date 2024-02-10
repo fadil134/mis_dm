@@ -14,7 +14,7 @@ class Article_m extends CI_Model
         $this->db->join('berita_kategori', 'berita.Kategori_ID = berita_kategori.ID_Kategori', 'left');
         $this->db->where('statusberita.Nama_Status', 'Publish');
         $this->db->group_by('berita.ID_Berita');
-        
+
         $query = $this->db->get();
         return $query->result();
     }
@@ -143,7 +143,7 @@ class Article_m extends CI_Model
 
     public function pengumuman()
     {
-        return $this->db->get('pengumuman')->result();      
+        return $this->db->get('pengumuman')->result();
     }
 
     public function status()
@@ -202,8 +202,21 @@ class Article_m extends CI_Model
         return $insert_id;
     }
 
-    public function identitas(){
+    public function identitas()
+    {
         return $this->db->get('identitas_sekolah')->result_array();
+    }
+
+    public function get_kategori($limit, $offset, $id)
+    {
+        $this->db->select('berita.updated, berita.ID_Berita, berita.Judul_Berita, berita.Isi_Berita, berita.url, berita_kategori.Nama_Kategori AS kategori, pengguna.Nama_Pengguna as penulis');
+        $this->db->from('berita');
+        $this->db->limit($limit, $offset);
+        $this->db->where('berita.Kategori_ID', $id);
+        $this->db->where('berita.Status_ID', 1);
+        $this->db->join('berita_kategori', 'berita_kategori.ID_Kategori = berita.Kategori_ID', 'left');
+        $this->db->join('pengguna', 'berita.Penulis_ID = pengguna.ID_Pengguna', 'left');
+        return $this->db->get()->result();
     }
 }
 

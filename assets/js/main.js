@@ -8,6 +8,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
+  $('.konten >').addClass('text-truncate');
   // Mendapatkan elemen dengan kelas ".item.text-center"
   var parentElement = document.querySelector(".item.text-center");
 

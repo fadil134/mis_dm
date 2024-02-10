@@ -11,6 +11,24 @@
 # Learn more about CSS variables at https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties
 --------------------------------------------------------------*/
 
+.newspaper-layout {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.newspaper-article {
+  flex: 1;
+  margin: 10px;
+  overflow: hidden; /* Prevents text overflow */
+}
+
+.newspaper-image {
+  max-width: 100%;
+  height: auto;
+  float: left;
+  margin-right: 15px; /* Adjust the margin as needed */
+}
+
 .bootstrap-card {
   width: 250px;
   padding: 10px;

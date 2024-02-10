@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <i class="fas fa-location-arrow"></i> <i class="bi bi-dash"></i> <?= $footer_data[0]['alamat'] ?>
           <?= $footer_data[0]['kota'] .", ". $footer_data[0]['kode_pos'] ?><br>
           <?= $footer_data[0]['provinsi'] ?> <br><br>
-          <i class="fas fa-phone"></i> <i class="bi bi-dash"></i> <?= $footer_data[0]['telepon'] ?><br>
+          <i class="fas fa-phone"></i> <i class="bi bi-dash"></i> <a href="tel:<?= $footer_data[0]['telepon'] ?>"><?= $footer_data[0]['telepon'] ?></a><br>
         </p>
 
       </div>
@@ -48,6 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
+<script src="<?=base_url('assets/modules/jquery.min.js') ?>"></script>
 <script src="<?= base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 <script src="<?= base_url('assets/vendor/aos/aos.js') ?>"></script>
 <script src="<?= base_url('assets/vendor/glightbox/js/glightbox.min.js') ?>"></script>

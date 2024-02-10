@@ -20,51 +20,91 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
-        <div class="section-header">
-            <h2>Sejarah Singkat</h2>
-        </div>
         <div class="container" data-aos="fade-up">
             <div class="row gy-4" data-aos="fade-up">
                 <div class="col-lg">
                     <div class="content ps-lg-5">
-                        <div align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            Lembaga Pendidikan Islam (LPI) Daarul Ma’arif terletak di Desa Banjar Negeri, Kecamatan
-                            Natar, Kabupaten Lampung Selatan. Namun, lembaga ini lebih dikenal oleh masyarakat berada di
-                            Kecamatan Tegineneng. Sebelum adanya pemekaran kabupaten, Desa Banjar Negeri masuk dalam
-                            wilayah Kecamatan Tegineneng.<br>
-                            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pada tahun
-                            1965&nbsp; pengaruh Partai Komunis Indonesia (PKI) dengan tindakan yang bersifat anti agama
-                            telah banyak dipentaskan dalam arena kehidupan bangsa Indonesia. Masa ini adalah masa yang
-                            sangat kritis bagi kehidupan pendidikan Islam secara umum di Indonesia. Hal inilah yang
-                            menyebabkan para orang tua dan ulama di wilayah Natar dan Tegineneng merasa sangat khawatir
-                            akan pendidikan anak-anak mereka, terutama pendidikan agama Islam. Suasana yang mendesak
-                            inilah yang mendorong K.H. Abu Abdillah Assegaf dan putra-putranya untuk mendirikan lembaga
-                            pendidikan Islam yang berbasis pondok pesantren dan berpegang teguh pada Pancasila dan NKRI.
-                            Dengan bantuan dan dukungan dari masyarakat sekitar, maka pada tanggal 25 Agustus 1965
-                            didirikanlah yayasan pondok pesantren dengan nama Lembaga Pendidikan Islam (LPI) Daarul
-                            Ma’arif.<br>
-                            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Untuk mengawali
-                            roda pendidikan, LPI Daarul Ma’arif mendirikan Madrasah Ibtidaiyah yang menempati bangunan
-                            milik K.H. Abu Abdillah Assegaf. Kemudian pada tahun 1978 dapat diselesaikan bangunan dengan
-                            ukuran 7,2 x 30 = 216 m² yang terdiri dari tiga buah ruang belajar, satu ruang kantor, dan
-                            satu buah ruang sanitasi dengan biaya swadaya masyarakat dan lembaga.<br>Madrasah Ibtidaiyah
-                            Daarul Ma’arif menggunakan kurikulum yang dikeluarkan oleh Direktorat Pendidikan Islam yaitu
-                            departemen Agama, dan kurikulum yang dikeluarkan oleh Direktorat Pendidikan Umum yaitu
-                            Departemen Pendidikan dan Kebudayaan, dengan demikian, kurikulum yang diterapkan di Lembaga
-                            Pendidikan Islam Daarul Ma’arif ini sesuai dengan Surat Keputusan Tiga Menteri (SKB Tiga
-                            Menteri).<br>
-                            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            Madrasah Ibtidaiyah Daarul Ma’arif berada diujung utara Kabupaten Lampung Selatan yang
-                            berbatasan dengan Kabupaten Pesawaran, hal ini menjadikan Madrasah Ibtidaiyah Daarul Ma’arif
-                            sebagai pintu gerbang yang menghubungkan kedua belah kabupaten. Saat ini, Madrasah
-                            Ibtidaiyah Swasta Daarul Ma’arif tahun pelajaran 2023-2024 memiliki siswa sebanyak 336 orang
-                            yang terbagi dalam 17 kelas (rombongan belajar) namun hanya memiliki 12 ruang kelas,
-                            sehingga idealnya masih membutuhkan 3 ruang kelas tambahan guna mendukung kegiatan belajar
-                            mengajar yang lebih efisien dan optimal.<br><br>
+                        <div class="container d-flex flex-wrap">
+                            <!-- Text Content -->
+                            <div class="col-md-6 newspaper-article">
+                                <img src="<?=base_url(); ?>assets/img/about.jpg" class="img-fluid newspaper-image"
+                                    alt="Your Image">
+                                <h2>Sejarah Singkat</h2>
+                                <div align="justify">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    Lembaga Pendidikan Islam (LPI) Daarul Ma’arif terletak di Desa Banjar Negeri,
+                                    Kecamatan
+                                    Natar, Kabupaten Lampung Selatan. Namun, lembaga ini lebih dikenal oleh masyarakat
+                                    berada di
+                                    Kecamatan Tegineneng. Sebelum adanya pemekaran kabupaten, Desa Banjar Negeri masuk
+                                    dalam
+                                    wilayah Kecamatan Tegineneng.<br>
+                                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pada
+                                    tahun
+                                    1965&nbsp; pengaruh Partai Komunis Indonesia (PKI) dengan tindakan yang bersifat
+                                    anti
+                                    agama
+                                    telah banyak dipentaskan dalam arena kehidupan bangsa Indonesia. Masa ini adalah
+                                    masa
+                                    yang
+                                    sangat kritis bagi kehidupan pendidikan Islam secara umum di Indonesia. Hal inilah
+                                    yang
+                                    menyebabkan para orang tua dan ulama di wilayah Natar dan Tegineneng merasa sangat
+                                    khawatir
+                                    akan pendidikan anak-anak mereka, terutama pendidikan agama Islam. Suasana yang
+                                    mendesak
+                                    inilah yang mendorong K.H. Abu Abdillah Assegaf dan putra-putranya untuk mendirikan
+                                    lembaga
+                                    pendidikan Islam yang berbasis pondok pesantren dan berpegang teguh pada Pancasila
+                                    dan
+                                    NKRI.
+                                    Dengan bantuan dan dukungan dari masyarakat sekitar, maka pada tanggal 25 Agustus
+                                    1965
+                                    didirikanlah yayasan pondok pesantren dengan nama Lembaga Pendidikan Islam (LPI)
+                                    Daarul
+                                    Ma’arif.<br>
+                                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Untuk
+                                    mengawali
+                                    roda pendidikan, LPI Daarul Ma’arif mendirikan Madrasah Ibtidaiyah yang menempati
+                                    bangunan
+                                    milik K.H. Abu Abdillah Assegaf. Kemudian pada tahun 1978 dapat diselesaikan
+                                    bangunan
+                                    dengan
+                                    ukuran 7,2 x 30 = 216 m² yang terdiri dari tiga buah ruang belajar, satu ruang
+                                    kantor,
+                                    dan
+                                    satu buah ruang sanitasi dengan biaya swadaya masyarakat dan lembaga.<br>Madrasah
+                                    Ibtidaiyah
+                                    Daarul Ma’arif menggunakan kurikulum yang dikeluarkan oleh Direktorat Pendidikan
+                                    Islam
+                                    yaitu
+                                    departemen Agama, dan kurikulum yang dikeluarkan oleh Direktorat Pendidikan Umum
+                                    yaitu
+                                    Departemen Pendidikan dan Kebudayaan, dengan demikian, kurikulum yang diterapkan di
+                                    Lembaga
+                                    Pendidikan Islam Daarul Ma’arif ini sesuai dengan Surat Keputusan Tiga Menteri (SKB
+                                    Tiga
+                                    Menteri).<br>
+                                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    Madrasah Ibtidaiyah Daarul Ma’arif berada diujung utara Kabupaten Lampung Selatan
+                                    yang
+                                    berbatasan dengan Kabupaten Pesawaran, hal ini menjadikan Madrasah Ibtidaiyah Daarul
+                                    Ma’arif
+                                    sebagai pintu gerbang yang menghubungkan kedua belah kabupaten. Saat ini, Madrasah
+                                    Ibtidaiyah Swasta Daarul Ma’arif tahun pelajaran 2023-2024 memiliki siswa sebanyak
+                                    336
+                                    orang
+                                    yang terbagi dalam 17 kelas (rombongan belajar) namun hanya memiliki 12 ruang kelas,
+                                    sehingga idealnya masih membutuhkan 3 ruang kelas tambahan guna mendukung kegiatan
+                                    belajar
+                                    mengajar yang lebih efisien dan optimal.<br><br>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
         </div>
     </section>

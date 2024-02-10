@@ -166,6 +166,35 @@ class Page_m extends CI_Model
         $this->db->update('photos', $data);
         return $this->db->affected_rows();
     }
+
+    public function article($limit, $offset)
+    {
+        $this->db->select('berita.updated,berita.ID_Berita,berita.Judul_Berita,berita.Isi_Berita,berita.url,pengguna.Nama_Pengguna AS penulis');
+        $this->db->join('pengguna', 'berita.Penulis_ID = pengguna.ID_Pengguna', 'left');
+        $this->db->where('Status_ID', 1);
+        $this->db->limit($limit, $offset);
+        return $this->db->get('berita')->result();
+    }
+
+    public function kategori_artikel()
+    {
+        $this->db->select('berita.ID_Berita, berita.Kategori_ID, berita_kategori.Nama_Kategori, berita_kategori.ID_Kategori');
+        $this->db->from('berita');
+        $this->db->join('berita_kategori', 'berita_kategori.ID_Kategori = berita.Kategori_ID', 'left');
+        $this->db->where('berita.Status_ID', 1);
+        return $this->db->get()->result();
+    }
+
+    public function count_article()
+    {
+        return $this->db->count_all('berita'); // Replace 'berita' with your actual table name
+    }
+
+    public function count_kategori()
+    {
+        $this->db->where('Status_ID', 1);
+        return $this->db->count_all('berita'); // Replace 'berita' with your actual table name
+    }
     /**
      * unused_function
      */

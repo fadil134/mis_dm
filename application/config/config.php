@@ -23,7 +23,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
  */
-$config['base_url'] = 'localhost/mis_dm/';
+$config['base_url'] = 'http://localhost/mis_dm/';
 
 /*
 |--------------------------------------------------------------------------
@@ -380,7 +380,7 @@ $config['encryption_key'] = '';
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 3600;
-$config['sess_save_path'] = APPPATH . 'cache/sessions/' ;
+$config['sess_save_path'] = null ;
 $config['sess_match_ip'] = false;
 $config['sess_time_to_update'] = 20;
 $config['sess_regenerate_destroy'] = true;
@@ -401,10 +401,10 @@ $config['sess_regenerate_destroy'] = true;
 |
  */
 $config['cookie_prefix'] = '';
-$config['cookie_domain'] = '';
-$config['cookie_path'] = '/';
-$config['cookie_secure'] = false;
-$config['cookie_httponly'] = false;
+$config['cookie_domain'] = 'localhost/mis_dm/';
+$config['cookie_path'] = '/; SameSite = None' ;
+$config['cookie_secure'] = true;
+$config['cookie_httponly'] = true;
 $config['cookie_samesite'] = 'None';
 
 /*

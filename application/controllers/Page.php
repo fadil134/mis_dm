@@ -6,7 +6,7 @@ class Page extends CI_Controller
 
     public function home()
     {
-        set_custom_cookie();
+        //set_custom_cookie();
         $limit = 4;
         $date_now = date('Y-m-d');
         $data = array(
@@ -23,7 +23,7 @@ class Page extends CI_Controller
 
     public function about()
     {
-        set_custom_cookie();
+        //set_custom_cookie();
         $data = array(
             'title' => 'About',
             //'guru' => $this->guru_model->guru(),
@@ -36,17 +36,36 @@ class Page extends CI_Controller
 
     public function blog()
     {
-        set_custom_cookie();
+        $this->load->library('pagination');
+        $config['base_url'] = base_url('page/blog');
+        $config['total_rows'] = $this->Page_m->count_article();
+        $config['per_page'] = 6;
+        $config['uri_segment'] = 3;
+        $config['first_link'] = false;
+        $config['prev_link'] = false;
+        $config['next_link'] = false;
+        $config['last_link'] = false;
+        $config['full_tag_open'] = '<ul class="justify-content-center">';
+        $config['full_tag_close'] = '</ul>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a>';
+        $config['cur_tag_close'] = '</a></li>';
+
+        $this->pagination->initialize($config);
+
+        //set_custom_cookie();
         $data = array(
             'title' => 'Blog',
-            //'artikel' => $this->Article_m->publish(),
+            'artikel' => $this->Page_m->article($config['per_page'], $this->uri->segment(3)),
+            'kategori' => $this->Page_m->kategori_artikel(),
         );
         $this->template->load('page/blog', $data);
     }
 
     public function porto()
     {
-        set_custom_cookie();
+        //set_custom_cookie();
         $data = array(
             'title' => 'Portofolio',
             'hero' => $this->Page_m->galeri_hero(),
@@ -57,7 +76,7 @@ class Page extends CI_Controller
 
     public function contact()
     {
-        set_custom_cookie();
+        //set_custom_cookie();
         $data = array(
             'title' => 'Kontak',
         );
@@ -66,10 +85,11 @@ class Page extends CI_Controller
 
     public function blog_detail($berita_id)
     {
-        set_custom_cookie();
+        //set_custom_cookie();
         $data = array(
             'title' => 'Blog',
             'artikel' => $this->Article_m->get_publish($berita_id),
+            'kategori' => $this->Page_m->kategori_artikel(),
         );
         //print_r($data);
         /*
@@ -78,6 +98,35 @@ class Page extends CI_Controller
         }
          */
         $this->template->load('page/blog_detail', $data);
+    }
+
+    public function kategori_blog($id)
+    {
+        $this->load->library('pagination');
+        $config['base_url'] = base_url('page/kategori_blog/');
+        $config['total_rows'] = $this->Page_m->count_kategori();
+        $config['per_page'] = 6;
+        $config['uri_segment'] = 4;
+        $config['first_link'] = false;
+        $config['prev_link'] = false;
+        $config['next_link'] = false;
+        $config['last_link'] = false;
+        $config['full_tag_open'] = '<ul class="justify-content-center">';
+        $config['full_tag_close'] = '</ul>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a>';
+        $config['cur_tag_close'] = '</a></li>';
+
+        $this->pagination->initialize($config);
+
+        //set_custom_cookie();
+        $data = array(
+            'title' => 'Blog Kategori',
+            'artikel' => $this->Article_m->get_kategori($config['per_page'], $this->uri->segment(4),$id),
+            'kategori' => $this->Page_m->kategori_artikel(),
+        );
+        $this->template->load('page/blog', $data);
     }
 }
 

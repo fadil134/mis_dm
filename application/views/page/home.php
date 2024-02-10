@@ -338,7 +338,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <div class="container" data-aos="fade-up">
 
             <div class="section-header">
-                <h2>Recent Blog Posts</h2>
+                <h2>Berita Terbaru</h2>
             </div>
 
             <div class="row gy-5">
@@ -351,10 +351,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <div class="meta">
                             <span class="post-date">
                                 <?php
-$tanggal = $berita->updated;
-$format = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
-echo $format->format(strtotime($tanggal));
-?>
+                                $tanggal = $berita->updated;
+                                $format = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
+                                echo $format->format(strtotime($tanggal));
+                                ?>
                             </span>
                             <span class="post-author">
                                 <?=$berita->Nama_Penulis ?>
@@ -367,7 +367,7 @@ echo $format->format(strtotime($tanggal));
                             <?=strip_tags($berita->Isi_Berita); ?>
                         </p>
                         <a href="<?=base_url(); ?>page/blog_detail/<?=$berita->ID_Berita ?>"
-                            class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+                            class="readmore stretched-link"><span>Selengkapnya</span><i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
                 <?php endforeach; ?>
