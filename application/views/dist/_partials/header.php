@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   </title>
 
   <script>
-    var base_url = '<?= base_url(); ?>'
+    var base_url = '<?=base_url(); ?>'
   </script>
 
   <!-- General CSS Files -->
@@ -144,16 +144,15 @@ if ($this->uri->segment(2) == "index_0") { ?>
   <!-- Template CSS -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/components.css">
-  <!-- Start GA -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KN2CCRZ7VF"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
-    gtag('config', 'UA-94034622-3');
+    gtag('config', 'G-KN2CCRZ7VF');
   </script>
-  <!-- /END GA -->
 </head>
 
 <?php
