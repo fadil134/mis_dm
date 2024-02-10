@@ -3,6 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Page extends CI_Controller
 {
+    public function index()
+    {
+        
+        redirect('page/home','refresh');
+        
+    }
 
     public function home()
     {
@@ -123,7 +129,7 @@ class Page extends CI_Controller
         //set_custom_cookie();
         $data = array(
             'title' => 'Blog Kategori',
-            'artikel' => $this->Article_m->get_kategori($config['per_page'], $this->uri->segment(4),$id),
+            'artikel' => $this->Article_m->get_kategori($config['per_page'], $this->uri->segment(4), $id),
             'kategori' => $this->Page_m->kategori_artikel(),
         );
         $this->template->load('page/blog', $data);

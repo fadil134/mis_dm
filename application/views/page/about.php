@@ -27,8 +27,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <div class="container d-flex flex-wrap">
                             <!-- Text Content -->
                             <div class="col-md-6 newspaper-article">
-                                <img src="<?=base_url(); ?>assets/img/about.jpg" class="img-fluid newspaper-image"
-                                    alt="Your Image">
+                            <img src="<?=base_url(); ?>uploads/Ahmad Zaki Assegaf, Lc. Kepala Madrasah Ibtidaiyah Daarul Ma'arif Natar Lampung Selatan.jpg" class="img-fluid" alt="">
                                 <h2>Sejarah Singkat</h2>
                                 <div align="justify">
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
