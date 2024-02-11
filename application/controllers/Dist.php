@@ -17,6 +17,8 @@ class Dist extends CI_Controller
         }
     }
 
+    
+
     public function master_tag()
     {
         $data = array(
