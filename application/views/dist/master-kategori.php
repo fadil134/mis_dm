@@ -47,6 +47,7 @@ $this->load->view('dist/_partials/header');
                                 <thead class="thead-inverse">
                                     <tr>
                                         <th>Kategori ID</th>
+                                        <th>ID</th>
                                         <th>Nama Kategori</th>
                                         <th>Actions</th>
                                     </tr>

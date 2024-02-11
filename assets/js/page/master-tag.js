@@ -1,13 +1,19 @@
 const tableTag = $("#tagT").DataTable({
   responsive: true,
   ajax: {
-    url: "http://localhost/mis_dm/master/master_tag",
+    url: base_url + "master/master_tag",
     type: "GET",
     dataSrc: "",
   },
-
   columns: [
     { data: "id" },
+    {
+      data: null,
+      title: "ID",
+      render: function(data, type, row, meta) {
+        return meta.row + 1;
+      }
+    },
     { data: "Nama_Tag" },
     {
       data: null,
@@ -15,6 +21,10 @@ const tableTag = $("#tagT").DataTable({
         return '<div class="btn-group-sm" role="group" aria-label="button"><button type="button" class="edit-btn btn btn-primary"><i class="fas fa-edit fa-sm fa-fw"></i></button><button type="button" class="hapus-btn btn btn-danger"><i class="fas fa-trash fa-sm fa-fw"></i></button></div>';
       },
     },
+  ],
+  columnDefs: [
+    { targets: "_all", className: "text-nowrap text-center align-middle"},
+    { target: [0], visible: false },
   ],
 });
 
@@ -35,7 +45,7 @@ $("#trunc").on("click", function () {
 
 function truncateTabel() {
   $.ajax({
-    url: "http://localhost/mis_dm/master/trunc_tag/",
+    url: base_url + "master/trunc_tag/",
     type: "GET", // Ubah sesuai dengan metode yang Anda gunakan di controller
     dataType: "json",
     success: function (response) {
@@ -98,7 +108,7 @@ $("#tagT tbody").on("click", "button.hapus-btn", function () {
 
 function hapusTag(idTag) {
   $.ajax({
-    url: "http://localhost/mis_dm/master/hapus_tag/",
+    url: base_url + "master/hapus_tag/",
     type: "POST",
     data: { id: idTag },
     dataType: "json",

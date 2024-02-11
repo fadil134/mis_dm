@@ -8,7 +8,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
   <title>
-    <?php echo $title; ?> &mdash; Stisla
+    <?php echo $title; ?>
   </title>
 
   <script>
@@ -144,15 +144,6 @@ if ($this->uri->segment(2) == "index_0") { ?>
   <!-- Template CSS -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/components.css">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KN2CCRZ7VF"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-KN2CCRZ7VF');
-  </script>
 </head>
 
 <?php
@@ -162,7 +153,7 @@ if ($this->uri->segment(2) == "layout_transparent") {
 } elseif ($this->uri->segment(2) == "layout_top_navigation") {
     $this->load->view('dist/_partials/layout-3');
     $this->load->view('dist/_partials/navbar');
-} elseif ($this->uri->segment(2) != "auth_login" && $this->uri->segment(2) != "auth_forgot_password" && $this->uri->segment(2) != "auth_register" && $this->uri->segment(2) != "auth_reset_password" && $this->uri->segment(2) != "errors_503" && $this->uri->segment(2) != "errors_403" && $this->uri->segment(2) != "errors_404" && $this->uri->segment(2) != "errors_500" && $this->uri->segment(2) != "utilities_contact" && $this->uri->segment(2) != "utilities_subscribe" && $this->uri->segment(1) != "Kmberanda") {
+} elseif ($this->uri->segment(2) != "auth_login" && $this->uri->segment(2) != "auth_forgot_password" && $this->uri->segment(2) != "auth_register" && $this->uri->segment(2) != "auth_reset_password" && $this->uri->segment(2) != "errors_503" && $this->uri->segment(2) != "errors_403" && $this->uri->segment(2) != "errors_404" && $this->uri->segment(2) != "errors_500" && $this->uri->segment(2) != "utilities_contact" && $this->uri->segment(2) != "masuk" && $this->uri->segment(2) != "s_galeri" && $this->uri->segment(2) != "u_galeri" && $this->uri->segment(2) != "utilities_subscribe" && $this->uri->segment(1) != "Kmberanda") {
     $this->load->view('dist/_partials/layout');
     $this->load->view('dist/_partials/sidebar');
 }

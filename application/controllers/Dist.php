@@ -4,12 +4,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Dist extends CI_Controller
 {
 
-    public function pengumuman()
+    public function __construct()
     {
-        $data = array(
-            'title' => "Pengumuman",
-        );
-        $this->load->view('dist/pengumuman', $data);
+        parent::__construct();
+        $user = $this->session->userdata('user');
+        if (!isset($user)) {
+            // Store the current URL in the session
+            //$this->session->set_userdata('redirect_url', current_url());
+
+            $this->session->set_flashdata('message', 'Silahkan login!');
+            redirect('auth/masuk', 'refresh');
+        }
     }
 
     public function master_tag()
@@ -58,18 +63,6 @@ class Dist extends CI_Controller
             'title' => "Assign Role",
         );
         $this->load->view('dist/assign_role', $data);
-    }
-
-    public function index()
-    {
-        //$allowed_referer = base_url();
-        $data = array(
-            'title' => "General Dashboard",
-        );
-        //if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == $allowed_referer) {
-            $this->load->view('dist/index-0', $data);
-        //}
-        //show_404();
     }
 
     public function layout_default()
@@ -193,10 +186,7 @@ class Dist extends CI_Controller
 
     public function features_profile()
     {
-        $data = array(
-            'title' => "Profile",
-        );
-        $this->load->view('dist/features-profile', $data);
+        $this->load->view('dist/coming_soon');
     }
 
     public function features_settings()
@@ -229,7 +219,7 @@ class Dist extends CI_Controller
             'title' => 'Manajemen Beranda',
             'icons' => $this->Page_m->icons(),
             'table_ek' => $this->Page_m->eks(),
-            'table_ss' => $this->Page_m->ssirih()
+            'table_ss' => $this->Page_m->ssirih(),
         );
         //print_r($data['icons']);
         $this->load->view('dist/page-beranda', $data);
@@ -241,7 +231,7 @@ class Dist extends CI_Controller
             'title' => 'Manajemen Beranda',
             'icons' => $this->Page_m->icons(),
             'table_ek' => $this->Page_m->eks(),
-            'table_ss' => $this->Page_m->ssirih()
+            'table_ss' => $this->Page_m->ssirih(),
         );
         //print_r($data['icons']);
         $this->load->view('dist/page-profil', $data);
@@ -255,5 +245,15 @@ class Dist extends CI_Controller
         );
         //print_r($data['icons']);
         $this->load->view('dist/page-galeri', $data);
+    }
+
+    public function master_guru()
+    {
+        $this->load->view('dist/coming_soon');
+    }
+
+    public function master_siswa()
+    {
+        $this->load->view('dist/coming_soon');
     }
 }

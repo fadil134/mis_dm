@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </a>
         </li>
         <li>
-            <a href="<?=base_url();?>dist">Login</a>
+            <a href="<?=base_url('dist/auth_login');?>">Login</a>
         </li>
         <li>
             <a href="http://misdaarulmaarif.rdmku.id/">RDM</a>

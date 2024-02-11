@@ -3,11 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Page extends CI_Controller
 {
+
     public function index()
     {
-        
-        redirect('page/home','refresh');
-        
+        redirect('page/home', 'refresh');
     }
 
     public function home()
@@ -100,7 +99,7 @@ class Page extends CI_Controller
             'artikel' => $this->Article_m->get_publish($berita_id),
             'kategori' => $this->Page_m->kategori_artikel(),
             'tagg' => $this->Page_m->tag_artikel(),
-            'terbaru' => $this->Article_m->recent_article()
+            'terbaru' => $this->Article_m->recent_article(),
         );
         //print_r($data);
         /*
@@ -115,7 +114,7 @@ class Page extends CI_Controller
     public function kategori_blog($id)
     {
         $this->load->library('pagination');
-        $config['base_url'] = base_url('page/kategori_blog/').$id.'/';
+        $config['base_url'] = base_url('page/kategori_blog/') . $id . '/';
         $config['total_rows'] = $this->Page_m->count_kategori($id);
         $config['per_page'] = 6;
         $config['uri_segment'] = 4;
@@ -138,7 +137,7 @@ class Page extends CI_Controller
             'artikel' => $this->Article_m->get_kategori($id, $config['per_page'], $this->uri->segment(4)),
             'tag' => $this->Page_m->tag_artikel(),
             'kategori' => $this->Page_m->kategori_artikel(),
-            'terbaru' => $this->Article_m->recent_article()
+            'terbaru' => $this->Article_m->recent_article(),
         );
         //print_r($config['total_rows']);
         $this->template->load('page/blog', $data);
@@ -147,7 +146,7 @@ class Page extends CI_Controller
     public function tag_blog($id)
     {
         $this->load->library('pagination');
-        $config['base_url'] = base_url('page/tag_blog/').$id.'/';
+        $config['base_url'] = base_url('page/tag_blog/') . $id . '/';
         $config['total_rows'] = $this->Page_m->count_tag($id);
         $config['per_page'] = 6;
         $config['uri_segment'] = 4;
@@ -170,7 +169,7 @@ class Page extends CI_Controller
             'artikel' => $this->Article_m->get_tag($id, $config['per_page'], $this->uri->segment(4)),
             'tag' => $this->Page_m->tag_artikel(),
             'kategori' => $this->Page_m->kategori_artikel(),
-            'terbaru' => $this->Article_m->recent_article()
+            'terbaru' => $this->Article_m->recent_article(),
         );
         //print_r($data['artikel']);
         $this->template->load('page/blog', $data);

@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $this->load->view('dist/_partials/header');
 ?>
+
 <body>
   <div id="app">
     <section class="section">
@@ -10,37 +11,23 @@ $this->load->view('dist/_partials/header');
           <div class="page-inner">
             <h1>404</h1>
             <div class="page-description">
-              The page you were looking for could not be found.
+              You Have No Right to Access this Page on Raw!, Go Back, Mind your own bussiness
             </div>
             <div class="page-search">
-              <form>
-                <div class="form-group floating-addon floating-addon-not-append">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <div class="input-group-text">                          
-                        <i class="fas fa-search"></i>
-                      </div>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Search">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary btn-lg">
-                        Search
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
               <div class="mt-3">
-                <a href="<?php echo base_url(); ?>dist">Back to Home</a>
+                <a href="#" onclick="goBack()">Back to Home</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="simple-footer mt-5">
-          Copyright &copy; Stisla 2018
-        </div>
       </div>
     </section>
   </div>
+  <script>
+    function goBack() {
+      window.history.back();
+      return false; // Prevent the default anchor behavior
+    }
+  </script>
 
-<?php $this->load->view('dist/_partials/js'); ?>
+  <?php $this->load->view('dist/_partials/js'); ?>

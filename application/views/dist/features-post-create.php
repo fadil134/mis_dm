@@ -122,10 +122,11 @@ $this->load->view('dist/_partials/header');
         <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
           <div class="card">
             <div class="card-body">
-              <table id="all" class="table table-striped table-bordered" width="100%">
+              <table id="all" class="table table-striped table-bordered table-responsive" width="100%">
                 <thead>
                   <tr>
                     <th>ID</th>
+                    <th></th>
                     <th>Judul</th>
                     <th>Konten</th>
                     <th>Penulis</th>
@@ -140,9 +141,10 @@ $this->load->view('dist/_partials/header');
         <div class="tab-pane fade" id="pills-publish" role="tabpanel" aria-labelledby="pills-publish-tab">
           <div class="card">
             <div class="card-body">
-              <table id="publish" class="table table-striped table-bordered" cellspacing="0" width="100%">
+              <table id="publish" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>Judul</th>
                     <th>Konten</th>
                     <th>Penulis</th>
@@ -156,9 +158,10 @@ $this->load->view('dist/_partials/header');
         <div class="tab-pane fade" id="pills-pending" role="tabpanel" aria-labelledby="pills-pending-tab">
           <div class="card">
             <div class="card-body">
-              <table id="pending" class="table table-striped table-bordered" cellspacing="0" width="100%">
+              <table id="pending" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
                 <thead>
                   <tr>
+                    <th>#</th>
                     <th>Judul</th>
                     <th>Konten</th>
                     <th>Penulis</th>
@@ -172,10 +175,11 @@ $this->load->view('dist/_partials/header');
         <div class="tab-pane fade" id="pills-draft" role="tabpanel" aria-labelledby="pills-draft-tab">
           <div class="card">
             <div class="card-body">
-              <table id="draft" class="table table-striped table-bordered" cellspacing="0" width="100%">
+              <table id="draft" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
                 <thead>
                   <tr>
                     <th>ID</th>
+                    <th>#</th>
                     <th>Judul</th>
                     <th>Konten</th>
                     <th>ID_Kat</th>

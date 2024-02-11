@@ -77,12 +77,6 @@ $(document).ready(function () {
         "z-index": isFullscreen ? "auto" : 880,
       });
     }
-
-    console.log(
-      isFullscreen
-        ? "Editor is in fullscreen mode"
-        : "Editor is not in fullscreen mode"
-    );
   }
 
   $("div.note-fullscreen").on("click", function () {
@@ -102,6 +96,13 @@ $(document).ready(function () {
     },
     columns: [
       { data: "ID_Berita" },
+      {
+        data: null,
+        title: "ID",
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
       { data: "Judul_Berita" },
       { data: "Isi_Berita" },
       { data: "Nama_Penulis" },
@@ -113,6 +114,10 @@ $(document).ready(function () {
         },
       },
     ],
+    columnDefs: [
+      { targets: "_all", className: "text-nowrap text-center align-middle" },
+      { target: [0], visible: false },
+    ],
   });
 
   var tableD = $("#draft").DataTable({
@@ -123,6 +128,13 @@ $(document).ready(function () {
     },
     columns: [
       { data: "ID_Berita" },
+      {
+        data: null,
+        title: "ID",
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
       { data: "Judul_Berita" },
       { data: "Isi_Berita" },
       { data: "ID_Kategori" },
@@ -140,6 +152,10 @@ $(document).ready(function () {
         },
       },
     ],
+    columnDefs: [
+      { targets: "_all", className: "text-nowrap text-center align-middle" },
+      { target: [0], visible: false },
+    ],
   });
 
   var tableP = $("#pending").DataTable({
@@ -149,10 +165,20 @@ $(document).ready(function () {
       dataSrc: "",
     },
     columns: [
+      {
+        data: null,
+        title: "ID",
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
       { data: "Judul_Berita" },
       { data: "Isi_Berita" },
       { data: "Nama_Penulis" },
       { data: "Nama_Tag" },
+    ],
+    columnDefs: [
+      { targets: "_all", className: "text-nowrap text-center align-middle" },
     ],
   });
 
@@ -163,10 +189,20 @@ $(document).ready(function () {
       dataSrc: "",
     },
     columns: [
+      {
+        data: null,
+        title: "ID",
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
       { data: "Judul_Berita" },
       { data: "Isi_Berita" },
       { data: "Nama_Penulis" },
       { data: "Nama_Tag" },
+    ],
+    columnDefs: [
+      { targets: "_all", className: "text-nowrap text-center align-middle" },
     ],
   });
 
@@ -265,7 +301,6 @@ $(document).ready(function () {
     });
     */
 
-    console.log(berita);
     $("#judul").val(berita.Judul_Berita);
     $("#optK").before(kat);
     $("#optS").before(stat);
@@ -301,7 +336,6 @@ $(document).ready(function () {
 
     init: function () {
       this.on("success", function (file, response) {
-        console.log(response);
       });
 
       this.on("addedfile", async function (file) {

@@ -157,7 +157,6 @@ $(function () {
           me.find("> .dropdown-menu").prepend(
             '<li class="dropdown-title pt-3">' + me.find("> a").text() + "</li>"
           );
-          console.log($("> .dropdown-menu").length);
         } else {
           me.find("> a").attr("data-toggle", "tooltip");
           me.find("> a").attr("data-original-title", me.find("> a").text());
@@ -522,6 +521,7 @@ $(function () {
   });
 
   // Bootstrap 4 Validation
+  
   $(".needs-validation").submit(function () {
     var form = $(this);
     if (form[0].checkValidity() === false) {
@@ -530,15 +530,17 @@ $(function () {
     }
     form.addClass("was-validated");
   });
-
-  // alert dismissible
+  
   $(".alert-dismissible").each(function () {
     var me = $(this);
-
+ 
     me.find(".close").click(function () {
       me.alert("close");
     });
   });
+  
+
+  // alert dismissible
 
   if ($(".main-navbar").length) {
   }

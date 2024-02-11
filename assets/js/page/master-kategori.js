@@ -1,12 +1,19 @@
 const tableKategori = $("#kategoriT").DataTable({
   responsive: true,
   ajax: {
-    url: "http://localhost/mis_dm/master/master_kategori",
+    url: base_url+"master/master_kategori",
     type: "GET",
     dataSrc: "",
   },
   columns: [
     { data: "ID_Kategori" },
+    {
+      data: null,
+      title: "ID",
+      render: function(data, type, row, meta) {
+        return meta.row + 1;
+      }
+    },
     { data: "Nama_Kategori" },
     {
       data: null,
@@ -15,6 +22,10 @@ const tableKategori = $("#kategoriT").DataTable({
       },
     },
   ],
+  columnDefs: [
+    { target: [0], visible:false},
+    { targets: "_all", className: "text-nowrap text-center align-middle"}
+  ]
 });
 
 //$('.dataTables_wrapper').addClass('mx-auto');
@@ -34,7 +45,7 @@ $("#trunc").on("click", function () {
 
 function truncateTabel() {
   $.ajax({
-    url: "http://localhost/mis_dm/master/trunc_kategori/",
+    url: base_url+"master/trunc_kategori/",
     type: "GET", // Ubah sesuai dengan metode yang Anda gunakan di controller
     dataType: "json",
     success: function (response) {
@@ -96,7 +107,7 @@ $("#kategoriT tbody").on("click", "button.hapus-btn", function () {
 
 function hapusKategori(idKategori) {
   $.ajax({
-    url: "http://localhost/mis_dm/master/hapus_kategori/",
+    url: base_url+"master/hapus_kategori/",
     type: "POST",
     data: { id: idKategori },
     dataType: "json",
