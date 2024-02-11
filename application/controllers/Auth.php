@@ -80,8 +80,8 @@ class Auth extends CI_Controller
                     //print_r($user);
                 }
             } else {
-                $this->session->set_flashdata('error', validation_errors());
-                redirect('auth', 'refresh');
+                $this->session->set_flashdata('pesan', validation_errors());
+                redirect('auth/masuk', 'refresh');
             }
         }
         //redirect('dist/auth_login', 'refresh');
