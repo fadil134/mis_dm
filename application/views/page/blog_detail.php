@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                 foreach ($tag as $tags) : ?>
                                 <li>
-                                    <a href="<?php echo base_url('page/tag_blog') . "/" . $tags->id ?>">
+                                    <a href="<?php echo base_url('page/tag_blog') . "/" . $artikel->id ?>">
                                         <?php echo $tags; ?>
                                     </a>
                                 </li>
