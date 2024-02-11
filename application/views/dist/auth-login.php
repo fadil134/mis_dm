@@ -47,7 +47,7 @@ $this->load->view('dist/_partials/header');
                     </div>
                 </div>
                 <div class="mt-5 text-muted text-center">
-                    Belum punya akun? <a href="<?php echo base_url(); ?>auth_daftar">Daftar</a>
+                    Belum punya akun? <a href="<?php echo base_url(); ?>auth/daftar">Daftar</a>
                 </div>
             </div>
         </section>
