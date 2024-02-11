@@ -336,11 +336,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!-- ======= Recent Blog Posts Section ======= -->
     <section id="recent-posts" class="recent-posts">
         <div class="container" data-aos="fade-up">
-
             <div class="section-header">
                 <h2>Berita Terbaru</h2>
             </div>
-
             <div class="row gy-5">
                 <?php foreach ($artikel as $berita): ?>
                 <div class="col-xl-3 col-md-6 mx-auto" data-aos="fade-up" data-aos-delay="100">

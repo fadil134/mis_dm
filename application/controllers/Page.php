@@ -65,8 +65,11 @@ class Page extends CI_Controller
             'title' => 'Blog',
             'artikel' => $this->Page_m->article($config['per_page'], $this->uri->segment(3)),
             'kategori' => $this->Page_m->kategori_artikel(),
+            'terbaru' => $this->Article_m->recent_article(),
+            'tag' => $this->Page_m->tag_artikel(),
         );
         $this->template->load('page/blog', $data);
+        //echo $this->db->last_query();
     }
 
     public function porto()
@@ -96,6 +99,8 @@ class Page extends CI_Controller
             'title' => 'Blog',
             'artikel' => $this->Article_m->get_publish($berita_id),
             'kategori' => $this->Page_m->kategori_artikel(),
+            'tagg' => $this->Page_m->tag_artikel(),
+            'terbaru' => $this->Article_m->recent_article()
         );
         //print_r($data);
         /*
@@ -104,13 +109,14 @@ class Page extends CI_Controller
         }
          */
         $this->template->load('page/blog_detail', $data);
+        //print_r($data['tag']);
     }
 
     public function kategori_blog($id)
     {
         $this->load->library('pagination');
-        $config['base_url'] = base_url('page/kategori_blog/');
-        $config['total_rows'] = $this->Page_m->count_kategori();
+        $config['base_url'] = base_url('page/kategori_blog/').$id.'/';
+        $config['total_rows'] = $this->Page_m->count_kategori($id);
         $config['per_page'] = 6;
         $config['uri_segment'] = 4;
         $config['first_link'] = false;
@@ -129,9 +135,44 @@ class Page extends CI_Controller
         //set_custom_cookie();
         $data = array(
             'title' => 'Blog Kategori',
-            'artikel' => $this->Article_m->get_kategori($config['per_page'], $this->uri->segment(4), $id),
+            'artikel' => $this->Article_m->get_kategori($id, $config['per_page'], $this->uri->segment(4)),
+            'tag' => $this->Page_m->tag_artikel(),
             'kategori' => $this->Page_m->kategori_artikel(),
+            'terbaru' => $this->Article_m->recent_article()
         );
+        //print_r($config['total_rows']);
+        $this->template->load('page/blog', $data);
+    }
+
+    public function tag_blog($id)
+    {
+        $this->load->library('pagination');
+        $config['base_url'] = base_url('page/tag_blog/').$id.'/';
+        $config['total_rows'] = $this->Page_m->count_tag($id);
+        $config['per_page'] = 6;
+        $config['uri_segment'] = 4;
+        $config['first_link'] = false;
+        $config['prev_link'] = false;
+        $config['next_link'] = false;
+        $config['last_link'] = false;
+        $config['full_tag_open'] = '<ul class="justify-content-center">';
+        $config['full_tag_close'] = '</ul>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a>';
+        $config['cur_tag_close'] = '</a></li>';
+
+        $this->pagination->initialize($config);
+
+        //set_custom_cookie();
+        $data = array(
+            'title' => 'Blog Kategori',
+            'artikel' => $this->Article_m->get_tag($id, $config['per_page'], $this->uri->segment(4)),
+            'tag' => $this->Page_m->tag_artikel(),
+            'kategori' => $this->Page_m->kategori_artikel(),
+            'terbaru' => $this->Article_m->recent_article()
+        );
+        //print_r($data['artikel']);
         $this->template->load('page/blog', $data);
     }
 }

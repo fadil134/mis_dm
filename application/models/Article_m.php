@@ -72,7 +72,7 @@ class Article_m extends CI_Model
 
     public function get_publish($berita_id)
     {
-        $this->db->select('berita.url, berita_kategori.Nama_Kategori, berita.updated, berita.ID_Berita, berita.Judul_Berita, berita.Isi_Berita, berita_penulis.Nama_Penulis, GROUP_CONCAT(berita_tag.Nama_Tag ORDER BY berita_tag.id ASC SEPARATOR ", ") AS nama_tag, statusberita.Nama_Status');
+        $this->db->select('berita.url, berita_kategori.Nama_Kategori, berita.updated, berita.ID_Berita, berita.Judul_Berita, berita.Isi_Berita, berita.Kategori_ID, berita_penulis.Nama_Penulis, GROUP_CONCAT(berita_tag.Nama_Tag ORDER BY berita_tag.id ASC SEPARATOR ", ") AS nama_tag, statusberita.Nama_Status');
         $this->db->from('berita');
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
         $this->db->join('berita_tag', 'berita.ID_Berita = berita_tag.ID_Berita', 'left');
@@ -202,12 +202,7 @@ class Article_m extends CI_Model
         return $insert_id;
     }
 
-    public function identitas()
-    {
-        return $this->db->get('identitas_sekolah')->result_array();
-    }
-
-    public function get_kategori($limit, $offset, $id)
+    public function get_kategori($id, $limit, $offset)
     {
         $this->db->select('berita.updated, berita.ID_Berita, berita.Judul_Berita, berita.Isi_Berita, berita.url, berita_kategori.Nama_Kategori AS kategori, pengguna.Nama_Pengguna as penulis');
         $this->db->from('berita');
@@ -217,6 +212,34 @@ class Article_m extends CI_Model
         $this->db->join('berita_kategori', 'berita_kategori.ID_Kategori = berita.Kategori_ID', 'left');
         $this->db->join('pengguna', 'berita.Penulis_ID = pengguna.ID_Pengguna', 'left');
         return $this->db->get()->result();
+        
+        //return $this->db->last_query();
+    }
+
+    public function get_tag($id, $limit, $offset)
+    {
+        $this->db->select('berita.updated, berita.url, berita.ID_Berita, berita.Judul_Berita, berita.Isi_Berita, berita.Status_ID, berita_tag.Nama_Tag, berita_tag.id AS tag_id, pengguna.Nama_Pengguna AS penulis');
+        $this->db->from('berita');
+        $this->db->join('berita_tag', 'berita_tag.ID_Berita = berita.ID_Berita', 'left');
+        $this->db->join('pengguna', 'berita.Penulis_ID = pengguna.ID_Pengguna', 'left');
+        $this->db->where('berita_tag.id', $id);
+        $this->db->where('berita.Status_ID', 1);
+        $this->db->limit($limit, $offset);
+        return $this->db->get()->result();
+    }
+
+    public function recent_article()
+    {
+        $this->db->select('updated, Judul_berita, ID_Berita, url');
+        $this->db->limit(6);
+        $this->db->where('Status_ID', $this->db->escape(1));
+        $this->db->order_by('ID_Berita', 'desc');
+        return $this->db->get('berita')->result();
+    }
+
+    public function identitas()
+    {
+        return $this->db->get('identitas_sekolah')->result_array();
     }
 }
 

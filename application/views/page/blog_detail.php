@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <i class="bi bi-folder"></i>
                             <ul class="cats">
                                 <li>
-                                    <a href="#">
+                                    <a href="<?= base_url('Page/kategori_blog') . '/' .  $artikel->Kategori_ID ?>">
                                         <?= $artikel->Nama_Kategori ?>
                                     </a>
                                 </li>
@@ -114,15 +114,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                 // Count occurrences of each Nama_Kategori
                                 $jumlah = array_count_values(array_column($data, 'Nama_Kategori'));
-
-                                // Extract unique Nama_Kategori values
-                                $uniqueKategoris = array_unique(array_column($data, 'Nama_Kategori'));
-
                                 // Iterate through unique Nama_Kategori values
-                                foreach ($uniqueKategoris as $uniqueKategori):
+                                $unik = array_unique(array_column($data, 'Nama_Kategori'));
+
+                                foreach ($unik as $uniqueKategori):
                                 ?>
                                 <li>
-                                    <a href="<?=base_url('Page/kategori_blog') . '/' . $uniqueKategori ?>">
+                                    <?php
+                                        // Find the corresponding item in the data array
+                                        $item = array_values(array_filter($data, function ($dataItem) use ($uniqueKategori) {
+                                            return $dataItem->Nama_Kategori === $uniqueKategori;
+                                        }))[0];
+                                        
+                                        $idKategori = $item->ID_Kategori;
+                                    ?>
+                                    <a href="<?= base_url('Page/kategori_blog') . '/' . $idKategori ?>">
                                         <?php echo $uniqueKategori ?> <span>
                                             <?php echo $jumlah[$uniqueKategori] ?>
                                         </span>
@@ -133,80 +139,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
 
                         <div class="sidebar-item recent-posts">
-                            <h3 class="sidebar-title">Recent Posts</h3>
-
+                            <h3 class="sidebar-title">Berita Terbaru</h3>
                             <div class="mt-3">
-
+                                <?php foreach ($terbaru as $brt): ?>
                                 <div class="post-item mt-3">
-                                    <img src="<?= base_url() ?>assets/img/blog/blog-recent-1.jpg" alt=""
-                                        class="flex-shrink-0">
+                                    <img src="<?=base_url() . $brt->url ?>" alt="" class="flex-shrink-0">
                                     <div>
-                                        <h4><a href="<?= base_url() ?>blog-post.html">Nihil blanditiis at in nihil
-                                                autem</a></h4>
-                                        <time datetime="2020-01-01">Jan 1, 2020</time>
-                                    </div>
-                                </div><!-- End recent post item-->
-
-                                <div class="post-item">
-                                    <img src="<?= base_url() ?>assets/img/blog/blog-recent-2.jpg" alt=""
-                                        class="flex-shrink-0">
-                                    <div>
-                                        <h4><a href="<?= base_url() ?>blog-post.html">Quidem autem et impedit</a></h4>
-                                        <time datetime="2020-01-01">Jan 1, 2020</time>
-                                    </div>
-                                </div><!-- End recent post item-->
-
-                                <div class="post-item">
-                                    <img src="<?= base_url() ?>assets/img/blog/blog-recent-3.jpg" alt=""
-                                        class="flex-shrink-0">
-                                    <div>
-                                        <h4><a href="<?= base_url() ?>blog-post.html">Id quia et et ut maxime similique
-                                                occaecati ut</a>
+                                        <h4><a
+                                                href="<?=base_url(); ?>page/blog_detail/<?=$brt->ID_Berita ?>"><?=$brt->Judul_berita ?></a>
                                         </h4>
-                                        <time datetime="2020-01-01">Jan 1, 2020</time>
+                                        <time datetime="2020-01-01">
+                                            <?php
+                                            $tanggal = $brt->updated;
+                                            $format = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
+                                            echo $format->format(strtotime($tanggal));
+                                            ?>
+                                        </time>
                                     </div>
-                                </div><!-- End recent post item-->
-
-                                <div class="post-item">
-                                    <img src="<?= base_url() ?>assets/img/blog/blog-recent-4.jpg" alt=""
-                                        class="flex-shrink-0">
-                                    <div>
-                                        <h4><a href="<?= base_url() ?>blog-post.html">Laborum corporis quo dara net
-                                                para</a></h4>
-                                        <time datetime="2020-01-01">Jan 1, 2020</time>
-                                    </div>
-                                </div><!-- End recent post item-->
-
-                                <div class="post-item">
-                                    <img src="<?= base_url() ?>assets/img/blog/blog-recent-5.jpg" alt=""
-                                        class="flex-shrink-0">
-                                    <div>
-                                        <h4><a href="<?= base_url() ?>blog-post.html">Et dolores corrupti quae illo quod
-                                                dolor</a></h4>
-                                        <time datetime="2020-01-01">Jan 1, 2020</time>
-                                    </div>
-                                </div><!-- End recent post item-->
-
+                                </div>
+                                <?php endforeach; ?>
                             </div>
 
-                        </div><!-- End sidebar recent posts-->
+                        </div>
+                        <!-- End sidebar recent posts-->
 
                         <div class="sidebar-item tags">
                             <h3 class="sidebar-title">Tags</h3>
                             <ul class="mt-3">
-                                <li><a href="#">App</a></li>
-                                <li><a href="#">IT</a></li>
-                                <li><a href="#">Business</a></li>
-                                <li><a href="#">Mac</a></li>
-                                <li><a href="#">Design</a></li>
-                                <li><a href="#">Office</a></li>
-                                <li><a href="#">Creative</a></li>
-                                <li><a href="#">Studio</a></li>
-                                <li><a href="#">Smart</a></li>
-                                <li><a href="#">Tips</a></li>
-                                <li><a href="#">Marketing</a></li>
+                                <?php foreach ($tagg as $tag) : ?>
+                                <li><a href="<?php echo base_url('page/tag_blog/') . $tag->id ?>">
+                                        <?= $tag->Nama_Tag?>
+                                    </a></li>
+                                <?php endforeach; ?>
                             </ul>
-                        </div><!-- End sidebar tags-->
+                        </div>
+                        <!-- End sidebar tags-->
 
                     </div><!-- End Blog Sidebar -->
 

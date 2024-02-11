@@ -185,15 +185,31 @@ class Page_m extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function tag_artikel()
+    {
+        $this->db->select('berita.ID_Berita, berita_tag.Nama_Tag, berita_tag.id');
+        $this->db->from('berita');
+        $this->db->join('berita_tag', 'berita_tag.ID_Berita = berita.ID_Berita', 'left');
+        $this->db->where('berita.Status_ID', 1);
+        return $this->db->get()->result();
+    }
+
     public function count_article()
     {
         return $this->db->count_all('berita'); // Replace 'berita' with your actual table name
     }
 
-    public function count_kategori()
+    public function count_kategori($id)
     {
+        $this->db->where('Kategori_ID', $id);
         $this->db->where('Status_ID', 1);
-        return $this->db->count_all('berita'); // Replace 'berita' with your actual table name
+        return $this->db->count_all_results('berita'); // Replace 'berita' with your actual table name
+    }
+
+    public function count_tag($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->count_all_results('berita_tag'); // Replace 'berita' with your actual table name
     }
     /**
      * unused_function

@@ -9,12 +9,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
     style="background-image: url('<?=base_url(); ?>assets/img/blog-header.jpg');">
     <div class="container position-relative d-flex flex-column align-items-center">
 
-      <h2>Blog</h2>
+      <?php if ($this->uri->segment(2) === 'kategori_blog') { ?>
+      <h2>Kategori Blog</h2>
+      <?php } else if ($this->uri->segment(2) === 'tag_blog') { ?>
+      <h2>Tag Blog</h2>
+      <?php } else {?>
+        <h2>Blog</h2>
+      <?php } ?>
       <ol>
         <?php if ($this->uri->segment(2) === 'kategori_blog') { ?>
-          <li><a href="<?=base_url(); ?>page/blog">Blog</a></li>
+        <li><a href="<?=base_url(); ?>page/blog">Blog</a></li>
         <?php } else { ?>
-          <li><a href="<?=base_url(); ?>page/home">Beranda</a></li>
+        <li><a href="<?=base_url(); ?>page/home">Beranda</a></li>
         <?php } ?>
         <li>Blog</li>
       </ol>
@@ -36,16 +42,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <img src="<?=base_url() . $berita->url ?>" alt="berita" class="img-fluid">
                 </div>
                 <h2 class="title" style="text-align: justify;">
-                  <a href="<?=base_url(); ?>blog-details.html"><?=$berita->Judul_Berita ?></a>
+                  <a href="<?=base_url(); ?>page/blog_detail/<?=$berita->ID_Berita ?>"><?=$berita->Judul_Berita ?></a>
                 </h2>
                 <div class="meta-top">
                   <ul>
                     <li class="d-flex align-items-center"><i class="bi bi-person"></i>
-                      <a href="<?=base_url(); ?>blog-details.html"><?=$berita->penulis ?></a>
+                      <a href="<?=base_url(); ?>page/blog_detail/<?=$berita->ID_Berita ?>"><?=$berita->penulis ?></a>
                     </li>
                     <li class="d-flex align-items-center">
                       <i class="bi bi-clock"></i>
-                      <a href="<?=base_url(); ?>blog-details.html">
+                      <a href="<?=base_url(); ?>page/blog_detail/<?=$berita->ID_Berita ?>">
                         <time datetime="2022-01-01">
                           <?php
                             $tanggal = $berita->updated;
@@ -77,13 +83,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
         <div class="col-lg-4" data-aos="fade-up" data-aos-delay="400">
           <div class="sidebar ps-lg-4">
-            <div class="sidebar-item search-form">
-              <h3 class="sidebar-title">Search</h3>
-              <form action="" class="mt-3">
-                <input type="text">
-                <button type="submit"><i class="bi bi-search"></i></button>
-              </form>
-            </div>
             <!-- End sidebar search formn-->
             <div class="sidebar-item categories">
               <h3 class="sidebar-title">Kategori</h3>
@@ -116,7 +115,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     
                     $idKategori = $item->ID_Kategori;
                   ?>
-                  <a href="<?= base_url('Page/kategori_blog') . '/' . $idKategori ?>">
+                  <a href="<?= base_url('Page/kategori_blog/').$idKategori ?>">
                     <?php echo $uniqueKategori ?> <span>
                       <?php echo $jumlah[$uniqueKategori] ?>
                     </span>
@@ -130,48 +129,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <div class="sidebar-item recent-posts">
               <h3 class="sidebar-title">Berita Terbaru</h3>
               <div class="mt-3">
+                <?php foreach ($terbaru as $brt): ?>
                 <div class="post-item mt-3">
-                  <img src="<?=base_url(); ?>assets/img/blog/blog-recent-1.jpg" alt="" class="flex-shrink-0">
+                  <img src="<?=base_url() . $brt->url ?>" alt="" class="flex-shrink-0">
                   <div>
-                    <h4><a href="<?=base_url(); ?>blog-post.html">Nihil blanditiis at in nihil autem</a></h4>
-                    <time datetime="2020-01-01">Jan 1, 2020</time>
-                  </div>
-                </div>
-                <!-- End recent post item-->
-                <div class="post-item">
-                  <img src="<?=base_url(); ?>assets/img/blog/blog-recent-2.jpg" alt="" class="flex-shrink-0">
-                  <div>
-                    <h4><a href="<?=base_url(); ?>blog-post.html">Quidem autem et impedit</a></h4>
-                    <time datetime="2020-01-01">Jan 1, 2020</time>
-                  </div>
-                </div>
-                <!-- End recent post item-->
-                <div class="post-item">
-                  <img src="<?=base_url(); ?>assets/img/blog/blog-recent-3.jpg" alt="" class="flex-shrink-0">
-                  <div>
-                    <h4><a href="<?=base_url(); ?>blog-post.html">Id quia et et ut maxime similique occaecati ut</a>
+                    <h4><a
+                        href="<?=base_url(); ?>page/blog_detail/<?=$brt->ID_Berita ?>"><?=$brt->Judul_berita ?></a>
                     </h4>
-                    <time datetime="2020-01-01">Jan 1, 2020</time>
+                    <time datetime="2020-01-01">
+                      <?php
+                    $tanggal = $brt->updated;
+                    $format = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
+                    echo $format->format(strtotime($tanggal));
+                    ?>
+                    </time>
                   </div>
                 </div>
-                <!-- End recent post item-->
-                <div class="post-item">
-                  <img src="<?=base_url(); ?>assets/img/blog/blog-recent-4.jpg" alt="" class="flex-shrink-0">
-                  <div>
-                    <h4><a href="<?=base_url(); ?>blog-post.html">Laborum corporis quo dara net para</a></h4>
-                    <time datetime="2020-01-01">Jan 1, 2020</time>
-                  </div>
-                </div>
-                <!-- End recent post item-->
-                <div class="post-item">
-                  <img src="<?=base_url(); ?>assets/img/blog/blog-recent-5.jpg" alt="" class="flex-shrink-0">
-                  <div>
-                    <h4><a href="<?=base_url(); ?>blog-post.html">Et dolores corrupti quae illo quod dolor</a></h4>
-                    <time datetime="2020-01-01">Jan 1, 2020</time>
-                  </div>
-                </div>
-                <!-- End recent post item-->
-
+                <?php endforeach; ?>
               </div>
 
             </div>
@@ -180,17 +154,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <div class="sidebar-item tags">
               <h3 class="sidebar-title">Tags</h3>
               <ul class="mt-3">
-                <li><a href="#">App</a></li>
-                <li><a href="#">IT</a></li>
-                <li><a href="#">Business</a></li>
-                <li><a href="#">Mac</a></li>
-                <li><a href="#">Design</a></li>
-                <li><a href="#">Office</a></li>
-                <li><a href="#">Creative</a></li>
-                <li><a href="#">Studio</a></li>
-                <li><a href="#">Smart</a></li>
-                <li><a href="#">Tips</a></li>
-                <li><a href="#">Marketing</a></li>
+                <?php foreach ($tag as $tags) : ?>
+                <li><a href="<?php echo base_url('page/tag_blog') . "/" . $tags->id ?>"><?= $tags->Nama_Tag?></a></li>
+                <?php endforeach; ?>
               </ul>
             </div>
             <!-- End sidebar tags-->
