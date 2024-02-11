@@ -40,7 +40,7 @@ $this->load->view('dist/_partials/header');
                         </div>
                     </form>
                     <p class="mt-5 text-muted text-center">Sudah punya akun? <a
-                            href="<?php echo base_url(); ?>auth/login">Login</a></p>
+                            href="<?php echo base_url(); ?>auth/masuk">Login</a></p>
                 </div>
             </div>
         </section>
