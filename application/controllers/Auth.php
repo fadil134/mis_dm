@@ -18,7 +18,7 @@ class Auth extends CI_Controller
         $data = array(
             'title' => 'Registrasi',
         );
-        $this->load->view('dist/auth-login', $data, false);
+        $this->load->view('dist/auth-register', $data, false);
     }
 
     public function register()
