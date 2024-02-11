@@ -72,7 +72,7 @@ class Article_m extends CI_Model
 
     public function get_publish($berita_id)
     {
-        $this->db->select('berita.url, berita_kategori.Nama_Kategori, berita.updated, berita.ID_Berita, berita.Judul_Berita, berita.Isi_Berita, berita.Kategori_ID, berita_penulis.Nama_Penulis, GROUP_CONCAT(berita_tag.Nama_Tag ORDER BY berita_tag.id ASC SEPARATOR ", ") AS nama_tag, statusberita.Nama_Status');
+        $this->db->select('berita.url, berita_kategori.Nama_Kategori, berita.updated, berita.ID_Berita, berita.Judul_Berita, berita.Isi_Berita, berita.Kategori_ID, berita_tag.id,berita_penulis.Nama_Penulis, GROUP_CONCAT(berita_tag.Nama_Tag ORDER BY berita_tag.id ASC SEPARATOR ", ") AS nama_tag, statusberita.Nama_Status');
         $this->db->from('berita');
         $this->db->join('berita_penulis', 'berita.Penulis_ID = berita_penulis.ID_Penulis', 'left');
         $this->db->join('berita_tag', 'berita.ID_Berita = berita_tag.ID_Berita', 'left');
