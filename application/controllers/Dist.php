@@ -222,6 +222,7 @@ class Dist extends CI_Controller
             'icons' => $this->Page_m->icons(),
             'table_ek' => $this->Page_m->eks(),
             'table_ss' => $this->Page_m->ssirih(),
+            'table_pe' => $this->Pengumuman_m->m_pengumuman()
         );
         //print_r($data['icons']);
         $this->load->view('dist/page-beranda', $data);

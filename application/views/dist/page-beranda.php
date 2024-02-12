@@ -101,11 +101,17 @@ $this->load->view('dist/_partials/header');
                                         <?php $counter = 1; ?>
                                         <?php foreach($table_ss as $ss) : ?>
                                         <tr>
-                                            <td><?=$counter?></td>
+                                            <td>
+                                                <?=$counter?>
+                                            </td>
                                             <td><?=$ss->id?></td>
                                             <td><?=$ss->description?></td>
-                                            <td><?=base_url() . $ss->url?></td>
-                                            <td><?=base_url() . $ss->url_video?></td>
+                                            <td>
+                                                <?=base_url() . $ss->url?>
+                                            </td>
+                                            <td>
+                                                <?=base_url() . $ss->url_video?>
+                                            </td>
                                             <td><?=$ss->is_active?></td>
                                             <td><?=$ss->id?></td>
                                             <td><?=$ss->video?></td>
@@ -334,6 +340,7 @@ $this->load->view('dist/_partials/header');
                     </form>
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-header">
                     <h4>Table Pengumuman</h4>
@@ -343,6 +350,7 @@ $this->load->view('dist/_partials/header');
                         <table class="table table-bordered table-striped" id="peng">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Judul</th>
                                     <th>Kategori</th>
                                     <th>Mulai</th>
@@ -354,6 +362,42 @@ $this->load->view('dist/_partials/header');
                                     <th>Lampiran</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                <?php foreach ($table_pe as $peng) :?>
+                                <tr>
+                                    <td>
+                                        <?= $peng->ID_Pengumuman ?>
+                                    </td>
+                                    <td>
+                                        <?= $peng->Judul_Pengumuman ?>
+                                    </td>
+                                    <td>
+                                        <?= $peng->Kategori_Pengumuman ?>
+                                    </td>
+                                    <td>
+                                        <?= $peng->Tanggal_Mulai ?>
+                                    </td>
+                                    <td>
+                                        <?= $peng->Tanggal_Selesai ?>
+                                    </td>
+                                    <td>
+                                        <?= $peng->Isi_Pengumuman ?>
+                                    </td>
+                                    <td>
+                                        <?= $peng->Status_Pengumuman ?>
+                                    </td>
+                                    <td>
+                                        <?= $peng->Ditampilkan_di_Beranda ?>
+                                    </td>
+                                    <td>
+                                        <?= $peng->Ditampilkan_di_Halaman_Pengumuman ?>
+                                    </td>
+                                    <td>
+                                        <?= $peng->Lampiran_Pengumuman ?>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
                         </table>
                     </div>
                 </div>

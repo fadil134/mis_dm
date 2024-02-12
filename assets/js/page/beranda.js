@@ -7,6 +7,7 @@ var tipefile;
 var file;
 var tipefile_main;
 var tipefile_modal;
+var tab_p;
 
 $("#editss").on("hidden.bs.modal", function () {
   $("#filePreview, #filePrev").empty();
@@ -159,7 +160,6 @@ function check(id, row) {
           message: response.error,
         });
       }
-      $("#peng").DataTable().ajax.reload();
     },
   });
   console.log("halaman" + id + " " + $("#halaman" + id).val());
@@ -170,45 +170,27 @@ $(document).ready(function () {
    * Datatable Pengumuman
    */
 
-  let tab_p = $("#peng").DataTable({
-    ajax: {
-      url: base_url + "master/pengumuman",
-      type: "GET",
-      dataSrc: "",
-      xhrFields: {
-        withCredentials: true,
-      },
-    },
-    columns: [
-      { data: "Judul_Pengumuman" },
-      { data: "Kategori_Pengumuman" },
-      { data: "Tanggal_Mulai" },
-      { data: "Tanggal_Selesai" },
-      { data: "Isi_Pengumuman" },
+  tab_p = $("#peng").DataTable({
+    columnDefs: [
+      { targets: "_all", className: "dt-head-nowrap text-center align-middle" },
+      { target: [1], className: "dt-body-justify" },
+      //{ target: [4], className: "text-truncate" },
+      { target: [4], className: "text-nowrap" },
+      { target: [5], className: "text-nowrap" },
       {
-        data: "Status_Pengumuman",
+        target: [6],
         render: function (data, type, row, meta) {
-          return (
-            '<div class="custom-control custom-switch">' +
-            '<input type="checkbox" name="act_stat" value="' +
-            data +
-            '" class="custom-control-input" id="switch_peng' +
-            meta.row +
-            '"' +
-            (data == "Aktif" ? "checked" : "") +
-            '> <label class="custom-control-label switch' +
-            meta.row +
-            '" for="switch_peng' +
-            meta.row +
-            '">' +
-            (data == "Aktif" ? "Aktif" : "Non-Aktif") +
-            "</label>" +
-            "</div>"
-          );
+          return `<div class="custom-control custom-switch"><input type="checkbox" name="act_stat" value="${data}" class="custom-control-input" id="switch_peng${
+            meta.row
+          }" ${data == "Aktif" ? "checked" : ""}> <label class="custom-control-label switch${
+            meta.row
+          }" for="switch_peng${meta.row}">${
+            data === "Aktif" ? "Aktif" : "Non_aktif"
+          }</label></div>`;
         },
       },
       {
-        data: "Ditampilkan_di_Beranda",
+        target: [7],
         render: function (data, type, row, meta) {
           return (
             '<div class="custom-control custom-switch">' +
@@ -230,46 +212,21 @@ $(document).ready(function () {
         },
       },
       {
-        data: null,
+        data : null,
+        target: [8],
         render: function (data, type, row, meta) {
-          return (
-            '<div class="custom-control custom-switch">' +
-            '<input onchange="check(' +
-            meta.row +
-            "," +
-            data.ID_Pengumuman +
-            ')" type="checkbox" name="act" value="' +
-            data.Ditampilkan_di_Halaman_Pengumuman +
-            '" class="custom-control-input" id="halaman' +
-            meta.row +
-            '"' +
-            (data.Ditampilkan_di_Halaman_Pengumuman == 1 ? "checked" : "") +
-            '> <label class="custom-control-label halaman' +
-            meta.row +
-            '" for="halaman' +
-            meta.row +
-            '">' +
-            (data.Ditampilkan_di_Halaman_Pengumuman == 1
-              ? "Aktif"
-              : "Non-Aktif") +
-            "</label>" +
-            "</div>"
-          );
+          return (`<div class="custom-control custom-switch">
+          <input onchange="check(${meta.row}, ${data[0]})" type="checkbox" name="act" value="${data[8]}" class="custom-control-input" id="halaman${meta.row}" ${data[8] == 1 ? "checked" : ""}>
+          <label class="custom-control-label halaman${meta.row}" for="halaman${meta.row}">${data[8] == 1 ? "Aktif" : "Non-Aktif"}</label>
+       </div>`);
         },
       },
       {
-        data: "Lampiran_Pengumuman",
+        target: [9],
         render: function (data) {
           return `<a href="${data}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Lampiran</a>`;
         },
       },
-    ],
-    columnDefs: [
-      { targets: "_all", className: "dt-head-nowrap text-center align-middle" },
-      { target: [1], className: "dt-body-justify" },
-      //{ target: [4], className: "text-truncate" },
-      { target: [4], className: "text-nowrap" },
-      { target: [5], className: "text-nowrap" },
     ],
     fixedColumns: {
       left: 1,
@@ -280,7 +237,7 @@ $(document).ready(function () {
 
   $("#peng tbody").on("click", 'input[name="act_stat"]', function () {
     let data = tab_p.row($(this).parents("tr")).data();
-    let id = data.ID_Pengumuman;
+    let id = data[0];
     let rowI = tab_p.row($(this).parents("tr")).index();
     if ($("#switch_peng" + rowI).prop("checked")) {
       $("#switch_peng" + rowI).val("Aktif");
@@ -307,14 +264,14 @@ $(document).ready(function () {
             message: response.error,
           });
         }
-        $("#peng").DataTable().ajax.reload();
       },
     });
   });
 
   $("#peng tbody").on("click", 'input[name="active"]', function () {
     let data = tab_p.row($(this).parents("tr")).data();
-    let id = data.ID_Pengumuman;
+    console.log(data);
+    let id = data[0];
     let rowI = tab_p.row($(this).parents("tr")).index();
     if ($("#beranda" + rowI).prop("checked")) {
       $("#beranda" + rowI).val(1);
@@ -341,7 +298,6 @@ $(document).ready(function () {
             message: response.error,
           });
         }
-        $("#peng").DataTable().ajax.reload();
       },
     });
   });
@@ -665,7 +621,6 @@ $(document).ready(function () {
     height: "100",
     minHeight: null,
     maxHeight: 200,
-    focus: true,
     toolbar: [
       ["style", ["style"]],
       ["font", ["bold", "italic", "underline", "clear"]],
@@ -764,7 +719,6 @@ $(document).ready(function () {
     height: 100,
     minHeight: null,
     maxHeight: 200,
-    focus: true,
     toolbar: [
       ["style", ["style"]],
       ["font", ["bold", "italic", "underline", "clear"]],
